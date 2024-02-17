@@ -1,6 +1,10 @@
 import mysql.connector
 from mysql.connector import Error
 
+#currently running sql server off of local computer, will eventually move to a dedicated server
+
+#TODO: make functions for UI to call
+
 try:
     connection = mysql.connector.connect(host='localhost', database='achieve360', user='root', password='Achieve360!')
     if connection.is_connected():
