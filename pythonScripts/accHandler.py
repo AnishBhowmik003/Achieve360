@@ -30,7 +30,7 @@ def login(username, password):
                 print("Incorrect password")
                 return False
     except Error as e:
-        print("Error while connecting to MySQL or creating user account:", e)
+        print("Error while connecting to MySQL or logging in:", e)
 
 def delete_user(username):
     try:
@@ -39,7 +39,7 @@ def delete_user(username):
             connection.commit()
             print("User account deleted successfully!")
     except Error as e:
-        print("Error while connecting to MySQL or creating user account:", e)
+        print("Error while connecting to MySQL or deleting user account:", e)
 
 
 try:
