@@ -10,10 +10,28 @@ import hashlib
 def create_user(username, password, email, phonenumber):
     try:
         if connection.is_connected():
-            hashed_password = hashlib.sha256(password.encode()).hexdigest()
-            cursor.execute(f"INSERT INTO user (username, password, email, phonenumber) VALUES ('{username}', '{hashed_password}', '{email}', {phonenumber})")
-            connection.commit()
-            print("User account created successfully!")
+            cursor.execute(f"SELECT * FROM user WHERE username = '{username}'")
+            record = cursor.fetchone()
+            if record == None: 
+                cap = False
+                lower = False
+                num = False
+                for char in password:
+                    if char.isupper():
+                        cap = True
+                    if char.islower():
+                        lower = True
+                    if char.isdigit():
+                        num = True
+                if cap and lower and num:
+                    hashed_password = hashlib.sha256(password.encode()).hexdigest()
+                    cursor.execute(f"INSERT INTO user (username, password, email, phonenumber) VALUES ('{username}', '{hashed_password}', '{email}', {phonenumber})")
+                    connection.commit()
+                    print("User account created successfully!")
+                else:
+                    print("Password must contain an uppercase letter, a lowercase letter, and a number", cap, lower, num)
+            else:
+                print("Username already exists")
     except Error as e:
         print("Error while connecting to MySQL or creating user account:", e)
 
@@ -22,13 +40,13 @@ def login(username, password):
         if connection.is_connected():
             hashed_password = hashlib.sha256(password.encode()).hexdigest()
             cursor.execute(f"SELECT password FROM user WHERE username = '{username}'")
-            real_hashed_password = cursor.fetchone()[0]
-            if hashed_password == real_hashed_password:
+            real_hashed_password = cursor.fetchone()
+            if real_hashed_password == None or hashed_password != real_hashed_password[0]:
+                print("Incorrect username or password")
+                return False
+            else:
                 print("Logging in")
                 return True
-            else:
-                print("Incorrect password")
-                return False
     except Error as e:
         print("Error while connecting to MySQL or logging in:", e)
 
@@ -54,7 +72,7 @@ try:
         record = cursor.fetchone()
         print("You're connected to database: ", record)
         #integrate with ui to call funtions here
-
+        create_user("Test1", "Test1", "test", 1)
 except Error as e:
     print("Error while connecting to MySQL", e)
 finally:
