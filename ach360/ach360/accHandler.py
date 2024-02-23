@@ -9,12 +9,13 @@ import hashlib
 
 #TODO: figure out how to embed user and password args
 connection = mysql.connector.connect(host='localhost', database='achieve360', user='root', password='Achieve360!')
+cursor = connection.cursor()
 
 
 def create_user(username, password, email, phonenumber):
     try:
         if connection.is_connected():
-            cursor.execute(f"SELECT * FROM user WHERE username = '{username}'")
+            cursor.execute("SELECT * FROM user WHERE username = '{username}'")
             record = cursor.fetchone()
             if record == None: 
                 cap = False
@@ -29,15 +30,15 @@ def create_user(username, password, email, phonenumber):
                         num = True
                 if cap and lower and num:
                     hashed_password = hashlib.sha256(password.encode()).hexdigest()
-                    cursor.execute(f"INSERT INTO user (username, password, email, phonenumber) VALUES ('{username}', '{hashed_password}', '{email}', {phonenumber})")
+                    cursor.execute("INSERT INTO user (username, password, email, phonenumber) VALUES ('{username}', '{hashed_password}', '{email}', {phonenumber})")
                     connection.commit()
-                    print("User account created successfully!")
+                    return("User account created successfully!")
                 else:
-                    print("Password must contain an uppercase letter, a lowercase letter, and a number", cap, lower, num)
+                    return("Password must contain an uppercase letter, a lowercase letter, and a number", cap, lower, num)
             else:
-                print("Username already exists")
+                return("Username already exists")
     except Error as e:
-        print("Error while connecting to MySQL or creating user account:", e)
+        return("Error while connecting to MySQL or creating user account:", e)
 
 def login(username, password): 
     try:
@@ -62,7 +63,6 @@ def delete_user(username):
             print("User account deleted successfully!")
     except Error as e:
         print("Error while connecting to MySQL or deleting user account:", e)
-
 
 
 #example for connecting to mysql server
