@@ -17,8 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from ninja import NinjaAPI
-import sys
-sys.path.append('../../pythonScripts')
+from accHandler import *
 
 #run with python manage.py runserver
 #view graphical view of api with http://127.0.0.1:8000/api/docs#/default/ach360_urls_add
@@ -29,7 +28,11 @@ api = NinjaAPI()
 
 @api.get("/createUser")
 def add(request, username: str, password: str, email: str, phoneNumber: int):
-    return {"result": (username + " " + password)}
+    output = create_user(username, password, email, phoneNumber)
+    if (output == "success"):
+        return {"result": (username + " added to DB")}
+    else:
+        return {"result": ("failed to add new user to DB")}
 
 
 urlpatterns = [
