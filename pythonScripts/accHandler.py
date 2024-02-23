@@ -7,6 +7,10 @@ import hashlib
 #TODO: create more functions
 
 
+#TODO: figure out how to embed user and password args
+connection = mysql.connector.connect(host='localhost', database='achieve360', user='root', password='Achieve360!')
+
+
 def create_user(username, password, email, phonenumber):
     try:
         if connection.is_connected():
@@ -60,7 +64,9 @@ def delete_user(username):
         print("Error while connecting to MySQL or deleting user account:", e)
 
 
-try:
+
+#example for connecting to mysql server
+"""try:
     connection = mysql.connector.connect(host='localhost', database='achieve360', user='root', password='Achieve360!')
     if connection.is_connected():
         db_Info = connection.get_server_info()
@@ -79,4 +85,4 @@ finally:
     if connection.is_connected():
         cursor.close()
         connection.close()
-        print("MySQL connection is closed")
+        print("MySQL connection is closed")"""
