@@ -15,9 +15,24 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+from ninja import NinjaAPI
+import sys
+sys.path.append('../../pythonScripts')
+
+#run with python manage.py runserver
+#view graphical view of api with http://127.0.0.1:8000/api/docs#/default/ach360_urls_add
+
+
+api = NinjaAPI()
+
+
+@api.get("/createUser")
+def add(request, username: str, password: str, email: str, phoneNumber: int):
+    return {"result": (username + " " + password)}
+
 
 urlpatterns = [
-    path("accounts/", include("accounts.urls")),
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
+    path("api/", api.urls),
 ]
