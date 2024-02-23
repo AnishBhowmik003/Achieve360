@@ -32,6 +32,16 @@ def add(request, username: str, password: str, email: str, phoneNumber: int):
     output = create_user(username, password, email, phoneNumber)
     return {"result": output}
 
+@api.get("/login")
+def add(request, username: str, password: str):
+    output = login(username, password)
+    return {"result": output}
+
+@api.get("/deleteUser")
+def add(request, username: str):
+    output = delete_user(username)
+    return {"result": output}
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
