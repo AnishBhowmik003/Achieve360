@@ -8,12 +8,13 @@ import hashlib
 
 
 #TODO: figure out how to embed user and password args
-connection = mysql.connector.connect(host='localhost', database='achieve360', user='root', password='Achieve360!')
+#connection = mysql.connector.connect(host='localhost', database='achieve360', user='root', password='Achieve360!')
 cursor = connection.cursor()
 
 
 def create_user(username, password, email, phonenumber):
     try:
+        connection = mysql.connector.connect(host='localhost', database='achieve360', user='root', password='Achieve360!')
         if connection.is_connected():
             cursor.execute("SELECT * FROM user WHERE username = '{username}'")
             record = cursor.fetchone()
@@ -39,9 +40,15 @@ def create_user(username, password, email, phonenumber):
                 return("Username already exists")
     except Error as e:
         return("Error while connecting to MySQL or creating user account:", e)
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print("MySQL connection is closed")
 
 def login(username, password): 
     try:
+        connection = mysql.connector.connect(host='localhost', database='achieve360', user='root', password='Achieve360!')
         if connection.is_connected():
             hashed_password = hashlib.sha256(password.encode()).hexdigest()
             cursor.execute(f"SELECT password FROM user WHERE username = '{username}'")
@@ -54,15 +61,26 @@ def login(username, password):
                 return True
     except Error as e:
         print("Error while connecting to MySQL or logging in:", e)
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print("MySQL connection is closed")
 
 def delete_user(username):
     try:
+        connection = mysql.connector.connect(host='localhost', database='achieve360', user='root', password='Achieve360!')
         if connection.is_connected():
             cursor.execute(f"DELETE FROM user WHERE username = '{username}'")
             connection.commit()
             print("User account deleted successfully!")
     except Error as e:
         print("Error while connecting to MySQL or deleting user account:", e)
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print("MySQL connection is closed")
 
 
 #example for connecting to mysql server
