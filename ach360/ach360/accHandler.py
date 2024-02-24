@@ -36,9 +36,7 @@ def create_user(username, password, email, phonenumber):
             if record == None: 
                 if is_password_valid(password):
                     hashed_password = hashlib.sha256(password.encode()).hexdigest()
-                    stmt = "INSERT INTO user (username, password, email, phonenumber) VALUES (%s, %s, %s, %s)"
-                    data = (username, hashed_password, email, phonenumber)
-                    cursor.execute(stmt, data)
+                    cursor.execute(f"INSERT INTO user (username, password, email, phonenumber) VALUES ('{username}', '{hashed_password}', '{email}', {phonenumber})")
                     connection.commit()
                     print("User account created successfully!")
                 else:
