@@ -93,3 +93,29 @@ app.post("/submitMetrics", async (req, res) => {
 app.post("/logout", async (req, res) => {
     this.current_user = null;
 });
+
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'AchieveThreeSixty@gmail.com',
+      pass: 'Achieve360!'
+    }
+});
+app.post("/sendMessage", async (req, res) => {
+    var mailOptions = {
+        from: 'AchieveThreeSixty@gmail.com',
+        to: `${req.body.address}`,
+        subject: 'You have a new message in Achieve360',
+        text: `${this.current_user} sent you the following message:\n${req.body.message}`
+      };
+      
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
+});
+
