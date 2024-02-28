@@ -28,8 +28,7 @@ export const Register = (props) => {
             console.log(response);
     
             if (response.ok) {
-                const jsonResponse = await response.json();
-                console.log(jsonResponse);
+                console.log(data);
                 alert('Registration successful');
             } else {
                 alert('Registration failed');

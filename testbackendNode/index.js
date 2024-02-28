@@ -9,7 +9,7 @@ const bodyParser = require("body-parser");
 var con = mysql.createPool({
     host: "localhost",
     user: "root",
-    password: "Neel1123!",
+    password: "Achieve360!",
     database: "achieve360"
   });
 
