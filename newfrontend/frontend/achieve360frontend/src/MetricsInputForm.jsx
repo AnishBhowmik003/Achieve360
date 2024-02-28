@@ -6,16 +6,36 @@ export const MetricsInputForm = ({ onBackToDashboard }) => {
   const [height, setHeight] = useState('');
   const [gender, setGender] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const userData = {
-      age,
-      weight,
-      height,
-      gender,
+      age: age,
+      weight: weight,
+      height: height,
+      gender: gender
     };
     console.log(userData);
-    // You should also handle the userData, like sending it to a backend or updating state
+
+    try {
+      const response = await fetch('http://localhost:6969/submitMetrics', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userData),
+      });
+
+      await response.json();
+
+      if (response.ok) {
+          alert('Metrics inputted successfully');
+      } else {
+          alert(`Error inputting metrics.`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Registration failed');
+    }
   };
 
   return (

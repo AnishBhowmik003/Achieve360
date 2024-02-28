@@ -6,6 +6,8 @@ const bs = require("body-parser")
 var mysql = require('mysql2');
 const bodyParser = require("body-parser");
 
+var current_user = null;
+
 var con = mysql.createPool({
     host: "localhost",
     user: "root",
@@ -71,6 +73,7 @@ app.post("/login", async (req, res) => {
     check_password(req.body.email, req.body.pass, function(bool) {
         if(bool) {
             console.log('yes');
+            current_user = req.body.email;
             return res.status(200).json({ message: "Logging in."});
         }
         else {
@@ -78,4 +81,15 @@ app.post("/login", async (req, res) => {
             return res.status(400).json({ message: "Invalid Username or Password."});
         }
     })
+});
+
+app.post("/submitMetrics", async (req, res) => {
+    con.execute(`INSERT INTO metrics (email, age, weight, height, gender) VALUES ('${this.current_user}', '${req.body.age}', '${req.body.weight}', '${req.body.height}', '${req.body.gender}')`, function (err, result) {
+        if (err) throw err;
+        return res.status(200).json({ message: "Metrics added successfuly."});
+    });
+});
+
+app.post("/logout", async (req, res) => {
+    this.current_user = null;
 });

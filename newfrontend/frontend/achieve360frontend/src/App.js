@@ -45,6 +45,9 @@ function App() {
           return <MetricsInputForm onSubmit={handleMetricsSubmission} onBackToDashboard={handleBackToDashboard} />;
         case 'sportInfo':
           return <SportInfoForm userMetrics={userMetrics} />;
+        case 'logout':
+          setIsLoggedIn(false);
+          return <Login onFormSwitch={setCurrentForm} onLoginSuccess={handleLoginSuccess} />;
         // Include additional cases for other forms or content as needed
         default:
           // Default to the dashboard if no other content is matched
