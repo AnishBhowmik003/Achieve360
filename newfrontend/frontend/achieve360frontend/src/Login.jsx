@@ -3,9 +3,35 @@ export const Login = (props) => {
     const[email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(email);
+        const postData = {
+            email: email,
+            pass: pass
+        };
+        try {
+            const response = await fetch('http://localhost:6969/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(postData),
+            });
+
+            const data = await response.json();
+            console.log(data);
+            console.log(response);
+    
+            if (response.ok) {
+                console.log(data);
+                alert('Logging in');
+            } else {
+                alert(`Invalid Username or Password.`);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error while logging in');
+        }
     }
 
     return (

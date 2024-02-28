@@ -31,7 +31,7 @@ export const Register = (props) => {
                 console.log(data);
                 alert('Registration successful');
             } else {
-                alert('Registration failed');
+                alert(`Registration failed. ${data.message}`);
             }
         } catch (error) {
             console.error('Error:', error);
