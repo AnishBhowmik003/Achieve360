@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+
 export const Register = (props) => {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [name, setName] = useState('');
+    const [role, setRole] = useState('student'); 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -10,10 +12,12 @@ export const Register = (props) => {
         const postData = {
             email: email,
             pass: pass,
-            name: name
+            name: name,
+            role: role 
         };
     
-        console.log(JSON.stringify(postData));
+        console.log(JSON.stringify(postData)); // This will now include the role
+
         try {
             const response = await fetch('http://localhost:6969/signup', {
                 method: 'POST',
@@ -24,11 +28,8 @@ export const Register = (props) => {
             });
 
             const data = await response.json();
-            console.log(data);
-            console.log(response);
     
             if (response.ok) {
-                console.log(data);
                 alert('Registration successful');
             } else {
                 alert(`Registration failed. ${data.message}`);
@@ -41,7 +42,7 @@ export const Register = (props) => {
 
     return (
         <div className='auth-form-container'>
-            <h1 className="auth-title">ACHIEVE 360</h1> {}
+            <h1 className="auth-title">ACHIEVE 360</h1>
             <form className="register-form" onSubmit={handleSubmit}>
                 <label htmlFor="name">Full name</label>
                 <input 
@@ -70,7 +71,17 @@ export const Register = (props) => {
                     id="password" 
                     name="password"
                 />
-                <button type="submit">Register</button> {}
+                <label htmlFor="role">Role</label>
+                <select 
+                    value={role} 
+                    onChange={(e) => setRole(e.target.value)} 
+                    id="role" 
+                    name="role"
+                >
+                    <option value="student">Student</option>
+                    <option value="coach">Coach</option>
+                </select>
+                <button type="submit">Register</button>
             </form>
             <button className="link-btn" onClick={() => props.onFormSwitch('login')}>
                 Already have an account? Login here.
