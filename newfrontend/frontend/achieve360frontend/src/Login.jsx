@@ -25,6 +25,7 @@ export const Login = (props) => {
             if (response.ok) {
                 console.log(data);
                 alert('Logging in');
+                props.onLoginSuccess(data);
             } else {
                 alert(`Invalid Username or Password.`);
             }

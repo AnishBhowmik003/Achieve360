@@ -31,6 +31,7 @@ export const Register = (props) => {
     
             if (response.ok) {
                 alert('Registration successful');
+                props.onRegisterSuccess(data);
             } else {
                 alert(`Registration failed. ${data.message}`);
             }

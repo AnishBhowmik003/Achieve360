@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export const MetricsInputForm = () => {
+export const MetricsInputForm = ({ onBackToDashboard }) => {
   const [age, setAge] = useState('');
   const [weight, setWeight] = useState('');
   const [height, setHeight] = useState('');
@@ -14,8 +14,8 @@ export const MetricsInputForm = () => {
       height,
       gender,
     };
-    // Here you would handle the submission of the metrics, e.g., sending it to a backend server
     console.log(userData);
+    // You should also handle the userData, like sending it to a backend or updating state
   };
 
   return (
@@ -63,6 +63,7 @@ export const MetricsInputForm = () => {
         </select>
 
         <button type="submit">Submit</button>
+        <button type="button" onClick={onBackToDashboard}>Back To Dashboard</button>
       </form>
     </div>
   );
