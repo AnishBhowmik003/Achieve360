@@ -42,7 +42,7 @@ app.post("/signup", async (req, res) => {
             if (err) throw err;
             if(result.length == 0) {
                 hashed_password = hash(req.body.pass);
-                con.execute(`INSERT INTO user (username, password, email, phonenumber, type) VALUES ('${req.body.name}', '${hashed_password}', '${req.body.email}', 1, '${req.body.role}')`, function (err, result) {
+                con.execute(`INSERT INTO user (username, password, email, type) VALUES ('${req.body.name}', '${hashed_password}', '${req.body.email}', '${req.body.role}')`, function (err, result) {
                     if (err) throw err;
                     return res.status(200).json({ message: "User added successfuly."});
                 });

@@ -25,11 +25,10 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `username` text,
   `password` text,
-  `email` text,
-  `phonenumber` int DEFAULT NULL
+  `email` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-ALTER TABLE user ADD COLUMN type TEXT AFTER phonenumber;
+ALTER TABLE user ADD COLUMN type TEXT AFTER email;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
