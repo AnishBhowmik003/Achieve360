@@ -51,7 +51,7 @@ app.post("/signup", async (req, res) => {
         });
     }
     else {
-        return res.status(400).json({ message: "Invalid Password."});
+        return res.status(400).json({ message: "Invalid Password. Your password must include an uppercase letter, a lowercase letter, and a number."});
     }
 });
 
