@@ -13,8 +13,8 @@ var current_user = null;
 var con = mysql.createPool({
     host: "localhost",
     user: "root",
-    password: "Achieve360!",
-    database: "achieve360"
+    password: "MeisterMySQL76!",
+    database: "users"
   });
 
 const port = 6969;
@@ -49,6 +49,11 @@ function uploadToS3(file, callback) {
         Body: file.buffer
     };
     s3.upload(uploadParams, callback);
+}
+
+const s3Params = {
+    Bucket: "cs307",
+    Key: "Test Upload"
 }
 
 app.listen(port, () => {
@@ -119,21 +124,34 @@ var transporter = nodemailer.createTransport({
       pass: 'Achieve360!'
     }
 });
+
 app.post("/sendMessage", async (req, res) => {
-    var mailOptions = {
-        from: 'AchieveThreeSixty@gmail.com',
-        to: `${req.body.address}`,
-        subject: 'You have a new message in Achieve360',
-        text: `${this.current_user} sent you the following message:\n${req.body.message}`
-      };
-      
-      transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
+    s3.getObject(s3Params, function(err, data) {
+        if (err) {
+            console.error("Error fetching file from S3:", err);
+            return;
         }
-      });
+        var mailOptions = {
+            from: 'AchieveThreeSixty@gmail.com',
+            to: `${req.body.address}`,
+            subject: 'You have a new message in Achieve360',
+            text: `${this.current_user} sent you the following message:\n${req.body.message}`,
+            attachments: [
+                {
+                    filename: "testImage.png",
+                    content: data.Body
+                }
+            ]
+        };
+
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+              console.log(error);
+            } else {
+              console.log('Email sent: ' + info.response);
+            }
+        });
+    });
 });
 
 app.post("/upload", async (req, res) => {
