@@ -1,3 +1,5 @@
+
+
 import React, { useState } from 'react';
 
 export const MetricsInputForm = ({ onBackToDashboard }) => {
@@ -41,7 +43,23 @@ export const MetricsInputForm = ({ onBackToDashboard }) => {
   return (
     <div className="metrics-form-container">
       <h1 className="form-title">Input Your Metrics</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        // Validation logic before submitting
+        if (age < 1 || age > 100) {
+          alert("Age must be between 1 and 100.");
+          return;
+        }
+        if (weight <= 0) {
+          alert("Weight must be greater than 0.");
+          return;
+        }
+        if (height <= 0) {
+          alert("Height must be greater than 0.");
+          return;
+        }
+        handleSubmit(e); // Proceed with the original handleSubmit function
+      }}>
         <label htmlFor="age">Age</label>
         <input
           type="number"
@@ -49,25 +67,31 @@ export const MetricsInputForm = ({ onBackToDashboard }) => {
           onChange={(e) => setAge(e.target.value)}
           id="age"
           name="age"
+          min="1"
+          max="100"
         />
 
-        <label htmlFor="weight">Weight (kg)</label>
-        <input
-          type="number"
-          value={weight}
-          onChange={(e) => setWeight(e.target.value)}
-          id="weight"
-          name="weight"
-        />
+<label htmlFor="weight">Weight (kg)</label>
+<input
+  type="number"
+  value={weight}
+  onChange={(e) => setWeight(e.target.value)}
+  id="weight"
+  name="weight"
+  min="0.01"
+  step="any"
+/>
 
-        <label htmlFor="height">Height (cm)</label>
-        <input
-          type="number"
-          value={height}
-          onChange={(e) => setHeight(e.target.value)}
-          id="height"
-          name="height"
-        />
+<label htmlFor="height">Height (cm)</label>
+<input
+  type="number"
+  value={height}
+  onChange={(e) => setHeight(e.target.value)}
+  id="height"
+  name="height"
+  min="0.01"
+  step="any"
+/>
 
         <label htmlFor="gender">Gender</label>
         <select
@@ -87,4 +111,6 @@ export const MetricsInputForm = ({ onBackToDashboard }) => {
       </form>
     </div>
   );
+
 };
+

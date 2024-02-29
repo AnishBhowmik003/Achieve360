@@ -16,7 +16,7 @@ var current_user = null;
 var con = mysql.createPool({
     host: "localhost",
     user: "root",
-    password: "Achieve360!",
+    password: "Neel1123!",
     database: "achieve360"
   });
 
@@ -109,11 +109,22 @@ app.post("/login", async (req, res) => {
 });
 
 app.post("/submitMetrics", async (req, res) => {
-    console.log(current_user);
     con.execute(`INSERT INTO metrics (email, age, weight, height, gender) VALUES ('${current_user}', '${req.body.age}', '${req.body.weight}', '${req.body.height}', '${req.body.gender}')`, function (err, result) {
-        if (err) throw err;
-        return res.status(200).json({ message: "Metrics added successfuly."});
+        if (err) {
+            con.execute(`UPDATE metrics SET age='${req.body.age}', weight='${req.body.weight}', height='${req.body.height}', gender='${req.body.gender}' WHERE email='${current_user}'`, function (updateErr, updateResult) {
+                if (updateErr) {
+                    console.error("Update failed:", updateErr);
+                    return res.status(500).json({ message: "Error updating metrics."});
+                } else {
+                    // If the update is successful, respond accordingly
+                    return res.status(200).json({ message: "Metrics updated successfully."});
+                }
+            });
+        } else {
+            return res.status(200).json({ message: "Metrics added successfully."});
+        }
     });
+    
 });
 
 app.post("/logout", async (req, res) => {
