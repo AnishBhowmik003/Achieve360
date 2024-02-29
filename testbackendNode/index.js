@@ -1,7 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const bs = require("body-parser")
+const bs = require("body-parser");
+const aws = require("aws-sdk");
+const fs = require("fs");
 
 var mysql = require('mysql2');
 const bodyParser = require("body-parser");
@@ -33,6 +35,21 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }))
 app.use(cors({
     origin: "http://localhost:3000"
 }));
+
+const s3 = new aws.S3({
+    accessKeyId: "AKIAQSOTUX6JUZDPI5O7",
+    secretAccessKey: "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",
+    region: "us-east-2"
+});
+
+function uploadToS3(file, callback) {
+    const uploadParams = {
+        Bucket: "cs307",
+        Key: file.originalName,
+        Body: file.buffer
+    };
+    s3.upload(uploadParams, callback);
+}
 
 app.listen(port, () => {
     console.log(`Server started on port ${port}\n`);
@@ -119,3 +136,23 @@ app.post("/sendMessage", async (req, res) => {
       });
 });
 
+app.post("/upload", async (req, res) => {
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).json({message: "No files were uploaded." });
+    }
+    const file = req.files.file;
+
+    const allowedTypes = ["image/png", "image/jpeg", "video/mp4", "text/plain"];
+    if (!allowedTypes.includes(file.mimetype)) {
+        return res.status(400).json({message: "Unsupported file type." });
+    }
+
+    uploadToS3(file, (err, data) => {
+        if (err) {
+            console.error("Error uploading to S3:", err);
+            return res.status(500).json({message: "Error uploading file." });
+        }
+        console.log("Upload Success:", data.Location);
+        return res.status(200).json({message: "File uploaded successfully.", url: data.Location });
+    });
+});
