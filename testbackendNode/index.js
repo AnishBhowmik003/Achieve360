@@ -99,13 +99,13 @@ var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: 'AchieveThreeSixty@gmail.com',
-      pass: 'Achieve360!'
+      pass: 'txmi gqqa aslj tulv'
     }
 });
 app.post("/sendMessage", async (req, res) => {
     var mailOptions = {
         from: 'AchieveThreeSixty@gmail.com',
-        to: `${req.body.address}`,
+        to: `${req.body.email}`,
         subject: 'You have a new message in Achieve360',
         text: `${current_user} sent you the following message:\n${req.body.message}`
       };

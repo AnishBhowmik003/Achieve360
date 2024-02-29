@@ -5,9 +5,28 @@ export const MessageForm = ({ onBackToDashboard }) => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`Message sent to ${email}: ${message}`);
+    const postData = {
+      email: email,
+      message: message
+  };
+  try {
+      const response = await fetch('http://localhost:6969/sendMessage', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(postData),
+      });
+
+      await response.json();
+      alert(`Message sent to ${email}: ${message}`);
+      
+  } catch (error) {
+      console.error('Error:', error);
+      alert('Error while logging in');
+  }
     onBackToDashboard(); 
   };
 
