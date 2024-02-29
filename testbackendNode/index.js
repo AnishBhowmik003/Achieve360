@@ -46,6 +46,7 @@ app.post("/signup", async (req, res) => {
                 hashed_password = hash(req.body.pass);
                 con.execute(`INSERT INTO user (username, password, email, type) VALUES ('${req.body.name}', '${hashed_password}', '${req.body.email}', '${req.body.role}')`, function (err, result) {
                     if (err) throw err;
+                    current_user = req.body.email;
                     return res.status(200).json({ message: "User added successfuly."});
                 });
             }
@@ -72,26 +73,25 @@ function check_password(email, password, callback) {
 app.post("/login", async (req, res) => {
     check_password(req.body.email, req.body.pass, function(bool) {
         if(bool) {
-            console.log('yes');
             current_user = req.body.email;
             return res.status(200).json({ message: "Logging in."});
         }
         else {
-            console.log('no');
             return res.status(400).json({ message: "Invalid Username or Password."});
         }
     })
 });
 
 app.post("/submitMetrics", async (req, res) => {
-    con.execute(`INSERT INTO metrics (email, age, weight, height, gender) VALUES ('${this.current_user}', '${req.body.age}', '${req.body.weight}', '${req.body.height}', '${req.body.gender}')`, function (err, result) {
+    console.log(current_user);
+    con.execute(`INSERT INTO metrics (email, age, weight, height, gender) VALUES ('${current_user}', '${req.body.age}', '${req.body.weight}', '${req.body.height}', '${req.body.gender}')`, function (err, result) {
         if (err) throw err;
         return res.status(200).json({ message: "Metrics added successfuly."});
     });
 });
 
 app.post("/logout", async (req, res) => {
-    this.current_user = null;
+    current_user = null;
 });
 
 var nodemailer = require('nodemailer');
@@ -107,7 +107,7 @@ app.post("/sendMessage", async (req, res) => {
         from: 'AchieveThreeSixty@gmail.com',
         to: `${req.body.address}`,
         subject: 'You have a new message in Achieve360',
-        text: `${this.current_user} sent you the following message:\n${req.body.message}`
+        text: `${current_user} sent you the following message:\n${req.body.message}`
       };
       
       transporter.sendMail(mailOptions, function(error, info){
