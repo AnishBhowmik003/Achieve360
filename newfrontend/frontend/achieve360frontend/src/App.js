@@ -5,6 +5,7 @@ import { Register } from './Register';
 import { MetricsInputForm } from './MetricsInputForm';
 import { SportInfoForm } from './SportInfoForm';
 import { Dashboard } from './Dashboard';
+import { MessageForm } from './MessageForm'; // Import the MessageForm component
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -41,16 +42,17 @@ function App() {
         case 'dashboard':
           return <Dashboard userMetrics={userMetrics} onNavigate={setCurrentForm} />;
         case 'inputMetrics':
-          // Pass the new function handleBackToDashboard to MetricsInputForm
           return <MetricsInputForm onSubmit={handleMetricsSubmission} onBackToDashboard={handleBackToDashboard} />;
         case 'sportInfo':
           return <SportInfoForm userMetrics={userMetrics} />;
+        case 'messageForm': // New case for rendering the MessageForm
+          return <MessageForm onBackToDashboard={handleBackToDashboard} />;
         case 'logout':
           setIsLoggedIn(false);
-          return <Login onFormSwitch={setCurrentForm} onLoginSuccess={handleLoginSuccess} />;
-        // Include additional cases for other forms or content as needed
+          setCurrentForm('login'); // Reset to login form upon logout
+          break;
+        // Include additional cases as necessary
         default:
-          // Default to the dashboard if no other content is matched
           return <Dashboard userMetrics={userMetrics} onNavigate={setCurrentForm} />;
       }
     } else {
@@ -60,7 +62,6 @@ function App() {
         case "register":
           return <Register onFormSwitch={setCurrentForm} onRegisterSuccess={handleRegisterSuccess} />;
         default:
-          // Default to the login form if not logged in and no other form is specified
           return <Login onFormSwitch={setCurrentForm} onLoginSuccess={handleLoginSuccess} />;
       }
     }
@@ -68,7 +69,7 @@ function App() {
 
   return (
     <div className="App">
-      { renderContent() }
+      {renderContent()}
     </div>
   );
 }

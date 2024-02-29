@@ -5,8 +5,8 @@ export const Dashboard = ({ onNavigate }) => {
     <div className="dashboard-container">
       <h1>User Dashboard</h1>
       <button onClick={() => onNavigate('inputMetrics')}>Input Metrics</button>
-      <button onClick={() => onNavigate('messageClients')}>Message Other Clients</button>
       <button onClick={() => onNavigate('viewPlans')}>View Current Plans</button>
+      <button onClick={() => onNavigate('messageForm')}>Message Form</button> {/* Added this line */}
       <button onClick={async () => {
         onNavigate('logout');
         try {
@@ -24,4 +24,3 @@ export const Dashboard = ({ onNavigate }) => {
     </div>
   );
 };
-
