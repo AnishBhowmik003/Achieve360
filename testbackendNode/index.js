@@ -1,15 +1,12 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-<<<<<<< Updated upstream
-const bs = require("body-parser")
-=======
 const bs = require("body-parser");
 const aws = require("aws-sdk");
 const fs = require("fs");
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
->>>>>>> Stashed changes
+
 
 var mysql = require('mysql2');
 const bodyParser = require("body-parser");
@@ -42,8 +39,6 @@ app.use(cors({
     origin: "http://localhost:3000"
 }));
 
-<<<<<<< Updated upstream
-=======
 const s3 = new aws.S3({
     accessKeyId: "AKIAQSOTUX6JUZDPI5O7",
     secretAccessKey: "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",
@@ -60,7 +55,11 @@ function uploadToS3(file, callback) {
     s3.upload(uploadParams, callback);
 }
 
->>>>>>> Stashed changes
+const s3Params = {
+    Bucket: "cs307",
+    Key: "download.jpeg"
+};
+
 app.listen(port, () => {
     console.log(`Server started on port ${port}\n`);
 });
@@ -130,26 +129,39 @@ var transporter = nodemailer.createTransport({
     }
 });
 app.post("/sendMessage", async (req, res) => {
-    var mailOptions = {
-        from: 'AchieveThreeSixty@gmail.com',
-        to: `${req.body.email}`,
-        subject: 'You have a new message in Achieve360',
-        text: `${current_user} sent you the following message:\n${req.body.message}`
-      };
-      
-      transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
+    if(req.body.fileName) {
+        s3Params.Key = req.body.fileName;
+    }
+    s3.getObject(s3Params, function(err, data) {
+        if (err) {
+            console.error("Error fetching file from S3:", err);
+            return;
         }
-      });
+        var mailOptions = {
+            from: 'AchieveThreeSixty@gmail.com',
+            to: `${req.body.email}`,
+            subject: 'You have a new message in Achieve360',
+            text: `${current_user} sent you the following message:\n${req.body.message}`,
+            attachments: [
+                {
+                    filename: `${s3Params.Key}`,
+                    content: data.Body
+                }
+            ]
+        };
+
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+              console.log(error);
+            } else {
+              console.log('Email sent: ' + info.response);
+            }
+        });
+    });
 });
 
-<<<<<<< Updated upstream
-=======
+
 app.post("/upload", upload.single('file'), async (req, res) => {
-    console.log('test');
     // if (!req.files || Object.keys(req.files).length === 0) {
     //     return res.status(400).json({message: "No files were uploaded." });
     // }
@@ -172,4 +184,3 @@ app.post("/upload", upload.single('file'), async (req, res) => {
         return res.status(200).json({message: "File uploaded successfully.", url: data.Location });
     });
 });
->>>>>>> Stashed changes

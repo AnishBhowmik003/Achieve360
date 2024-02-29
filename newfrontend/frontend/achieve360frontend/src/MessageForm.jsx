@@ -14,7 +14,7 @@ export const MessageForm = ({ onBackToDashboard }) => {
     setFile(e.target.files[0]);
 }
 
-  const upload = (e) => {
+  const upload = async (e) => {
     e.preventDefault();
 
     // Create an object of formData
@@ -38,12 +38,16 @@ export const MessageForm = ({ onBackToDashboard }) => {
   }
 
   const handleSubmit = async (e) => {
-    upload(e);
     e.preventDefault();
     const postData = {
       email: email,
       message: message
   };
+  if(file) {
+      postData.fileName = file.name;
+      upload(e);
+  }
+  setTimeout(async () => {  
   try {
       const response = await fetch('http://localhost:6969/sendMessage', {
           method: 'POST',
@@ -61,6 +65,7 @@ export const MessageForm = ({ onBackToDashboard }) => {
       alert('Error while sending message');
   }
     onBackToDashboard(); 
+  }, 1000);
   };
 
   return (
