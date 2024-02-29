@@ -51,6 +51,11 @@ function uploadToS3(file, callback) {
     s3.upload(uploadParams, callback);
 }
 
+const s3Params = {
+    Bucket: "cs307",
+    Key: "Test Upload"
+};
+
 app.listen(port, () => {
     console.log(`Server started on port ${port}\n`);
 });
@@ -116,24 +121,36 @@ var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: 'AchieveThreeSixty@gmail.com',
-      pass: 'txmi gqqa aslj tulv'
+      pass: 'Achieve360!'
     }
 });
 app.post("/sendMessage", async (req, res) => {
-    var mailOptions = {
-        from: 'AchieveThreeSixty@gmail.com',
-        to: `${req.body.email}`,
-        subject: 'You have a new message in Achieve360',
-        text: `${current_user} sent you the following message:\n${req.body.message}`
-      };
-      
-      transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
+    s3.getObject(s3Params, function(err, data) {
+        if (err) {
+            console.error("Error fetching file from S3:", err);
+            return;
         }
-      });
+        var mailOptions = {
+            from: 'AchieveThreeSixty@gmail.com',
+            to: `${req.body.email}`,
+            subject: 'You have a new message in Achieve360',
+            text: `${current_user} sent you the following message:\n${req.body.message}`,
+            attachments: [
+                {
+                    filename: 'testImage.png',
+                    content: data.Body
+                }
+            ]
+        };
+
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+              console.log(error);
+            } else {
+              console.log('Email sent: ' + info.response);
+            }
+        });
+    });
 });
 
 app.post("/upload", async (req, res) => {
