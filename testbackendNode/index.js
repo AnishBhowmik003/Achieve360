@@ -1,7 +1,15 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+<<<<<<< Updated upstream
 const bs = require("body-parser")
+=======
+const bs = require("body-parser");
+const aws = require("aws-sdk");
+const fs = require("fs");
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
+>>>>>>> Stashed changes
 
 var mysql = require('mysql2');
 const bodyParser = require("body-parser");
@@ -34,6 +42,25 @@ app.use(cors({
     origin: "http://localhost:3000"
 }));
 
+<<<<<<< Updated upstream
+=======
+const s3 = new aws.S3({
+    accessKeyId: "AKIAQSOTUX6JUZDPI5O7",
+    secretAccessKey: "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",
+    region: "us-east-2"
+});
+
+function uploadToS3(file, callback) {
+    const fileStream = fs.createReadStream(file.path);
+    const uploadParams = {
+        Bucket: "cs307",
+        Key: file.originalname,
+        Body: fileStream
+    };
+    s3.upload(uploadParams, callback);
+}
+
+>>>>>>> Stashed changes
 app.listen(port, () => {
     console.log(`Server started on port ${port}\n`);
 });
@@ -119,3 +146,30 @@ app.post("/sendMessage", async (req, res) => {
       });
 });
 
+<<<<<<< Updated upstream
+=======
+app.post("/upload", upload.single('file'), async (req, res) => {
+    console.log('test');
+    // if (!req.files || Object.keys(req.files).length === 0) {
+    //     return res.status(400).json({message: "No files were uploaded." });
+    // }
+    if (req.file == null) {
+        return res.status(400).json({message: "No files were uploaded." });
+    }
+    const file = req.file;
+
+    const allowedTypes = ["image/png", "image/jpeg", "video/mp4", "text/plain"];
+    if (!allowedTypes.includes(file.mimetype)) {
+        return res.status(400).json({message: "Unsupported file type." });
+    }
+
+    uploadToS3(file, (err, data) => {
+        if (err) {
+            console.error("Error uploading to S3:", err);
+            return res.status(500).json({message: "Error uploading file." });
+        }
+        console.log("Upload Success:", data.Location);
+        return res.status(200).json({message: "File uploaded successfully.", url: data.Location });
+    });
+});
+>>>>>>> Stashed changes
