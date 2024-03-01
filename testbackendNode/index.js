@@ -16,7 +16,7 @@ var current_user = null;
 var con = mysql.createPool({
     host: "localhost",
     user: "root",
-    password: "Neel1123!",
+    password: "Achieve360!",
     database: "achieve360"
   });
 
@@ -57,7 +57,7 @@ function uploadToS3(file, callback) {
 
 const s3Params = {
     Bucket: "cs307",
-    Key: "download.jpeg"
+    Key: ''
 };
 
 app.listen(port, () => {
@@ -143,32 +143,52 @@ app.post("/sendMessage", async (req, res) => {
     if(req.body.fileName) {
         s3Params.Key = req.body.fileName;
     }
-    s3.getObject(s3Params, function(err, data) {
-        if (err) {
-            console.error("Error fetching file from S3:", err);
-            return;
-        }
+    else {
+        s3Params.Key = '';
+    }
+    if(s3Params.Key) {
+        s3.getObject(s3Params, function(err, data) {
+            if (err) {
+                console.error("Error fetching file from S3:", err);
+                return;
+            }
+            var mailOptions = {
+                from: 'AchieveThreeSixty@gmail.com',
+                to: `${req.body.email}`,
+                subject: 'You have a new message in Achieve360',
+                text: `${current_user} sent you the following message:\n${req.body.message}`,
+                attachments: [
+                    {
+                        filename: `${s3Params.Key}`,
+                        content: data.Body
+                    }
+                ]
+            };
+
+            transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                console.log(error);
+                } else {
+                console.log('Email sent: ' + info.response);
+                }
+            });
+        });
+    }
+    else {
         var mailOptions = {
             from: 'AchieveThreeSixty@gmail.com',
             to: `${req.body.email}`,
             subject: 'You have a new message in Achieve360',
-            text: `${current_user} sent you the following message:\n${req.body.message}`,
-            attachments: [
-                {
-                    filename: `${s3Params.Key}`,
-                    content: data.Body
-                }
-            ]
+            text: `${current_user} sent you the following message:\n${req.body.message}`
         };
-
         transporter.sendMail(mailOptions, function(error, info){
             if (error) {
-              console.log(error);
+            console.log(error);
             } else {
-              console.log('Email sent: ' + info.response);
+            console.log('Email sent: ' + info.response);
             }
         });
-    });
+    }
 });
 
 

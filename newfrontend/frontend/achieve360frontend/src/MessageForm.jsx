@@ -65,7 +65,7 @@ export const MessageForm = ({ onBackToDashboard }) => {
       alert('Error while sending message');
   }
     onBackToDashboard(); 
-  }, 1000);
+  }, 2000);
   };
 
   return (
