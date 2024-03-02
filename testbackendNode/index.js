@@ -40,8 +40,8 @@ app.use(cors({
 }));
 
 const s3 = new aws.S3({
-    accessKeyId: "AKIAQSOTUX6JUZDPI5O7",
-    secretAccessKey: "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",
+    accessKeyId: "",
+    secretAccessKey: "",
     region: "us-east-2"
 });
 
