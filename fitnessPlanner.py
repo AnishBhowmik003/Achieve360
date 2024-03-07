@@ -6,19 +6,14 @@ def calculateMetabolicRate(weight, height, age, sex):
     return bmr
 
 def calculateMaintenanceCalories(bmr, activity_level):
-    if activity_level == "none":
-        calories = bmr * 1.2
-    elif activity_level == "lightly active":
-        calories = bmr * 1.375
-    elif activity_level == "moderately active":
-        calories = bmr * 1.55
-    elif activity_level == "very active":
-        calories = bmr * 1.725
-    elif activity_level == "extra active":
-        calories = bmr * 1.9
-    else:
-        calories = bmr * 1.725
-    return calories
+    activity_levels = {
+        "none": 1.2,
+        "lightly active": 1.375,
+        "moderately active": 1.55,
+        "very active": 1.725,
+        "extra active": 1.9
+    }
+    return bmr * activity_levels.get(activity_level.lower(), 1.725)
 
 def calculateWeightLossCalories(bmr, activity_level):
     return calculateMaintenanceCalories(bmr, activity_level) - 500
@@ -26,35 +21,87 @@ def calculateWeightLossCalories(bmr, activity_level):
 def calculateWeightGainCalories(bmr, activity_level):
     return calculateMaintenanceCalories(bmr, activity_level) + 500
 
-def simpleWorkoutPlan(weight, height, age, sex):
-    # Calculate BMI (Body Mass Index)
+def generateWorkoutPlan(weight, height, age, sex):
     bmi = weight / ((height/100) ** 2)
     
-    # Determine workout intensity based on BMI and age
-    if bmi < 18.5:
-        intensity = "low"
-    elif bmi >= 18.5 and bmi < 25:
-        intensity = "medium"
-    else:
-        intensity = "high"
+    intensity_levels = {
+        "low": (18.5, "30 minutes"),
+        "medium": (25, "45 minutes"),
+        "high": (float('inf'), "60 minutes")
+    }
     
-    # Determine workout duration based on age
-    if age < 30:
-        duration = "30 minutes"
-    elif age >= 30 and age < 50:
-        duration = "45 minutes"
-    else:
-        duration = "60 minutes"
+    for level, (threshold, duration) in intensity_levels.items():
+        if bmi < threshold:
+            intensity = level
+            break
     
-    # Define workout exercises based on sex
-    if sex.lower() == "male":
-        exercises = ["Push-ups", "Pull-ups", "Squats", "Deadlifts", "Planks"]
-    elif sex.lower() == "female":
-        exercises = ["Push-ups", "Squats", "Lunges", "Bent-over rows", "Leg raises"]
-    else:
-        exercises = ["Push-ups", "Squats", "Planks"]
+    exercises = {
+        "male": ["Push-ups", "Pull-ups", "Squats", "Deadlifts", "Planks"],
+        "female": ["Push-ups", "Squats", "Lunges", "Bent-over rows", "Leg raises"],
+        "other": ["Push-ups", "Squats", "Planks"]
+    }
     
-    # Print the generated workout plan
+    workout_duration = "60 minutes" if age >= 50 else "45 minutes" if age >= 30 else "30 minutes"
+    sex_key = sex.lower() if sex.lower() in ["male", "female"] else "other"
+    selected_exercises = exercises.get(sex_key)
+    
+    return intensity, workout_duration, selected_exercises
+
+def generateWeightliftingPlan(weight, height, age, sex):
+    bmi = weight / ((height/100) ** 2)
+    
+    intensity_levels = {
+        "low": (18.5, "30 minutes"),
+        "medium": (25, "45 minutes"),
+        "high": (float('inf'), "60 minutes")
+    }
+    
+    for level, (threshold, duration) in intensity_levels.items():
+        if bmi < threshold:
+            intensity = level
+            break
+    
+    exercises = {
+        "male": ["Bench Press", "Deadlifts", "Squats", "Barbell Rows", "Overhead Press"],
+        "female": ["Barbell Squats", "Deadlifts", "Bench Press", "Barbell Rows", "Overhead Press"],
+        "other": ["Bench Press", "Deadlifts", "Squats"]
+    }
+    
+    workout_duration = "60 minutes" if age >= 50 else "45 minutes" if age >= 30 else "30 minutes"
+    sex_key = sex.lower() if sex.lower() in ["male", "female"] else "other"
+    selected_exercises = exercises.get(sex_key)
+    
+    return intensity, workout_duration, selected_exercises
+
+def main():
+    print("Welcome to the Fitness Planner!")
+    print("Please provide your details.")
+    weight = float(input("Weight (kg): "))
+    height = float(input("Height (cm): "))
+    age = int(input("Age: "))
+    sex = input("Sex (male/female/other): ")
+    activity_level = input("Activity Level (none/lightly active/moderately active/very active/extra active): ")
+
+    bmr = calculateMetabolicRate(weight, height, age, sex)
+    maintenance_calories = calculateMaintenanceCalories(bmr, activity_level)
+    weight_loss_calories = calculateWeightLossCalories(bmr, activity_level)
+    weight_gain_calories = calculateWeightGainCalories(bmr, activity_level)
+    
+    print("\nYour Fitness Information:")
+    print(f"- Basal Metabolic Rate (BMR): {bmr:.2f} calories/day")
+    print(f"- Maintenance Calories: {maintenance_calories:.2f} calories/day")
+    print(f"- Calories for Weight Loss: {weight_loss_calories:.2f} calories/day")
+    print(f"- Calories for Weight Gain: {weight_gain_calories:.2f} calories/day")
+    
+    workout_type = input("\nChoose workout type (workout/weightlifting): ")
+    if workout_type.lower() == "workout":
+        intensity, duration, exercises = generateWorkoutPlan(weight, height, age, sex)
+    elif workout_type.lower() == "weightlifting":
+        intensity, duration, exercises = generateWeightliftingPlan(weight, height, age, sex)
+    else:
+        print("Invalid workout type.")
+        return
+    
     print("\nYour Workout Plan:")
     print(f"- Workout Intensity: {intensity}")
     print(f"- Workout Duration: {duration}")
@@ -62,30 +109,5 @@ def simpleWorkoutPlan(weight, height, age, sex):
     for exercise in exercises:
         print(f"  - {exercise}")
 
-def simpleWeightliftingPlan(weight, height, age, sex):
-    # Calculate BMI (Body Mass Index)
-    bmi = weight / ((height/100) ** 2)
-    
-    # Determine workout intensity based on BMI and age
-    if bmi < 18.5:
-        intensity = "low"
-    elif bmi >= 18.5 and bmi < 25:
-        intensity = "medium"
-    else:
-        intensity = "high"
-    
-    # Determine workout duration based on age
-    if age < 30:
-        duration = "30 minutes"
-    elif age >= 30 and age < 50:
-        duration = "45 minutes"
-    else:
-        duration = "60 minutes"
-    
-    # Define weightlifting exercises based on sex
-    if sex.lower() == "male":
-        exercises = ["Bench Press", "Deadlifts", "Squats", "Barbell Rows", "Overhead Press"]
-    elif sex.lower() == "female":
-        exercises = ["Barbell Squats", "Deadlifts", "Bench Press", "Barbell Rows", "Overhead Press"]
-    else:
-        exercises = ["Bench Press", "Deadlifts", "Squats"]
+if __name__ == "__main__":
+    main()
