@@ -215,3 +215,14 @@ app.post("/upload", upload.single('file'), async (req, res) => {
         return res.status(200).json({message: "File uploaded successfully.", url: data.Location });
     });
 });
+
+app.post("/submitSportsGoals", async (req, res) => {
+    con.execute(`INSERT INTO goals (email, sport, position, goal) VALUES ('${current_user}', '${req.body.sport}', '${req.body.position}', '${req.body.goals}')`, function (err, result) {
+        if (err) {
+            return res.status(500).json({ message: "Error inputting goals."});
+        } else {
+            return res.status(200).json({ message: "goals added successfully."});
+        }
+    });
+    
+});
