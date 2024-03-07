@@ -31,6 +31,8 @@ CREATE TABLE `user` (
 ALTER TABLE user ADD COLUMN type TEXT AFTER email;
 
 CREATE TABLE `metrics` ( `email` varchar(50) PRIMARY KEY, `age` integer, `weight` integer, `height` integer, `gender` text );
+CREATE TABLE `goals` ( `email` varchar(50) PRIMARY KEY, `age` integer, `sport` text, `position` text, `goals` text);
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
