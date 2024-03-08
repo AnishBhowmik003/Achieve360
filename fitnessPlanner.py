@@ -109,5 +109,52 @@ def main():
     for exercise in exercises:
         print(f"  - {exercise}")
 
+
+
+
+def generateDietPlan(goal, weight, height, age, sex):
+    # Define common foods for weight gain and weight loss diets
+    weight_gain_foods = {
+        "Protein Sources": ["Chicken breast", "Salmon", "Tofu", "Greek yogurt"],
+        "Carbohydrate Sources": ["Brown rice", "Sweet potatoes", "Quinoa", "Whole wheat bread"],
+        "Healthy Fats": ["Avocado", "Nuts", "Olive oil", "Flaxseeds"],
+        "Fruits": ["Bananas", "Berries", "Oranges", "Apples"],
+        "Vegetables": ["Broccoli", "Spinach", "Bell peppers", "Carrots"]
+    }
+
+    weight_loss_foods = {
+        "Lean Protein Sources": ["Turkey breast", "White fish", "Egg whites", "Cottage cheese"],
+        "Non-Starchy Vegetables": ["Kale", "Cauliflower", "Zucchini", "Asparagus"],
+        "Complex Carbohydrates": ["Quinoa", "Oats", "Barley", "Brown rice"],
+        "Healthy Fats": ["Almonds", "Walnuts", "Chia seeds", "Coconut oil"],
+        "Fruits": ["Grapefruit", "Watermelon", "Berries", "Pears"]
+    }
+
+    if goal.lower() == "gain":
+        diet_plan = weight_gain_foods
+    elif goal.lower() == "loss":
+        diet_plan = weight_loss_foods
+    else:
+        return "Invalid goal. Please choose 'gain' or 'loss'."
+
+    return diet_plan
+
+# Example usage:
+goal = input("Do you want to gain or lose weight? ")
+weight = float(input("Weight (kg): "))
+height = float(input("Height (cm): "))
+age = int(input("Age: "))
+sex = input("Sex (male/female/other): ")
+
+diet_plan = generateDietPlan(goal, weight, height, age, sex)
+if isinstance(diet_plan, dict):
+    print("\nYour Diet Plan:")
+    for category, foods in diet_plan.items():
+        print(f"\n{category}:")
+        for food in foods:
+            print(f"  - {food}")
+else:
+    print(diet_plan)
+
 if __name__ == "__main__":
     main()
