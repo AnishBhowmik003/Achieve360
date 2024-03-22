@@ -20,6 +20,7 @@ export const Dashboard = ({ onNavigate }) => {
           alert('Error logging out');
         }
       }}>Logout</button>
+      <button onClick={() => onNavigate('graph')}>View Progress</button>
       {/* Additional dashboard content goes here */}
     </div>
   );

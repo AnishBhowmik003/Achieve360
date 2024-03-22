@@ -6,6 +6,7 @@ import { MetricsInputForm } from './MetricsInputForm';
 import { SportInfoForm } from './SportInfoForm';
 import { Dashboard } from './Dashboard';
 import { MessageForm } from './MessageForm'; // Import the MessageForm component
+import {ProgressChart} from './ProgressChart';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -47,6 +48,8 @@ function App() {
           return <SportInfoForm userMetrics={userMetrics} />;
         case 'messageForm': // New case for rendering the MessageForm
           return <MessageForm onBackToDashboard={handleBackToDashboard} />;
+        case 'graph':
+          return <ProgressChart/>;
         case 'logout':
           setIsLoggedIn(false);
           setCurrentForm('login'); // Reset to login form upon logout
