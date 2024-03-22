@@ -13,7 +13,8 @@ function LineChart({ chartData }) {
               text: "Workout/diet progress vs expected"
             },
             legend: {
-              display: false
+              display: true,
+              position: 'bottom'
             }
           }
         }}
