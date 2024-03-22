@@ -139,4 +139,9 @@ def main():
     diet_plan = generateDietPlan(goal, weight, height, age, sex)
     if isinstance(diet_plan, dict):
         print("\nYour Diet Plan:")
-        for category, foods in diet
+        for category, foods in diet_plan.items():
+            print(f"\n{category}:")
+            for food in foods:
+                print(f"  - {food}")
+    else:
+        print(diet_plan)
