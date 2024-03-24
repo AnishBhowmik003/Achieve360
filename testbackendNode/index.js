@@ -11,7 +11,7 @@ const upload = multer({ dest: 'uploads/' })
 var mysql = require('mysql2');
 const bodyParser = require("body-parser");
 
-var current_user = null;
+
 
 var con = mysql.createPool({
     host: "localhost",
@@ -72,7 +72,6 @@ app.post("/signup", async (req, res) => {
                 hashed_password = hash(req.body.pass);
                 con.execute(`INSERT INTO user (username, password, email, type) VALUES ('${req.body.name}', '${hashed_password}', '${req.body.email}', '${req.body.role}')`, function (err, result) {
                     if (err) throw err;
-                    current_user = req.body.email;
                     return res.status(200).json({ message: "User added successfuly."});
                 });
             }
@@ -99,7 +98,6 @@ function check_password(email, password, callback) {
 app.post("/login", async (req, res) => {
     check_password(req.body.email, req.body.pass, function(bool) {
         if(bool) {
-            current_user = req.body.email;
             return res.status(200).json({ message: "Logging in."});
         }
         else {
@@ -109,9 +107,9 @@ app.post("/login", async (req, res) => {
 });
 
 app.post("/submitMetrics", async (req, res) => {
-    con.execute(`INSERT INTO metrics (email, age, weight, height, gender) VALUES ('${current_user}', '${req.body.age}', '${req.body.weight}', '${req.body.height}', '${req.body.gender}')`, function (err, result) {
+    con.execute(`INSERT INTO metrics (email, age, weight, height, gender) VALUES ('${req.body.email}', '${req.body.age}', '${req.body.weight}', '${req.body.height}', '${req.body.gender}')`, function (err, result) {
         if (err) {
-            con.execute(`UPDATE metrics SET age='${req.body.age}', weight='${req.body.weight}', height='${req.body.height}', gender='${req.body.gender}' WHERE email='${current_user}'`, function (updateErr, updateResult) {
+            con.execute(`UPDATE metrics SET age='${req.body.age}', weight='${req.body.weight}', height='${req.body.height}', gender='${req.body.gender}' WHERE email='${req.body.email}'`, function (updateErr, updateResult) {
                 if (updateErr) {
                     console.error("Update failed:", updateErr);
                     return res.status(500).json({ message: "Error updating metrics."});
@@ -128,7 +126,7 @@ app.post("/submitMetrics", async (req, res) => {
 });
 
 app.post("/logout", async (req, res) => {
-    current_user = null;
+
 });
 
 var nodemailer = require('nodemailer');
@@ -140,6 +138,7 @@ var transporter = nodemailer.createTransport({
     }
 });
 app.post("/sendMessage", async (req, res) => {
+    console.log(req.body.sender);
     if(req.body.fileName) {
         s3Params.Key = req.body.fileName;
     }
@@ -156,7 +155,7 @@ app.post("/sendMessage", async (req, res) => {
                 from: 'AchieveThreeSixty@gmail.com',
                 to: `${req.body.email}`,
                 subject: 'You have a new message in Achieve360',
-                text: `${current_user} sent you the following message:\n${req.body.message}`,
+                text: `${req.body.sender} sent you the following message:\n${req.body.message}`,
                 attachments: [
                     {
                         filename: `${s3Params.Key}`,
@@ -179,7 +178,7 @@ app.post("/sendMessage", async (req, res) => {
             from: 'AchieveThreeSixty@gmail.com',
             to: `${req.body.email}`,
             subject: 'You have a new message in Achieve360',
-            text: `${current_user} sent you the following message:\n${req.body.message}`
+            text: `${req.body.sender} sent you the following message:\n${req.body.message}`
         };
         transporter.sendMail(mailOptions, function(error, info){
             if (error) {
@@ -217,7 +216,7 @@ app.post("/upload", upload.single('file'), async (req, res) => {
 });
 
 app.post("/submitSportsGoals", async (req, res) => {
-    con.execute(`INSERT INTO goals (email, sport, position, goal) VALUES ('${current_user}', '${req.body.sport}', '${req.body.position}', '${req.body.goals}')`, function (err, result) {
+    con.execute(`INSERT INTO goals (email, sport, position, goal) VALUES ('${req.body.email}', '${req.body.sport}', '${req.body.position}', '${req.body.goals}')`, function (err, result) {
         if (err) {
             return res.status(500).json({ message: "Error inputting goals."});
         } else {

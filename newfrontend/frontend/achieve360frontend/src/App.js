@@ -10,6 +10,7 @@ import {ProgressChart} from './ProgressChart';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState("");
   const [currentForm, setCurrentForm] = useState('login');
   const [userMetrics, setUserMetrics] = useState({
     age: '',
@@ -20,11 +21,13 @@ function App() {
 
   const handleLoginSuccess = (userData) => {
     setIsLoggedIn(true);
+    setCurrentUser(userData.email);
     setCurrentForm('dashboard'); // Navigate to dashboard upon login
   };
 
   const handleRegisterSuccess = (userData) => {
     setIsLoggedIn(true);
+    setCurrentUser(userData.email);
     setCurrentForm('dashboard'); // Navigate to dashboard upon registration
   };
 
@@ -43,15 +46,17 @@ function App() {
         case 'dashboard':
           return <Dashboard userMetrics={userMetrics} onNavigate={setCurrentForm} />;
         case 'inputMetrics':
-          return <MetricsInputForm onSubmit={handleMetricsSubmission} onBackToDashboard={handleBackToDashboard} />;
+          console.log(currentUser);
+          return <MetricsInputForm onSubmit={handleMetricsSubmission} onBackToDashboard={handleBackToDashboard} email={currentUser}/>;
         case 'sportInfo':
           return <SportInfoForm userMetrics={userMetrics} />;
         case 'messageForm': // New case for rendering the MessageForm
-          return <MessageForm onBackToDashboard={handleBackToDashboard} />;
+          return <MessageForm onBackToDashboard={handleBackToDashboard} sender={currentUser} />;
         case 'graph':
           return <ProgressChart/>;
         case 'logout':
           setIsLoggedIn(false);
+          setCurrentUser("");
           setCurrentForm('login'); // Reset to login form upon logout
           break;
         // Include additional cases as necessary
