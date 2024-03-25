@@ -6,7 +6,7 @@ import { Data } from "./Data";
 
 Chart.register(CategoryScale);
 
-export const ProgressChart = () => {
+export const ProgressChart = ({ onNavigate }) => {
     const [chartData, setChartData] = useState({
       labels: Data.map((data) => data.year), 
       datasets: [
@@ -25,9 +25,11 @@ export const ProgressChart = () => {
           backgroundColor: 'red'
         }
       ]});
-      return(
+      
+    return(
         <div>        
           <LineChart chartData={chartData} />
+          <button onClick={() => onNavigate('dashboard')} style={{ marginTop: '20px' }}>Back to Dashboard</button>
         </div>
-      )
-}
+    );
+};
