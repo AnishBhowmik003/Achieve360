@@ -11,14 +11,14 @@ const upload = multer({ dest: 'uploads/' })
 var mysql = require('mysql2');
 const bodyParser = require("body-parser");
 
-
-
 var con = mysql.createPool({
-    host: "localhost",
-    user: "root",
-    password: "Achieve360!",
-    database: "achieve360"
+    host: "database-2.cvmicwscqnza.us-east-2.rds.amazonaws.com",
+    user: "achieve360",
+    password: "ProjectDB123!",
+    port: "3306",
+    database: "Achieve360",
   });
+
 
 const port = 6969;
 
