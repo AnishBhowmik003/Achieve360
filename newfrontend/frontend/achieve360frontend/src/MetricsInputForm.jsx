@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-export const MetricsInputForm = ({ onBackToDashboard }) => {
+export const MetricsInputForm = ({ onBackToDashboard, email }) => {
   const [age, setAge] = useState('');
   const [weight, setWeight] = useState('');
   const [height, setHeight] = useState('');
@@ -14,7 +14,8 @@ export const MetricsInputForm = ({ onBackToDashboard }) => {
       age: age,
       weight: weight,
       height: height,
-      gender: gender
+      gender: gender,
+      email: email
     };
     console.log(userData);
 

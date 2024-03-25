@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 
-export const MessageForm = ({ onBackToDashboard }) => {
+export const MessageForm = ({ onBackToDashboard, sender }) => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [file, setFile] = useState(null);
@@ -41,7 +41,8 @@ export const MessageForm = ({ onBackToDashboard }) => {
     e.preventDefault();
     const postData = {
       email: email,
-      message: message
+      message: message,
+      sender: sender
   };
   if(file) {
       postData.fileName = file.name;
