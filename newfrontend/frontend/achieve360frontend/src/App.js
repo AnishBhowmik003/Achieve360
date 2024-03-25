@@ -23,22 +23,14 @@ function App() {
 
   const handleLoginSuccess = (userData) => {
     setIsLoggedIn(true);
-<<<<<<< HEAD
     setCurrentForm('dashboard');
-=======
     setCurrentUser(userData.email);
-    setCurrentForm('dashboard'); // Navigate to dashboard upon login
->>>>>>> d15c51b7a322a07c4063412409fa20d1b4b37f6e
   };
 
   const handleRegisterSuccess = (userData) => {
     setIsLoggedIn(true);
-<<<<<<< HEAD
-    setCurrentForm('dashboard');
-=======
     setCurrentUser(userData.email);
     setCurrentForm('dashboard'); // Navigate to dashboard upon registration
->>>>>>> d15c51b7a322a07c4063412409fa20d1b4b37f6e
   };
 
   const handleMetricsSubmission = (metrics) => {
@@ -60,13 +52,8 @@ function App() {
           return <MetricsInputForm onSubmit={handleMetricsSubmission} onBackToDashboard={handleBackToDashboard} email={currentUser}/>;
         case 'sportInfo':
           return <SportInfoForm userMetrics={userMetrics} />;
-<<<<<<< HEAD
-        case 'messageForm':
-          return <MessageForm onBackToDashboard={handleBackToDashboard} />;
-=======
         case 'messageForm': // New case for rendering the MessageForm
           return <MessageForm onBackToDashboard={handleBackToDashboard} sender={currentUser} />;
->>>>>>> d15c51b7a322a07c4063412409fa20d1b4b37f6e
         case 'graph':
           return <ProgressChart />;
         case 'goalInput':
@@ -81,12 +68,8 @@ function App() {
 
         case 'logout':
           setIsLoggedIn(false);
-<<<<<<< HEAD
-          setCurrentForm('login');
-=======
           setCurrentUser("");
           setCurrentForm('login'); // Reset to login form upon logout
->>>>>>> d15c51b7a322a07c4063412409fa20d1b4b37f6e
           break;
         default:
           return <Dashboard userMetrics={userMetrics} onNavigate={setCurrentForm} />;
