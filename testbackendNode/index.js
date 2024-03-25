@@ -6,7 +6,7 @@ const aws = require("aws-sdk");
 const fs = require("fs");
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
-
+const { exec } = require("child_process");
 
 var mysql = require('mysql2');
 const bodyParser = require("body-parser");
@@ -225,3 +225,24 @@ app.post("/submitSportsGoals", async (req, res) => {
     });
     
 });
+
+
+
+function runRubyScript() {
+    // srincommand to run the Ruby script with args have to connect frontend :|
+    const command = "./plan.rb --time 22:40 --program half-marathon";
+
+    // Execute la commando
+    exec(command, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`exec error: ${error}`);
+            return;
+        }
+        // Log output from the script
+        console.log(`stdout: ${stdout}`);
+        if(stderr) {
+            console.error(`stderr: ${stderr}`);
+        }
+    });
+}
+runRubyScript();
