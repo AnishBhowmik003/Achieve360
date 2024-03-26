@@ -21,12 +21,17 @@ const GoalInput = ({ onBackToDashboard }) => {
     }, [sport]);
 
     const validateAndSetTime = (value, setter) => {
-        // Basic format validation: HH:MM:SS
-        if (/^(\d{1,2}):([0-5]?[0-9]):([0-5]?[0-9])$/.test(value) || value === '') {
+        const partialTimeRegex = /^(\d{0,}):?([0-5]?[0-9]?)$/;
+        const fullTimeRegex = /^(\d+):([0-5][0-9])$/;
+    
+        if (partialTimeRegex.test(value)) {
             setter(value);
         } else {
-            alert('Please enter a valid time in the format HH:MM:SS.');
+            alert('Please enter a valid time with any number of minutes and up to 59 seconds in the format MM:SS.');
         }
+    
+        setter(value);
+    
     };
 
     const handleSubmit = async (e) => {
@@ -84,20 +89,20 @@ const GoalInput = ({ onBackToDashboard }) => {
                 {isRunning && (
                     <>
                         <label>
-                            Goal Time (HH:MM:SS):
+                            Goal Time (MM:SS):
                             <input 
                                 type="text" 
-                                placeholder="HH:MM:SS"
+                                placeholder="MM:SS"
                                 value={timeGoal}
                                 onChange={(e) => validateAndSetTime(e.target.value, setTimeGoal)}
                             />
                         </label>
                         <br />
                         <label>
-                            Current Time (HH:MM:SS):
+                            Current Time (MM:SS):
                             <input 
                                 type="text" 
-                                placeholder="HH:MM:SS"
+                                placeholder="MM:SS"
                                 value={currentTime}
                                 onChange={(e) => validateAndSetTime(e.target.value, setCurrentTime)}
                             />

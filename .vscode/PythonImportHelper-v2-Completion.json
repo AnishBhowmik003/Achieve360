@@ -1,30 +1,5 @@
 [
     {
-        "label": "json",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "json",
-        "description": "json",
-        "detail": "json",
-        "documentation": {}
-    },
-    {
-        "label": "stringify",
-        "importPath": "flatted",
-        "description": "flatted",
-        "isExtraImport": true,
-        "detail": "flatted",
-        "documentation": {}
-    },
-    {
-        "label": "parse",
-        "importPath": "flatted",
-        "description": "flatted",
-        "isExtraImport": true,
-        "detail": "flatted",
-        "documentation": {}
-    },
-    {
         "label": "boto3",
         "kind": 6,
         "isExtraImport": true,
@@ -34,21 +9,12 @@
         "documentation": {}
     },
     {
-        "label": "csv",
+        "label": "sys",
         "kind": 6,
         "isExtraImport": true,
-        "importPath": "csv",
-        "description": "csv",
-        "detail": "csv",
-        "documentation": {}
-    },
-    {
-        "label": "mysql.connector",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "mysql.connector",
-        "description": "mysql.connector",
-        "detail": "mysql.connector",
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
         "documentation": {}
     },
     {
@@ -70,174 +36,12 @@
         "documentation": {}
     },
     {
-        "label": "_Known",
+        "label": "csv",
         "kind": 6,
-        "importPath": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.flatted",
-        "description": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.flatted",
-        "peekOfCode": "class _Known:\n    def __init__(self):\n        self.key = []\n        self.value = []\nclass _String:\n    def __init__(self, value):\n        self.value = value\ndef _array_keys(value):\n    keys = []\n    i = 0",
-        "detail": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.flatted",
-        "documentation": {}
-    },
-    {
-        "label": "_String",
-        "kind": 6,
-        "importPath": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.flatted",
-        "description": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.flatted",
-        "peekOfCode": "class _String:\n    def __init__(self, value):\n        self.value = value\ndef _array_keys(value):\n    keys = []\n    i = 0\n    for _ in value:\n        keys.append(i)\n        i += 1\n    return keys",
-        "detail": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.flatted",
-        "documentation": {}
-    },
-    {
-        "label": "parse",
-        "kind": 2,
-        "importPath": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.flatted",
-        "description": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.flatted",
-        "peekOfCode": "def parse(value, *args, **kwargs):\n    json = _json.loads(value, *args, **kwargs)\n    wrapped = []\n    for value in json:\n        wrapped.append(_wrap(value))\n    input = []\n    for value in wrapped:\n        if isinstance(value, _String):\n            input.append(value.value)\n        else:",
-        "detail": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.flatted",
-        "documentation": {}
-    },
-    {
-        "label": "stringify",
-        "kind": 2,
-        "importPath": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.flatted",
-        "description": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.flatted",
-        "peekOfCode": "def stringify(value, *args, **kwargs):\n    known = _Known()\n    input = []\n    output = []\n    i = int(_index(known, input, value))\n    while i < len(input):\n        output.append(_transform(known, input, input[i]))\n        i += 1\n    return _json.dumps(output, *args, **kwargs)",
-        "detail": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.flatted",
-        "documentation": {}
-    },
-    {
-        "label": "stringify",
-        "kind": 2,
-        "importPath": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "description": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "peekOfCode": "def stringify(value):\n    return _stringify(value, separators=(',', ':'))\nassert stringify([None, None]) == '[[null,null]]'\na = []\no = {}\nassert stringify(a) == '[[]]'\nassert stringify(o) == '[{}]'\na.append(a)\no['o'] = o\nassert stringify(a) == '[[\"0\"]]'",
-        "detail": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "documentation": {}
-    },
-    {
-        "label": "a",
-        "kind": 5,
-        "importPath": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "description": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "peekOfCode": "a = []\no = {}\nassert stringify(a) == '[[]]'\nassert stringify(o) == '[{}]'\na.append(a)\no['o'] = o\nassert stringify(a) == '[[\"0\"]]'\nassert stringify(o) == '[{\"o\":\"0\"}]'\nb = parse(stringify(a))\nassert isinstance(b, list) and b[0] == b",
-        "detail": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "documentation": {}
-    },
-    {
-        "label": "o",
-        "kind": 5,
-        "importPath": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "description": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "peekOfCode": "o = {}\nassert stringify(a) == '[[]]'\nassert stringify(o) == '[{}]'\na.append(a)\no['o'] = o\nassert stringify(a) == '[[\"0\"]]'\nassert stringify(o) == '[{\"o\":\"0\"}]'\nb = parse(stringify(a))\nassert isinstance(b, list) and b[0] == b\na.append(1)",
-        "detail": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "documentation": {}
-    },
-    {
-        "label": "o['o']",
-        "kind": 5,
-        "importPath": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "description": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "peekOfCode": "o['o'] = o\nassert stringify(a) == '[[\"0\"]]'\nassert stringify(o) == '[{\"o\":\"0\"}]'\nb = parse(stringify(a))\nassert isinstance(b, list) and b[0] == b\na.append(1)\na.append('two')\na.append(True)\no['one'] = 1\no['two'] = 'two'",
-        "detail": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "documentation": {}
-    },
-    {
-        "label": "b",
-        "kind": 5,
-        "importPath": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "description": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "peekOfCode": "b = parse(stringify(a))\nassert isinstance(b, list) and b[0] == b\na.append(1)\na.append('two')\na.append(True)\no['one'] = 1\no['two'] = 'two'\no['three'] = True\nassert stringify(a) == '[[\"0\",1,\"1\",true],\"two\"]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true},\"two\"]'",
-        "detail": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "documentation": {}
-    },
-    {
-        "label": "o['one']",
-        "kind": 5,
-        "importPath": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "description": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "peekOfCode": "o['one'] = 1\no['two'] = 'two'\no['three'] = True\nassert stringify(a) == '[[\"0\",1,\"1\",true],\"two\"]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true},\"two\"]'\na.append(o)\no['a'] = a\nassert stringify(a) == '[[\"0\",1,\"1\",true,\"2\"],\"two\",{\"o\":\"2\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"0\"}]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"2\"},\"two\",[\"2\",1,\"1\",true,\"0\"]]'\na.append({'test': 'OK'})",
-        "detail": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "documentation": {}
-    },
-    {
-        "label": "o['two']",
-        "kind": 5,
-        "importPath": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "description": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "peekOfCode": "o['two'] = 'two'\no['three'] = True\nassert stringify(a) == '[[\"0\",1,\"1\",true],\"two\"]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true},\"two\"]'\na.append(o)\no['a'] = a\nassert stringify(a) == '[[\"0\",1,\"1\",true,\"2\"],\"two\",{\"o\":\"2\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"0\"}]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"2\"},\"two\",[\"2\",1,\"1\",true,\"0\"]]'\na.append({'test': 'OK'})\na.append([1, 2, 3])",
-        "detail": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "documentation": {}
-    },
-    {
-        "label": "o['three']",
-        "kind": 5,
-        "importPath": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "description": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "peekOfCode": "o['three'] = True\nassert stringify(a) == '[[\"0\",1,\"1\",true],\"two\"]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true},\"two\"]'\na.append(o)\no['a'] = a\nassert stringify(a) == '[[\"0\",1,\"1\",true,\"2\"],\"two\",{\"o\":\"2\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"0\"}]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"2\"},\"two\",[\"2\",1,\"1\",true,\"0\"]]'\na.append({'test': 'OK'})\na.append([1, 2, 3])\no['test'] = {'test': 'OK'}",
-        "detail": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "documentation": {}
-    },
-    {
-        "label": "o['a']",
-        "kind": 5,
-        "importPath": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "description": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "peekOfCode": "o['a'] = a\nassert stringify(a) == '[[\"0\",1,\"1\",true,\"2\"],\"two\",{\"o\":\"2\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"0\"}]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"2\"},\"two\",[\"2\",1,\"1\",true,\"0\"]]'\na.append({'test': 'OK'})\na.append([1, 2, 3])\no['test'] = {'test': 'OK'}\no['array'] = [1, 2, 3]\nassert stringify(a) == '[[\"0\",1,\"1\",true,\"2\",\"3\",\"4\"],\"two\",{\"o\":\"2\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"0\",\"test\":\"3\",\"array\":\"4\"},{\"test\":\"5\"},[1,2,3],\"OK\"]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"2\",\"test\":\"3\",\"array\":\"4\"},\"two\",[\"2\",1,\"1\",true,\"0\",\"3\",\"4\"],{\"test\":\"5\"},[1,2,3],\"OK\"]'\na2 = parse(stringify(a));",
-        "detail": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "documentation": {}
-    },
-    {
-        "label": "o['test']",
-        "kind": 5,
-        "importPath": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "description": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "peekOfCode": "o['test'] = {'test': 'OK'}\no['array'] = [1, 2, 3]\nassert stringify(a) == '[[\"0\",1,\"1\",true,\"2\",\"3\",\"4\"],\"two\",{\"o\":\"2\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"0\",\"test\":\"3\",\"array\":\"4\"},{\"test\":\"5\"},[1,2,3],\"OK\"]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"2\",\"test\":\"3\",\"array\":\"4\"},\"two\",[\"2\",1,\"1\",true,\"0\",\"3\",\"4\"],{\"test\":\"5\"},[1,2,3],\"OK\"]'\na2 = parse(stringify(a));\no2 = parse(stringify(o));\nassert a2[0] == a2\nassert o2['o'] == o2\nassert a2[1] == 1 and a2[2] == 'two' and a2[3] == True and isinstance(a2[4], dict)\nassert a2[4] == a2[4]['o'] and a2 == a2[4]['o']['a']",
-        "detail": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "documentation": {}
-    },
-    {
-        "label": "o['array']",
-        "kind": 5,
-        "importPath": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "description": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "peekOfCode": "o['array'] = [1, 2, 3]\nassert stringify(a) == '[[\"0\",1,\"1\",true,\"2\",\"3\",\"4\"],\"two\",{\"o\":\"2\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"0\",\"test\":\"3\",\"array\":\"4\"},{\"test\":\"5\"},[1,2,3],\"OK\"]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"2\",\"test\":\"3\",\"array\":\"4\"},\"two\",[\"2\",1,\"1\",true,\"0\",\"3\",\"4\"],{\"test\":\"5\"},[1,2,3],\"OK\"]'\na2 = parse(stringify(a));\no2 = parse(stringify(o));\nassert a2[0] == a2\nassert o2['o'] == o2\nassert a2[1] == 1 and a2[2] == 'two' and a2[3] == True and isinstance(a2[4], dict)\nassert a2[4] == a2[4]['o'] and a2 == a2[4]['o']['a']\nstr = parse('[{\"prop\":\"1\",\"a\":\"2\",\"b\":\"3\"},{\"value\":123},[\"4\",\"5\"],{\"e\":\"6\",\"t\":\"7\",\"p\":4},{},{\"b\":\"8\"},\"f\",{\"a\":\"9\"},[\"10\"],\"sup\",{\"a\":1,\"d\":2,\"c\":\"7\",\"z\":\"11\",\"h\":1},{\"g\":2,\"a\":\"7\",\"b\":\"12\",\"f\":6},{\"r\":4,\"u\":\"7\",\"c\":5}]')",
-        "detail": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "documentation": {}
-    },
-    {
-        "label": "a2",
-        "kind": 5,
-        "importPath": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "description": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "peekOfCode": "a2 = parse(stringify(a));\no2 = parse(stringify(o));\nassert a2[0] == a2\nassert o2['o'] == o2\nassert a2[1] == 1 and a2[2] == 'two' and a2[3] == True and isinstance(a2[4], dict)\nassert a2[4] == a2[4]['o'] and a2 == a2[4]['o']['a']\nstr = parse('[{\"prop\":\"1\",\"a\":\"2\",\"b\":\"3\"},{\"value\":123},[\"4\",\"5\"],{\"e\":\"6\",\"t\":\"7\",\"p\":4},{},{\"b\":\"8\"},\"f\",{\"a\":\"9\"},[\"10\"],\"sup\",{\"a\":1,\"d\":2,\"c\":\"7\",\"z\":\"11\",\"h\":1},{\"g\":2,\"a\":\"7\",\"b\":\"12\",\"f\":6},{\"r\":4,\"u\":\"7\",\"c\":5}]')\nassert str['b']['t']['a'] == 'sup' and str['a'][1]['b'][0]['c'] == str['b']['t']\noo = parse('[{\"a\":\"1\",\"b\":\"0\",\"c\":\"2\"},{\"aa\":\"3\"},{\"ca\":\"4\",\"cb\":\"5\",\"cc\":\"6\",\"cd\":\"7\",\"ce\":\"8\",\"cf\":\"9\"},{\"aaa\":\"10\"},{\"caa\":\"4\"},{\"cba\":\"5\"},{\"cca\":\"2\"},{\"cda\":\"4\"},\"value2\",\"value3\",\"value1\"]');\nassert oo['a']['aa']['aaa'] == 'value1' and oo == oo['b'] and oo['c']['ca']['caa'] == oo['c']['ca']",
-        "detail": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "documentation": {}
-    },
-    {
-        "label": "o2",
-        "kind": 5,
-        "importPath": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "description": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "peekOfCode": "o2 = parse(stringify(o));\nassert a2[0] == a2\nassert o2['o'] == o2\nassert a2[1] == 1 and a2[2] == 'two' and a2[3] == True and isinstance(a2[4], dict)\nassert a2[4] == a2[4]['o'] and a2 == a2[4]['o']['a']\nstr = parse('[{\"prop\":\"1\",\"a\":\"2\",\"b\":\"3\"},{\"value\":123},[\"4\",\"5\"],{\"e\":\"6\",\"t\":\"7\",\"p\":4},{},{\"b\":\"8\"},\"f\",{\"a\":\"9\"},[\"10\"],\"sup\",{\"a\":1,\"d\":2,\"c\":\"7\",\"z\":\"11\",\"h\":1},{\"g\":2,\"a\":\"7\",\"b\":\"12\",\"f\":6},{\"r\":4,\"u\":\"7\",\"c\":5}]')\nassert str['b']['t']['a'] == 'sup' and str['a'][1]['b'][0]['c'] == str['b']['t']\noo = parse('[{\"a\":\"1\",\"b\":\"0\",\"c\":\"2\"},{\"aa\":\"3\"},{\"ca\":\"4\",\"cb\":\"5\",\"cc\":\"6\",\"cd\":\"7\",\"ce\":\"8\",\"cf\":\"9\"},{\"aaa\":\"10\"},{\"caa\":\"4\"},{\"cba\":\"5\"},{\"cca\":\"2\"},{\"cda\":\"4\"},\"value2\",\"value3\",\"value1\"]');\nassert oo['a']['aa']['aaa'] == 'value1' and oo == oo['b'] and oo['c']['ca']['caa'] == oo['c']['ca']\nprint('OK')",
-        "detail": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "documentation": {}
-    },
-    {
-        "label": "str",
-        "kind": 5,
-        "importPath": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "description": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "peekOfCode": "str = parse('[{\"prop\":\"1\",\"a\":\"2\",\"b\":\"3\"},{\"value\":123},[\"4\",\"5\"],{\"e\":\"6\",\"t\":\"7\",\"p\":4},{},{\"b\":\"8\"},\"f\",{\"a\":\"9\"},[\"10\"],\"sup\",{\"a\":1,\"d\":2,\"c\":\"7\",\"z\":\"11\",\"h\":1},{\"g\":2,\"a\":\"7\",\"b\":\"12\",\"f\":6},{\"r\":4,\"u\":\"7\",\"c\":5}]')\nassert str['b']['t']['a'] == 'sup' and str['a'][1]['b'][0]['c'] == str['b']['t']\noo = parse('[{\"a\":\"1\",\"b\":\"0\",\"c\":\"2\"},{\"aa\":\"3\"},{\"ca\":\"4\",\"cb\":\"5\",\"cc\":\"6\",\"cd\":\"7\",\"ce\":\"8\",\"cf\":\"9\"},{\"aaa\":\"10\"},{\"caa\":\"4\"},{\"cba\":\"5\"},{\"cca\":\"2\"},{\"cda\":\"4\"},\"value2\",\"value3\",\"value1\"]');\nassert oo['a']['aa']['aaa'] == 'value1' and oo == oo['b'] and oo['c']['ca']['caa'] == oo['c']['ca']\nprint('OK')",
-        "detail": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "documentation": {}
-    },
-    {
-        "label": "oo",
-        "kind": 5,
-        "importPath": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "description": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
-        "peekOfCode": "oo = parse('[{\"a\":\"1\",\"b\":\"0\",\"c\":\"2\"},{\"aa\":\"3\"},{\"ca\":\"4\",\"cb\":\"5\",\"cc\":\"6\",\"cd\":\"7\",\"ce\":\"8\",\"cf\":\"9\"},{\"aaa\":\"10\"},{\"caa\":\"4\"},{\"cba\":\"5\"},{\"cca\":\"2\"},{\"cda\":\"4\"},\"value2\",\"value3\",\"value1\"]');\nassert oo['a']['aa']['aaa'] == 'value1' and oo == oo['b'] and oo['c']['ca']['caa'] == oo['c']['ca']\nprint('OK')",
-        "detail": "newfrontend.frontend.achieve360frontend.node_modules.flatted.python.test",
+        "isExtraImport": true,
+        "importPath": "csv",
+        "description": "csv",
+        "detail": "csv",
         "documentation": {}
     },
     {
@@ -247,6 +51,114 @@
         "description": "createRDS",
         "peekOfCode": "rds = boto3.client('rds')\ntry:\n    #Create RDS database instance\n    response = rds.create_db_instance(\n        DBInstanceIdentifier='database-2.cvmicwscqnza.us-east-2.rds.amazonaws.com',\n        AllocatedStorage=20,\n        DBInstanceClass='db.t3.micro',\n        Engine='mysql',\n        MasterUsername='',\n        MasterPassword='',",
         "detail": "createRDS",
+        "documentation": {}
+    },
+    {
+        "label": "calculateMetabolicRate",
+        "kind": 2,
+        "importPath": "dietPlan",
+        "description": "dietPlan",
+        "peekOfCode": "def calculateMetabolicRate(weight, height, age, sex):\n    if sex == \"male\":\n        bmr = 66 + (6.3 * weight) + (12.9 * height) - (6.8 * age)\n    else:\n        bmr = 655 + (4.3 * weight) + (4.7 * height) - (4.7 * age)\n    return bmr\ndef calculateMaintenanceCalories(bmr, activity_level):\n    activity_levels = {\n        \"none\": 1.2,\n        \"lightly active\": 1.375,",
+        "detail": "dietPlan",
+        "documentation": {}
+    },
+    {
+        "label": "calculateMaintenanceCalories",
+        "kind": 2,
+        "importPath": "dietPlan",
+        "description": "dietPlan",
+        "peekOfCode": "def calculateMaintenanceCalories(bmr, activity_level):\n    activity_levels = {\n        \"none\": 1.2,\n        \"lightly active\": 1.375,\n        \"moderately active\": 1.55,\n        \"very active\": 1.725,\n        \"extra active\": 1.9\n    }\n    return bmr * activity_levels.get(activity_level.lower(), 1.725)\ndef calculateWeightLossCalories(bmr, activity_level):",
+        "detail": "dietPlan",
+        "documentation": {}
+    },
+    {
+        "label": "calculateWeightLossCalories",
+        "kind": 2,
+        "importPath": "dietPlan",
+        "description": "dietPlan",
+        "peekOfCode": "def calculateWeightLossCalories(bmr, activity_level):\n    return calculateMaintenanceCalories(bmr, activity_level) - 500\ndef calculateWeightGainCalories(bmr, activity_level):\n    return calculateMaintenanceCalories(bmr, activity_level) + 500\ndef generateDietPlan(goal):\n    weight_gain_foods = {\n        \"Protein Sources\": [\"Chicken breast\", \"Salmon\", \"Tofu\", \"Greek yogurt\"],\n        \"Carbohydrate Sources\": [\"Brown rice\", \"Sweet potatoes\", \"Quinoa\", \"Whole wheat bread\"],\n        \"Healthy Fats\": [\"Avocado\", \"Nuts\", \"Olive oil\", \"Flaxseeds\"],\n        \"Fruits\": [\"Bananas\", \"Berries\", \"Oranges\", \"Apples\"],",
+        "detail": "dietPlan",
+        "documentation": {}
+    },
+    {
+        "label": "calculateWeightGainCalories",
+        "kind": 2,
+        "importPath": "dietPlan",
+        "description": "dietPlan",
+        "peekOfCode": "def calculateWeightGainCalories(bmr, activity_level):\n    return calculateMaintenanceCalories(bmr, activity_level) + 500\ndef generateDietPlan(goal):\n    weight_gain_foods = {\n        \"Protein Sources\": [\"Chicken breast\", \"Salmon\", \"Tofu\", \"Greek yogurt\"],\n        \"Carbohydrate Sources\": [\"Brown rice\", \"Sweet potatoes\", \"Quinoa\", \"Whole wheat bread\"],\n        \"Healthy Fats\": [\"Avocado\", \"Nuts\", \"Olive oil\", \"Flaxseeds\"],\n        \"Fruits\": [\"Bananas\", \"Berries\", \"Oranges\", \"Apples\"],\n        \"Vegetables\": [\"Broccoli\", \"Spinach\", \"Bell peppers\", \"Carrots\"]\n    }",
+        "detail": "dietPlan",
+        "documentation": {}
+    },
+    {
+        "label": "generateDietPlan",
+        "kind": 2,
+        "importPath": "dietPlan",
+        "description": "dietPlan",
+        "peekOfCode": "def generateDietPlan(goal):\n    weight_gain_foods = {\n        \"Protein Sources\": [\"Chicken breast\", \"Salmon\", \"Tofu\", \"Greek yogurt\"],\n        \"Carbohydrate Sources\": [\"Brown rice\", \"Sweet potatoes\", \"Quinoa\", \"Whole wheat bread\"],\n        \"Healthy Fats\": [\"Avocado\", \"Nuts\", \"Olive oil\", \"Flaxseeds\"],\n        \"Fruits\": [\"Bananas\", \"Berries\", \"Oranges\", \"Apples\"],\n        \"Vegetables\": [\"Broccoli\", \"Spinach\", \"Bell peppers\", \"Carrots\"]\n    }\n    weight_loss_foods = {\n        \"Lean Protein Sources\": [\"Turkey breast\", \"White fish\", \"Egg whites\", \"Cottage cheese\"],",
+        "detail": "dietPlan",
+        "documentation": {}
+    },
+    {
+        "label": "createTotalPlan",
+        "kind": 2,
+        "importPath": "dietPlan",
+        "description": "dietPlan",
+        "peekOfCode": "def createTotalPlan(weightGoal, weight, height, age, sex, activity_level):\n    output = str(generateDietPlan(weightGoal))\n    bmr = calculateMetabolicRate(weight, height, age, sex)\n    if weightGoal == \"maintain\":\n        goalCalories = calculateMaintenanceCalories(bmr, activity_level)\n    elif weightGoal == \"gain\":\n        goalCalories = calculateWeightGainCalories(bmr, activity_level)\n    elif weightGoal == \"loss\":\n        goalCalories = calculateWeightLossCalories(bmr, activity_level)\n    pounds = weight * 2.205",
+        "detail": "dietPlan",
+        "documentation": {}
+    },
+    {
+        "label": "weightGoal",
+        "kind": 5,
+        "importPath": "dietPlan",
+        "description": "dietPlan",
+        "peekOfCode": "weightGoal = sys.argv[1] #options are gain, loss, maintain\nweight = float(sys.argv[2]) / 2.205\nheight = float(sys.argv[3]) * 2.54\nage = float(sys.argv[4])\nsex = sys.argv[5]\nactivity_level = sys.argv[6] #options are none, lightly active, moderatly active, very active, extra active\nprint(createTotalPlan(weightGoal, weight, height, age, sex, activity_level))\nsys.stdout.flush()",
+        "detail": "dietPlan",
+        "documentation": {}
+    },
+    {
+        "label": "weight",
+        "kind": 5,
+        "importPath": "dietPlan",
+        "description": "dietPlan",
+        "peekOfCode": "weight = float(sys.argv[2]) / 2.205\nheight = float(sys.argv[3]) * 2.54\nage = float(sys.argv[4])\nsex = sys.argv[5]\nactivity_level = sys.argv[6] #options are none, lightly active, moderatly active, very active, extra active\nprint(createTotalPlan(weightGoal, weight, height, age, sex, activity_level))\nsys.stdout.flush()",
+        "detail": "dietPlan",
+        "documentation": {}
+    },
+    {
+        "label": "height",
+        "kind": 5,
+        "importPath": "dietPlan",
+        "description": "dietPlan",
+        "peekOfCode": "height = float(sys.argv[3]) * 2.54\nage = float(sys.argv[4])\nsex = sys.argv[5]\nactivity_level = sys.argv[6] #options are none, lightly active, moderatly active, very active, extra active\nprint(createTotalPlan(weightGoal, weight, height, age, sex, activity_level))\nsys.stdout.flush()",
+        "detail": "dietPlan",
+        "documentation": {}
+    },
+    {
+        "label": "age",
+        "kind": 5,
+        "importPath": "dietPlan",
+        "description": "dietPlan",
+        "peekOfCode": "age = float(sys.argv[4])\nsex = sys.argv[5]\nactivity_level = sys.argv[6] #options are none, lightly active, moderatly active, very active, extra active\nprint(createTotalPlan(weightGoal, weight, height, age, sex, activity_level))\nsys.stdout.flush()",
+        "detail": "dietPlan",
+        "documentation": {}
+    },
+    {
+        "label": "sex",
+        "kind": 5,
+        "importPath": "dietPlan",
+        "description": "dietPlan",
+        "peekOfCode": "sex = sys.argv[5]\nactivity_level = sys.argv[6] #options are none, lightly active, moderatly active, very active, extra active\nprint(createTotalPlan(weightGoal, weight, height, age, sex, activity_level))\nsys.stdout.flush()",
+        "detail": "dietPlan",
+        "documentation": {}
+    },
+    {
+        "label": "activity_level",
+        "kind": 5,
+        "importPath": "dietPlan",
+        "description": "dietPlan",
+        "peekOfCode": "activity_level = sys.argv[6] #options are none, lightly active, moderatly active, very active, extra active\nprint(createTotalPlan(weightGoal, weight, height, age, sex, activity_level))\nsys.stdout.flush()",
+        "detail": "dietPlan",
         "documentation": {}
     },
     {
@@ -319,15 +231,6 @@
         "description": "fitnessPlanner",
         "peekOfCode": "def main():\n    print(\"Welcome to the Fitness Planner!\")\n    print(\"Please provide your details.\")\n    weight = float(input(\"Weight (kg): \"))\n    height = float(input(\"Height (cm): \"))\n    age = int(input(\"Age: \"))\n    sex = input(\"Sex (male/female/other): \")\n    activity_level = input(\"Activity Level (none/lightly active/moderately active/very active/extra active): \")\n    bmr = calculateMetabolicRate(weight, height, age, sex)\n    maintenance_calories = calculateMaintenanceCalories(bmr, activity_level)",
         "detail": "fitnessPlanner",
-        "documentation": {}
-    },
-    {
-        "label": "filter_data",
-        "kind": 2,
-        "importPath": "newSportTables",
-        "description": "newSportTables",
-        "peekOfCode": "def filter_data(sport, position):\n    if sport.lower() == 'football':\n        data_file = 'NFL.csv'\n    elif sport.lower() == 'basketball':\n        data_file = 'NBA.csv'\n    filtered_data = []\n    metrics = []\n    with open(data_file, 'r') as file:\n        reader = csv.DictReader(file)\n        for row in reader:",
-        "detail": "newSportTables",
         "documentation": {}
     },
     {

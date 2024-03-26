@@ -3,7 +3,6 @@ import './App.css';
 import { Login } from './Login';
 import { Register } from './Register';
 import { MetricsInputForm } from './MetricsInputForm';
-import { SportInfoForm } from './SportInfoForm';
 import { Dashboard } from './Dashboard';
 import { MessageForm } from './MessageForm';
 import { ProgressChart } from './ProgressChart';
@@ -50,8 +49,7 @@ function App() {
         case 'inputMetrics':
           console.log(currentUser);
           return <MetricsInputForm onSubmit={handleMetricsSubmission} onBackToDashboard={handleBackToDashboard} email={currentUser}/>;
-        case 'sportInfo':
-          return <SportInfoForm userMetrics={userMetrics} />;
+
         case 'messageForm': // New case for rendering the MessageForm
           return <MessageForm onBackToDashboard={handleBackToDashboard} sender={currentUser} />;
         case 'graph':
