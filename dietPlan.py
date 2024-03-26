@@ -71,11 +71,11 @@ def createTotalPlan(weightGoal, weight, height, age, sex, activity_level):
 import sys
 #calc weight in kg
 #calc height in cm
-weightGoal = sys.argv[1]
+weightGoal = sys.argv[1] #options are gain, loss, maintain
 weight = float(sys.argv[2]) / 2.205
 height = float(sys.argv[3]) * 2.54
 age = float(sys.argv[4])
 sex = sys.argv[5]
-activity_level = sys.argv[6]
+activity_level = sys.argv[6] #options are none, lightly active, moderatly active, very active, extra active
 print(createTotalPlan(weightGoal, weight, height, age, sex, activity_level))
 sys.stdout.flush()
