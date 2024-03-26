@@ -94,6 +94,8 @@ def generateDietPlan(goal, weight, height, age, sex):
         diet_plan = weight_gain_foods
     elif goal.lower() == "loss":
         diet_plan = weight_loss_foods
+    elif goal.lower() == "maintain":
+        diet_plan = weight_gain_foods
     else:
         return "Invalid goal. Please choose 'gain' or 'loss'."
 
