@@ -106,8 +106,71 @@ app.post("/login", async (req, res) => {
     })
 });
 
+const stats = {
+    male: {
+        twenties: {
+            avgHeight: 69.6,
+            avgWeight: 188.6,
+            stdHeight: 2.5,
+            stdWeight: 24.5
+        },
+        thirties: {
+            height: 69.3,
+            weight: 208.1,
+            stdHeight: 2.5,
+            stdWeight: 24.5
+        },
+        forties: {
+            height: 69.0,
+            weight: 206.9,
+            stdHeight: 2.5,
+            stdWeight: 24.5
+        },
+        fifty_plus: {
+            height: 68.0,
+            weight: 193.65,
+            stdHeight: 2.5,
+            stdWeight: 24.5
+        },
+    },
+    female: {
+        twenties: {
+            avgHeight: 64.2,
+            avgWeight: 165.0,
+            stdHeight: 2.2,
+            stdWeight: 22.5
+        },
+        thirties: {
+            avgHeight: 63.8,
+            avgWeight: 174.9,
+            stdHeight: 2.2,
+            stdWeight: 22.5
+        },
+        forties: {
+            avgHeight: 63.6,
+            avgWeight: 178.1,
+            stdHeight: 2.2,
+            stdWeight: 22.5
+        },
+        fifty_plus: {
+            avgHeight: 63.0,
+            avgWeight: 165.05,
+            stdHeight: 2.2,
+            stdWeight: 22.5
+        },
+    }
+};
+
+
 app.post("/submitMetrics", async (req, res) => {
-    con.execute(`INSERT INTO metrics (email, age, weight, height, gender) VALUES ('${req.body.email}', '${req.body.age}', '${req.body.weight}', '${req.body.height}', '${req.body.gender}')`, function (err, result) {
+    var age;
+    if(req.body.age >= 20 && req.body.age <= 29) age = "twenties";
+    else if(req.body.age >= 30 && req.body.age <= 39) age = "thirties";
+    else if(req.body.age >= 40 && req.body.age <= 49) age = "forties";
+    else if(req.body.age >= 50) age = "fifty_plus";
+    else return res.status(300).json({ message: "Age must be at least 20."});
+    const vals = stats[req.body.gender][age];
+    con.execute(`INSERT INTO metrics (email, age, weight, height, gender, heightZscore, weightZscore) VALUES ('${req.body.email}', '${req.body.age}', '${req.body.weight}', '${req.body.height}', '${req.body.gender}', (${req.body.height} - ${vals.avgHeight}) / ${vals.stdHeight}, (${req.body.weight} - ${vals.avgWeight}) / ${vals.stdWeight})`, function (err, result) {
         if (err) {
             con.execute(`UPDATE metrics SET age='${req.body.age}', weight='${req.body.weight}', height='${req.body.height}', gender='${req.body.gender}' WHERE email='${req.body.email}'`, function (updateErr, updateResult) {
                 if (updateErr) {
@@ -215,7 +278,23 @@ app.post("/upload", upload.single('file'), async (req, res) => {
     });
 });
 
+
+
+
 app.post("/submitSportsGoals", async (req, res) => {
+    // select the users metrics from database
+    // match to player
+    
+    con.execute(`SELECT heightZscore, weightZscore FROM metrics WHERE email=${req.body.email}`, function (err, result) {
+        if (err) {
+            return res.status(500).json({ message: "No metrics inputted."});
+        } else {
+            console.log(result);
+        }
+    });
+
+
+
     con.execute(`INSERT INTO goals (email, sport, position, goal) VALUES ('${req.body.email}', '${req.body.sport}', '${req.body.position}', '${req.body.goals}')`, function (err, result) {
         if (err) {
             return res.status(500).json({ message: "Error inputting goals."});
