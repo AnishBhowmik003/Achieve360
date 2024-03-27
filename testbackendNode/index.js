@@ -307,17 +307,30 @@ app.post("/submitSportsGoals", async (req, res) => {
 
 
 
+
+
 app.post("/addGoal", async (req, res) => {
     const { sport, position, timeGoal, currentTime } = req.body;
+  
+    try {
+      const output = await runRubyScript(timeGoal, position);
+      console.log("Script output:", output);
+      res.status(200).json({ message: output.trim() }); // Use trim() to remove new lines if necessary
+    } catch (error) {
+      console.error(`An error occurred while running the script: ${error}`);
+      res.status(500).json({ message: "An error occurred while running the script." });
+    }
+  });
+  
 
-    // For demonstration, just log the received variables
-    console.log("Received goal data:");
-    console.log(`Sport: ${sport}, Position: ${position}, Time Goal: ${timeGoal}, Current Time: ${currentTime}`);
-    const output = await runRubyScript(timeGoal, position);
-    res.status(200).json({ message: "Received the goal data successfully." });
-});
-
-
+  function escapeShellArg(arg) {
+    if (typeof arg !== 'string') {
+      throw new Error('Provided argument is not a string');
+    }
+    // Escape potentially dangerous characters
+    return `"${arg.replace(/(["'$`\\])/g,'\\$1')}"`;
+  }
+  
 function runRubyScript(timeGoal, position) {
     const safeTimeGoal = escapeShellArg(timeGoal);
     const safePosition = escapeShellArg(position);
