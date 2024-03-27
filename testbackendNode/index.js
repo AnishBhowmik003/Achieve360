@@ -307,21 +307,34 @@ app.post("/submitSportsGoals", async (req, res) => {
 
 
 
-function runRubyScript() {
-    // srincommand to run the Ruby script with args have to connect frontend :|
-    const command = "./plan.rb --time 22:40 --program half-marathon";
+app.post("/addGoal", async (req, res) => {
+    const { sport, position, timeGoal, currentTime } = req.body;
 
-    // Execute la commando
-    exec(command, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`exec error: ${error}`);
-            return;
-        }
-        // Log output from the script
-        console.log(`stdout: ${stdout}`);
-        if(stderr) {
-            console.error(`stderr: ${stderr}`);
-        }
+    // For demonstration, just log the received variables
+    console.log("Received goal data:");
+    console.log(`Sport: ${sport}, Position: ${position}, Time Goal: ${timeGoal}, Current Time: ${currentTime}`);
+    const output = await runRubyScript(timeGoal, position);
+    res.status(200).json({ message: "Received the goal data successfully." });
+});
+
+
+function runRubyScript(timeGoal, position) {
+    const safeTimeGoal = escapeShellArg(timeGoal);
+    const safePosition = escapeShellArg(position);
+    
+    const command = `./plan.rb --time ${safeTimeGoal} --program ${safePosition}`;
+
+    return new Promise((resolve, reject) => {
+        exec(command, (error, stdout, stderr) => {
+            if (error) {
+                console.error(`exec error: ${error}`);
+                reject(error);
+            }
+            console.log(`stdout: ${stdout}`);
+            if(stderr) {
+                console.error(`stderr: ${stderr}`);
+            }
+            resolve(stdout);
+        });
     });
 }
-runRubyScript();
