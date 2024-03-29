@@ -280,7 +280,7 @@ app.post("/upload", upload.single('file'), async (req, res) => {
 
 
 
-
+//this is never called rn
 app.post("/submitSportsGoals", async (req, res) => {
     // select the users metrics from database
     // match to player
@@ -309,11 +309,16 @@ app.post("/submitSportsGoals", async (req, res) => {
 
 
 app.post("/addGoal", async (req, res) => {
-    // const { sport, position, timeGoal, currentTime, email } = req.body;
+
+    con.execute(`INSERT INTO goals (email, sport, position, goals) VALUES ('${req.body.email}', '${req.body.sport}', '${req.body.position}', '${req.body.goals}')`, function (err, result) {
+        if (err) {
+            return res.status(500).json({ message: "Error inputting goals."});
+        } else {
+            return res.status(200).json({ message: "goals added successfully."});
+        }
+    });
   
     try {
-    //   console.log(timeGoal);
-    //   console.log(position);
       const output = await runRubyScript(req.body.goals, req.body.position);
       console.log("Script output:", output);
       res.status(200).json({ message: output.trim() }); // Use trim() to remove new lines if necessary
@@ -352,3 +357,28 @@ function runRubyScript(timeGoal, position) {
         });
     });
 }
+
+
+
+app.post("/addProgress", async (req, res) => {
+    con.execute(`INSERT INTO progress (email, days, time) VALUES ('${req.body.email}', '${req.body.days}', '${req.body.time}')`, function (err, result) {
+        if (err) {
+            return res.status(500).json({ message: "Error inputting progress."});
+        } else {
+            return res.status(200).json({ message: "progress added successfully."});
+        }
+    });
+});
+
+app.post("/fetchProgress", async(req, res) => {
+    con.execute(`SELECT days, time FROM progress WHERE email='${req.body.email}'`, function(err, results) {
+        if(err) {
+            console.log(err);
+            return res.status(500).json({message: "Error fetching progress"})
+        }
+        else {
+            console.log(results);
+            return res.status(200).json({message: "success", res: results});
+        }
+    });
+});

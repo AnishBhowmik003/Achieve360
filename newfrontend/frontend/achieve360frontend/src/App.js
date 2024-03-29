@@ -59,10 +59,10 @@ function App() {
         case 'progress':
           return <Progress onNavigate={setCurrentForm} />;
           case 'progressChart':
-            return <ProgressChart onNavigate={setCurrentForm} />;
+            return <ProgressChart onNavigate={setCurrentForm} email={currentUser} />;
           
         case 'progressInput':
-          return <ProgressInput onBackToDashboard={handleBackToDashboard} />;
+          return <ProgressInput onBackToDashboard={handleBackToDashboard} email={currentUser} />;
 
         case 'logout':
           setIsLoggedIn(false);

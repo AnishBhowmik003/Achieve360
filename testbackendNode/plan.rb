@@ -81,7 +81,7 @@ else
 end
 
 paces = Paces.new(time)
-puts "Training Program for %s with a %s 5K time" % [training_plan.name, Utils.sec_to_mmss(time)]
+puts "Training Program for %s with %s time" % [training_plan.name, Utils.sec_to_mmss(time)]
 puts "Start-Date: #{start_date}"
 
 #TODO:

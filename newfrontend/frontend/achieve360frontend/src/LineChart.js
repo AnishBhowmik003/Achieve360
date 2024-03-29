@@ -10,7 +10,7 @@ function LineChart({ chartData }) {
           plugins: {
             title: {
               display: true,
-              text: "Workout/diet progress vs expected"
+              text: "Workout/diet progress"
             },
             legend: {
               display: true,
