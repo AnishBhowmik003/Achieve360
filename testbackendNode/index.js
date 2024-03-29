@@ -310,22 +310,20 @@ app.post("/submitSportsGoals", async (req, res) => {
 
 app.post("/addGoal", async (req, res) => {
 
-    con.execute(`INSERT INTO goals (email, sport, position, goals) VALUES ('${req.body.email}', '${req.body.sport}', '${req.body.position}', '${req.body.goals}')`, function (err, result) {
+    con.execute(`INSERT INTO goals (email, sport, position, goals) VALUES ('${req.body.email}', '${req.body.sport}', '${req.body.position}', '${req.body.goals}')`, async function (err, result) {
         if (err) {
             return res.status(500).json({ message: "Error inputting goals."});
         } else {
-            return res.status(200).json({ message: "goals added successfully."});
+            try {
+                const output = await runRubyScript(req.body.goals, req.body.position);
+                console.log("Script output:", output);
+                return res.status(200).json({ message: output.trim() }); // Use trim() to remove new lines if necessary
+              } catch (error) {
+                console.error(`An error occurred while running the script: ${error}`);
+                return res.status(500).json({ message: "An error occurred while running the script." });
+              }
         }
-    });
-  
-    try {
-      const output = await runRubyScript(req.body.goals, req.body.position);
-      console.log("Script output:", output);
-      res.status(200).json({ message: output.trim() }); // Use trim() to remove new lines if necessary
-    } catch (error) {
-      console.error(`An error occurred while running the script: ${error}`);
-      res.status(500).json({ message: "An error occurred while running the script." });
-    }
+    });  
   });
   
 
