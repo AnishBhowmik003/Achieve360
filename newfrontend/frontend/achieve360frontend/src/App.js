@@ -10,6 +10,7 @@ import GoalInput from './goalInput'; // Import the GoalInput component
 import Progress from './Progress';
 import ProgressInput from './ProgressInput'; 
 import ChartSelection from "./ChartSelection";
+import DietPlan from "./DietPlan";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState("");
@@ -66,6 +67,8 @@ function App() {
           return <ProgressChart onNavigate={setCurrentForm} email={currentUser} type='diet' />;
         case 'progressInput':
           return <ProgressInput onBackToDashboard={handleBackToDashboard} email={currentUser} />;
+        case 'generateDietPlan':
+          return <DietPlan onBackToDashboard={handleBackToDashboard} email={currentUser}/>
 
         case 'logout':
           setIsLoggedIn(false);

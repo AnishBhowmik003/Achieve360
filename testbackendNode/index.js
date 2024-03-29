@@ -392,17 +392,26 @@ app.post("/fetchProgress", async(req, res) => {
 
 app.post('/createDiet', (req, res) => {
 
-    const { weightGoal, weight, height, age, sex, activityLevel } = req.body;
+    con.execute(`SELECT age, weight, height, gender FROM metrics WHERE email='${req.body.email}'`, function(err, results) {
+        if(err) {
+            console.error(err);
+            return res.status(500).json({message: "Error generating diet plan"})
+        }
+        else {
+            // console.log(results[0]);
+            const { spawn } = require('child_process');
+            const pyProg = spawn('python3', ['./dietPlan.py', req.body.weightGoal, results[0].weight, results[0].height, results[0].age, results[0].gender, req.body.activityLevel]);
 
-    const { spawn } = require('child_process');
-    const pyProg = spawn('python', ['./../dietPlan.py', weightGoal, weight, height, age, sex, activityLevel]);
+            pyProg.stdout.on('data', function(data) {
 
-    pyProg.stdout.on('data', function(data) {
-
-        console.log(data.toString());
-        res.write(data);
-        res.end('end');
+                console.log(data.toString());
+                return res.status(200).json({message: "success", res: data.toString()});
+            });
+        }
     });
+
+
+    
 })
 
 

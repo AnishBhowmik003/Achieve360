@@ -8,6 +8,7 @@ export const Dashboard = ({ onNavigate }) => {
       <button onClick={() => onNavigate('messageForm')}>Message Form</button>
       <button onClick={() => onNavigate('progress')}>Track/View Progress</button> {}
       <button onClick={() => onNavigate('goalInput')}>Add Goal</button>
+      <button onClick={() => onNavigate('generateDietPlan')}>Generate Diet Plan</button>
       <button onClick={async () => {
         
         onNavigate('logout');
