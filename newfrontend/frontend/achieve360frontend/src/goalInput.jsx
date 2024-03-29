@@ -6,6 +6,7 @@ const GoalInput = ({ onBackToDashboard, email }) => {
   const [timeGoal, setTimeGoal] = useState('');
   const [currentTime, setCurrentTime] = useState('');
   const [backendOutput, setBackendOutput] = useState('');
+  const [editableBackendOutput, setEditableBackendOutput] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
   const sportOptions = ['Football', 'Basketball', 'Tennis', 'Running'];
@@ -44,12 +45,13 @@ const GoalInput = ({ onBackToDashboard, email }) => {
           position: position,
           goals: timeGoal,
           currentTime: currentTime,
-          email: email
+          email: email,
         }),
       });
       const data = await response.json();
       if (response.ok) {
         setBackendOutput(data.message);
+        setEditableBackendOutput(data.message);
         setSubmitted(true);
       } else {
         console.error('Error inputting goals.');
@@ -60,8 +62,13 @@ const GoalInput = ({ onBackToDashboard, email }) => {
   };
 
   const resetForm = () => {
+    setSport('');
+    setPosition('');
+    setTimeGoal('');
+    setCurrentTime('');
     setSubmitted(false);
     setBackendOutput('');
+    setEditableBackendOutput('');
   };
 
   return (
@@ -69,15 +76,21 @@ const GoalInput = ({ onBackToDashboard, email }) => {
       {submitted ? (
         <div>
           <h1>Script Output:</h1>
-          <pre>{backendOutput}</pre>
-          <button onClick={onBackToDashboard} style={{ margin: '10px' }}>Back to Dashboard</button>
-          <button onClick={resetForm} style={{ margin: '10px' }}>Add New Goal</button>
+          <textarea
+            value={editableBackendOutput}
+            onChange={(e) => setEditableBackendOutput(e.target.value)}
+            style={{ width: '100%', height: '300px', marginBottom: '10px' }} // Adjust size as needed
+          />
+          <div>
+            <button onClick={onBackToDashboard} style={{ marginRight: '10px', marginBottom: '10px' }}>Back to Dashboard</button>
+            <button onClick={resetForm} style={{ marginBottom: '10px' }}>Add New Goal</button>
+          </div>
         </div>
       ) : (
         <form onSubmit={handleSubmit}>
           <label>
             Sport:
-            <select value={sport} onChange={(e) => setSport(e.target.value)}>
+            <select value={sport} onChange={(e) => setSport(e.target.value)} style={{ marginLeft: '5px' }}>
               <option value="">Select a sport</option>
               {sportOptions.map((option) => (
                 <option key={option} value={option}>{option}</option>
@@ -87,7 +100,7 @@ const GoalInput = ({ onBackToDashboard, email }) => {
           <br />
           <label>
             Position:
-            <select value={position} onChange={(e) => setPosition(e.target.value)}>
+            <select value={position} onChange={(e) => setPosition(e.target.value)} style={{ marginLeft: '5px' }}>
               <option value="">Select a position</option>
               {positionOptions.map((option) => (
                 <option key={option} value={option}>{option}</option>
@@ -104,6 +117,7 @@ const GoalInput = ({ onBackToDashboard, email }) => {
                   placeholder="MM:SS"
                   value={timeGoal}
                   onChange={(e) => validateAndSetTime(e.target.value, setTimeGoal)}
+                  style={{ marginLeft: '5px' }}
                 />
               </label>
               <br />
@@ -114,16 +128,18 @@ const GoalInput = ({ onBackToDashboard, email }) => {
                   placeholder="MM:SS"
                   value={currentTime}
                   onChange={(e) => validateAndSetTime(e.target.value, setCurrentTime)}
+                  style={{ marginLeft: '5px' }}
                 />
               </label>
               <br />
             </>
           )}
-          <button type="submit">Submit</button>
+          <button type="submit" style={{ marginTop: '10px' }}>Submit</button>
         </form>
       )}
     </div>
   );
+  
 };
 
 export default GoalInput;
