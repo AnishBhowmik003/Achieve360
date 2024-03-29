@@ -455,7 +455,7 @@ module KeyRun
     ]
     
     def KeyRun.get_entry(kr_table, time)
-      raise "invalid time: #{time}" unless time >= 960 && time <= 2400000000000000
+      raise "invalid time: #{time}" unless time >= 960 && time <= 24000000
       kr_table.select{ |e| e[0] <= time }.last
       # FIXME error case
     end
