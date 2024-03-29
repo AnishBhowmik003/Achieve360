@@ -278,36 +278,6 @@ app.post("/upload", upload.single('file'), async (req, res) => {
     });
 });
 
-
-
-//this is never called rn
-app.post("/submitSportsGoals", async (req, res) => {
-    // select the users metrics from database
-    // match to player
-    
-    // con.execute(`SELECT heightZscore, weightZscore FROM metrics WHERE email=${req.body.email}`, function (err, result) {
-    //     if (err) {
-    //         return res.status(500).json({ message: "No metrics inputted."});
-    //     } else {
-    //         console.log(result);
-    //     }
-    // });
-
-
-    con.execute(`INSERT INTO goals (email, sport, position, goals) VALUES ('${req.body.email}', '${req.body.sport}', '${req.body.position}', '${req.body.goals}')`, function (err, result) {
-        if (err) {
-            return res.status(500).json({ message: "Error inputting goals."});
-        } else {
-            return res.status(200).json({ message: "goals added successfully."});
-        }
-    });
-    
-});
-
-
-
-
-
 app.post("/addGoal", async (req, res) => {
     con.execute(`INSERT INTO goals (email, sport, position, goals) VALUES ('${req.body.email}', '${req.body.sport}', '${req.body.position}', '${req.body.goals}')`, async function (err, result) {
         if (err) {
@@ -408,10 +378,30 @@ app.post('/createDiet', (req, res) => {
                 return res.status(200).json({message: "success", res: data.toString()});
             });
         }
+    }); 
+});
+
+app.post("/getSimilarPlayers", (req, res) => {
+    con.execute(`SELECT heightZscore, weightZscore FROM metrics WHERE email='${req.body.email}'`, function(err, results) {
+        if(err) {
+            return res.status(300).json({message: 'Input your metrics'});
+        }
+        else {
+            // console.log(results[0]);
+            const userHeight = results[0].heightZscore;
+            const userWeight = results[0].weightZscore;
+            con.execute(`SELECT name, position, height, weight, 40_yard, bench, vert, broad, shuttle, 3cone from nfl NATURAL JOIN (SELECT nfl.id, ABS(${userHeight} - heightZscore.zScore) + ABS(${userWeight} - weightZscore.zScore) as val FROM weightZscore join nfl on nfl.id = weightZscore.id join heightZscore on nfl.id = heightZscore.id ORDER BY val LIMIT 10) as t;`, function(err, results) {
+                if(err) {
+                    console.error(err);
+                    return res.status(500).json({message: "error"});
+                }
+                else {
+                    // console.log(results);
+                    return res.status(200).json({message: "success", res: results});
+                }
+            });
+        }
     });
-
-
-    
-})
+});
 
 
