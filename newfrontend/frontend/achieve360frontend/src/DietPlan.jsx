@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 const DietPlan = ({ onBackToDashboard, email }) => {
   const [activityLevel, setActivityLevel] = useState('lightly active');
   const [weightGoal, setWeightGoal] = useState('gain');
+  const [editableBackendOutput, setEditableBackendOutput] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = {
@@ -22,17 +25,40 @@ const DietPlan = ({ onBackToDashboard, email }) => {
       const data = await response.json();
       if (response.ok) {
         console.log('Success:', data);
+        setEditableBackendOutput(data.res);
+        setSubmitted(true);
       } else {
         console.error('Error generating diet plan.');
       }
     } catch (error) {
       console.error('Error:', error);
     }
-    onBackToDashboard();
+  };
+
+  const resetForm = () => {
+    setActivityLevel('lightly active');
+    setWeightGoal('gain');
+    setSubmitted(false);
+    setEditableBackendOutput('');
   };
 
   return (
     <div>
+    { submitted ? (
+        <div>
+        <h1>Script Output:</h1>
+        <textarea
+          value={editableBackendOutput}
+          onChange={(e) => setEditableBackendOutput(e.target.value)}
+          style={{ width: '100%', height: '300px', marginBottom: '10px' }} // Adjust size as needed
+        />
+        <div>
+          <button onClick={onBackToDashboard} style={{ marginRight: '10px', marginBottom: '10px' }}>Back to Dashboard</button>
+          <button onClick={resetForm} style={{ marginBottom: '10px' }}>Add New Plan</button>
+        </div>
+      </div>
+    ) : (
+        <div>
       <h2>Generate Diet Plan</h2>
       <form onSubmit={handleSubmit}>
         <label>
@@ -56,6 +82,8 @@ const DietPlan = ({ onBackToDashboard, email }) => {
         <button type="submit">Submit</button>
       </form>
       <button onClick={onBackToDashboard} style={{ marginTop: '10px' }}>Back to Dashboard</button>
+      </div>
+      )}
     </div>
   );
 };
