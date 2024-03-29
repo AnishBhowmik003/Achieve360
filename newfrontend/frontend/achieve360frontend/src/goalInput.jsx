@@ -79,7 +79,7 @@ const GoalInput = ({ onBackToDashboard, email }) => {
           <textarea
             value={editableBackendOutput}
             onChange={(e) => setEditableBackendOutput(e.target.value)}
-            style={{ width: '100%', height: '300px', marginBottom: '10px' }} // Adjust size as needed
+            style={{ width: '100%', height: '750px', marginBottom: '10px' }} // Adjust size as needed
           />
           <div>
             <button onClick={onBackToDashboard} style={{ marginRight: '10px', marginBottom: '10px' }}>Back to Dashboard</button>
