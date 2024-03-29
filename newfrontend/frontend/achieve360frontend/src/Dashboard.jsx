@@ -5,10 +5,10 @@ export const Dashboard = ({ onNavigate }) => {
     <div className="dashboard-container">
       <h1>User Dashboard</h1>
       <button onClick={() => onNavigate('inputMetrics')}>Input Metrics</button>
-      <button onClick={() => onNavigate('viewPlans')}>View Current Plans</button>
       <button onClick={() => onNavigate('messageForm')}>Message Form</button>
       <button onClick={() => onNavigate('progress')}>Track/View Progress</button> {}
       <button onClick={() => onNavigate('goalInput')}>Add Goal</button>
+      <button onClick={() => onNavigate('generateDietPlan')}>Generate Diet Plan</button>
       <button onClick={async () => {
         
         onNavigate('logout');

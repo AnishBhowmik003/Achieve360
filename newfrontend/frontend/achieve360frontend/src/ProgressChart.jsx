@@ -18,10 +18,16 @@ export const ProgressChart = ({ onNavigate, email, type }) => {
         res.data.res.sort((a, b) => {
           return a.days - b.days;
         });
+        console.log(res.data.res);
         for (var i = 0; i < res.data.res.length; i++) {
           x.push(parseInt(res.data.res[i].days));
-          const temp = res.data.res[i].time.split(':');
-          y.push(parseInt(parseInt(temp[0] * 60 * 60) + parseInt(temp[1] * 60) + parseInt(temp[2])));
+          if(type == 'workout') {
+            const temp = res.data.res[i].time.split(':');
+            y.push(parseInt(parseInt(temp[0] * 60 * 60) + parseInt(temp[1] * 60) + parseInt(temp[2])));
+          }
+          else {
+            y.push(parseInt(res.data.res[i].calories));
+          }
         }
         setChartData({
           labels: x,

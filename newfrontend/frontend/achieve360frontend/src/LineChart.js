@@ -10,8 +10,10 @@ function LineChart({ chartData, type }) {
           scales: {
             y: {
               ticks: {
-                callback: function(value, index, ticks) {
+                callback: type == 'workout' ? function(value, index, ticks) {
                   return String(Math.floor(value / 3600)).padStart(2, '0') + ':' + String(Math.floor((value % 3600) / 60)).padStart(2, '0') + ':' + String(value % 60).padStart(2, '0');
+                } : function(value, index, ticks) {
+                  return value;
                 }
               }
             }

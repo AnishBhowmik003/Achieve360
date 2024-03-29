@@ -358,7 +358,14 @@ function runRubyScript(timeGoal, position) {
 
 
 app.post("/addProgress", async (req, res) => {
-    con.execute(`INSERT INTO progress (email, days, time, type) VALUES ('${req.body.email}', '${req.body.days}', '${req.body.time}', '${req.body.type}')`, function (err, result) {
+    var str;
+    if(req.body.type == 'workout') {
+        str = `INSERT INTO progress (email, days, time, type) VALUES ('${req.body.email}', '${req.body.days}', '${req.body.value}', '${req.body.type}')`
+    }
+    else {
+        str = `INSERT INTO progress (email, days, calories, type) VALUES ('${req.body.email}', '${req.body.days}', '${req.body.value}', '${req.body.type}')`
+    }
+    con.execute(str, function (err, result) {
         if (err) {
             return res.status(500).json({ message: "Error inputting progress."});
         } else {
@@ -368,7 +375,8 @@ app.post("/addProgress", async (req, res) => {
 });
 
 app.post("/fetchProgress", async(req, res) => {
-    con.execute(`SELECT days, time FROM progress WHERE email='${req.body.email}' AND type='${req.body.type}'`, function(err, results) {
+    const str = req.body.type == 'workout' ? 'time' : 'calories';
+    con.execute(`SELECT days, ${str} FROM progress WHERE email='${req.body.email}' AND type='${req.body.type}'`, function(err, results) {
         if(err) {
             console.error(err);
             return res.status(500).json({message: "Error fetching progress"})
@@ -380,21 +388,30 @@ app.post("/fetchProgress", async(req, res) => {
     });
 });
 
-const express = require('express')
+// const express = require('express')
 
-app.get('/createDiet', (req, res) => {
+app.post('/createDiet', (req, res) => {
 
-    const { weightGoal, weight, height, age, sex, activityLevel } = req.body;
+    con.execute(`SELECT age, weight, height, gender FROM metrics WHERE email='${req.body.email}'`, function(err, results) {
+        if(err) {
+            console.error(err);
+            return res.status(500).json({message: "Error generating diet plan"})
+        }
+        else {
+            // console.log(results[0]);
+            const { spawn } = require('child_process');
+            const pyProg = spawn('python3', ['./dietPlan.py', req.body.weightGoal, results[0].weight, results[0].height, results[0].age, results[0].gender, req.body.activityLevel]);
 
-    const { spawn } = require('child_process');
-    const pyProg = spawn('python', ['./../dietPlan.py', weightGoal, weight, height, age, sex, activityLevel]);
+            pyProg.stdout.on('data', function(data) {
 
-    pyProg.stdout.on('data', function(data) {
-
-        console.log(data.toString());
-        res.write(data);
-        res.end('end');
+                console.log(data.toString());
+                return res.status(200).json({message: "success", res: data.toString()});
+            });
+        }
     });
+
+
+    
 })
 
 
