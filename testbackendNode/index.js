@@ -379,3 +379,25 @@ app.post("/fetchProgress", async(req, res) => {
         }
     });
 });
+
+app.post("/createDiet", async (req, res) => {
+    const { weightGoal, weight, height, age, sex, activityLevel } = req.body;
+    //send weight in pounds, height in inches
+
+    // Execute the Python script with the provided arguments
+    const command = `python dietPlan.py ${weightGoal} ${weight} ${height} ${age} ${sex} ${activityLevel}`;
+
+    exec(command, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`Error executing dietPlan.py: ${error}`);
+            return res.status(500).json({ message: "Internal server error." });
+        }
+        if (stderr) {
+            console.error(`dietPlan.py stderr: ${stderr}`);
+        }
+        
+        // Process the output from the script if needed
+        console.log(`dietPlan.py stdout: ${stdout}`);
+        return res.status(200).json({ message: "Diet plan generated successfully.", data: stdout });
+    });
+});
