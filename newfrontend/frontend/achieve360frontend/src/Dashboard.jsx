@@ -10,6 +10,7 @@ export const Dashboard = ({ onNavigate }) => {
       <button onClick={() => onNavigate('goalInput')}>Add Goal</button>
       <button onClick={() => onNavigate('generateDietPlan')}>Generate Diet Plan</button>
       <button onClick={() => onNavigate('SelectProPlayers')}>Match to pro athlete</button>
+      <button onClick={() => onNavigate('videos')}>Learn about exercises</button>
       <button onClick={async () => {
         
         onNavigate('logout');

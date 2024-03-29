@@ -387,7 +387,7 @@ app.post("/getSimilarPlayers", (req, res) => {
             return res.status(300).json({message: 'Input your metrics'});
         }
         else {
-            console.log(results[0]);
+            // console.log(results[0]);
             const userHeight = results[0].heightZscore;
             const userWeight = results[0].weightZscore;
             con.execute(`SELECT name, position, height, weight, 40_yard, bench, vert, broad, shuttle, 3cone from nfl NATURAL JOIN (SELECT nfl.id, ABS(${userHeight} - heightZscore.zScore) + ABS(${userWeight} - weightZscore.zScore) as val FROM weightZscore join nfl on nfl.id = weightZscore.id join heightZscore on nfl.id = heightZscore.id ORDER BY val LIMIT 10) as t;`, function(err, results) {
