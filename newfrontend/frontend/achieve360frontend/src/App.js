@@ -11,6 +11,7 @@ import Progress from './Progress';
 import ProgressInput from './ProgressInput'; 
 import ChartSelection from "./ChartSelection";
 import DietPlan from "./DietPlan";
+import ProPlayers from "./ProPlayers";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState("");
@@ -69,6 +70,8 @@ function App() {
           return <ProgressInput onBackToDashboard={handleBackToDashboard} email={currentUser} />;
         case 'generateDietPlan':
           return <DietPlan onBackToDashboard={handleBackToDashboard} email={currentUser}/>
+        case 'SelectProPlayers':
+          return <ProPlayers onBackToDashboard={handleBackToDashboard} email={currentUser}/>
 
         case 'logout':
           setIsLoggedIn(false);

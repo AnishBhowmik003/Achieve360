@@ -72,7 +72,7 @@ export const MetricsInputForm = ({ onBackToDashboard, email }) => {
           max="100"
         />
 
-<label htmlFor="weight">Weight (kg)</label>
+<label htmlFor="weight">Weight (lb)</label>
 <input
   type="number"
   value={weight}
@@ -83,7 +83,7 @@ export const MetricsInputForm = ({ onBackToDashboard, email }) => {
   step="any"
 />
 
-<label htmlFor="height">Height (cm)</label>
+<label htmlFor="height">Height (in)</label>
 <input
   type="number"
   value={height}

@@ -135,6 +135,7 @@ const GoalInput = ({ onBackToDashboard, email }) => {
             </>
           )}
           <button type="submit" style={{ marginTop: '10px' }}>Submit</button>
+          <button onClick={onBackToDashboard} style={{ marginRight: '10px', marginBottom: '10px' }}>Back to Dashboard</button>
         </form>
       )}
     </div>
