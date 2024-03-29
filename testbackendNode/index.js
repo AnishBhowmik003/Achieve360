@@ -358,7 +358,14 @@ function runRubyScript(timeGoal, position) {
 
 
 app.post("/addProgress", async (req, res) => {
-    con.execute(`INSERT INTO progress (email, days, time, type) VALUES ('${req.body.email}', '${req.body.days}', '${req.body.time}', '${req.body.type}')`, function (err, result) {
+    var str;
+    if(req.body.type == 'workout') {
+        str = `INSERT INTO progress (email, days, time, type) VALUES ('${req.body.email}', '${req.body.days}', '${req.body.value}', '${req.body.type}')`
+    }
+    else {
+        str = `INSERT INTO progress (email, days, calories, type) VALUES ('${req.body.email}', '${req.body.days}', '${req.body.value}', '${req.body.type}')`
+    }
+    con.execute(str, function (err, result) {
         if (err) {
             return res.status(500).json({ message: "Error inputting progress."});
         } else {
@@ -368,7 +375,8 @@ app.post("/addProgress", async (req, res) => {
 });
 
 app.post("/fetchProgress", async(req, res) => {
-    con.execute(`SELECT days, time FROM progress WHERE email='${req.body.email}' AND type='${req.body.type}'`, function(err, results) {
+    const str = req.body.type == 'workout' ? 'time' : 'calories';
+    con.execute(`SELECT days, ${str} FROM progress WHERE email='${req.body.email}' AND type='${req.body.type}'`, function(err, results) {
         if(err) {
             console.error(err);
             return res.status(500).json({message: "Error fetching progress"})
@@ -380,9 +388,9 @@ app.post("/fetchProgress", async(req, res) => {
     });
 });
 
-const express = require('express')
+// const express = require('express')
 
-app.get('/createDiet', (req, res) => {
+app.post('/createDiet', (req, res) => {
 
     const { weightGoal, weight, height, age, sex, activityLevel } = req.body;
 
