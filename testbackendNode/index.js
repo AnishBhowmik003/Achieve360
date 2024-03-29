@@ -285,17 +285,16 @@ app.post("/submitSportsGoals", async (req, res) => {
     // select the users metrics from database
     // match to player
     
-    con.execute(`SELECT heightZscore, weightZscore FROM metrics WHERE email=${req.body.email}`, function (err, result) {
-        if (err) {
-            return res.status(500).json({ message: "No metrics inputted."});
-        } else {
-            console.log(result);
-        }
-    });
+    // con.execute(`SELECT heightZscore, weightZscore FROM metrics WHERE email=${req.body.email}`, function (err, result) {
+    //     if (err) {
+    //         return res.status(500).json({ message: "No metrics inputted."});
+    //     } else {
+    //         console.log(result);
+    //     }
+    // });
 
 
-
-    con.execute(`INSERT INTO goals (email, sport, position, goal) VALUES ('${req.body.email}', '${req.body.sport}', '${req.body.position}', '${req.body.goals}')`, function (err, result) {
+    con.execute(`INSERT INTO goals (email, sport, position, goals) VALUES ('${req.body.email}', '${req.body.sport}', '${req.body.position}', '${req.body.goals}')`, function (err, result) {
         if (err) {
             return res.status(500).json({ message: "Error inputting goals."});
         } else {
@@ -310,10 +309,12 @@ app.post("/submitSportsGoals", async (req, res) => {
 
 
 app.post("/addGoal", async (req, res) => {
-    const { sport, position, timeGoal, currentTime } = req.body;
+    // const { sport, position, timeGoal, currentTime, email } = req.body;
   
     try {
-      const output = await runRubyScript(timeGoal, position);
+    //   console.log(timeGoal);
+    //   console.log(position);
+      const output = await runRubyScript(req.body.goals, req.body.position);
       console.log("Script output:", output);
       res.status(200).json({ message: output.trim() }); // Use trim() to remove new lines if necessary
     } catch (error) {
@@ -336,7 +337,7 @@ function runRubyScript(timeGoal, position) {
     const safePosition = escapeShellArg(position);
     
     const command = `./plan.rb --time ${safeTimeGoal} --program ${safePosition}`;
-
+    console.log(command);
     return new Promise((resolve, reject) => {
         exec(command, (error, stdout, stderr) => {
             if (error) {

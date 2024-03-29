@@ -55,7 +55,7 @@ function App() {
         case 'graph':
           return <ProgressChart />;
         case 'goalInput':
-          return <GoalInput onBackToDashboard={handleBackToDashboard} />;
+          return <GoalInput onBackToDashboard={handleBackToDashboard} email={currentUser}/>;
         case 'progress':
           return <Progress onNavigate={setCurrentForm} />;
           case 'progressChart':
