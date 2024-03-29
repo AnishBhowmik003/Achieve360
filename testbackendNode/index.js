@@ -201,7 +201,7 @@ var transporter = nodemailer.createTransport({
     }
 });
 app.post("/sendMessage", async (req, res) => {
-    console.log(req.body.sender);
+    // console.log(req.body.sender);
     if(req.body.fileName) {
         s3Params.Key = req.body.fileName;
     }
@@ -229,7 +229,7 @@ app.post("/sendMessage", async (req, res) => {
 
             transporter.sendMail(mailOptions, function(error, info){
                 if (error) {
-                console.log(error);
+                console.error(error);
                 } else {
                 console.log('Email sent: ' + info.response);
                 }
@@ -245,7 +245,7 @@ app.post("/sendMessage", async (req, res) => {
         };
         transporter.sendMail(mailOptions, function(error, info){
             if (error) {
-            console.log(error);
+            console.error(error);
             } else {
             console.log('Email sent: ' + info.response);
             }
@@ -309,14 +309,13 @@ app.post("/submitSportsGoals", async (req, res) => {
 
 
 app.post("/addGoal", async (req, res) => {
-
     con.execute(`INSERT INTO goals (email, sport, position, goals) VALUES ('${req.body.email}', '${req.body.sport}', '${req.body.position}', '${req.body.goals}')`, async function (err, result) {
         if (err) {
             return res.status(500).json({ message: "Error inputting goals."});
         } else {
             try {
                 const output = await runRubyScript(req.body.goals, req.body.position);
-                console.log("Script output:", output);
+                // console.log("Script output:", output);
                 return res.status(200).json({ message: output.trim() }); // Use trim() to remove new lines if necessary
               } catch (error) {
                 console.error(`An error occurred while running the script: ${error}`);
@@ -340,14 +339,14 @@ function runRubyScript(timeGoal, position) {
     const safePosition = escapeShellArg(position);
     
     const command = `./plan.rb --time ${safeTimeGoal} --program ${safePosition}`;
-    console.log(command);
+    // console.log(command);
     return new Promise((resolve, reject) => {
         exec(command, (error, stdout, stderr) => {
             if (error) {
                 console.error(`exec error: ${error}`);
                 reject(error);
             }
-            console.log(`stdout: ${stdout}`);
+            // console.log(`stdout: ${stdout}`);
             if(stderr) {
                 console.error(`stderr: ${stderr}`);
             }
@@ -359,7 +358,7 @@ function runRubyScript(timeGoal, position) {
 
 
 app.post("/addProgress", async (req, res) => {
-    con.execute(`INSERT INTO progress (email, days, time) VALUES ('${req.body.email}', '${req.body.days}', '${req.body.time}')`, function (err, result) {
+    con.execute(`INSERT INTO progress (email, days, time, type) VALUES ('${req.body.email}', '${req.body.days}', '${req.body.time}', '${req.body.type}')`, function (err, result) {
         if (err) {
             return res.status(500).json({ message: "Error inputting progress."});
         } else {
@@ -369,13 +368,13 @@ app.post("/addProgress", async (req, res) => {
 });
 
 app.post("/fetchProgress", async(req, res) => {
-    con.execute(`SELECT days, time FROM progress WHERE email='${req.body.email}'`, function(err, results) {
+    con.execute(`SELECT days, time FROM progress WHERE email='${req.body.email}' AND type='${req.body.type}'`, function(err, results) {
         if(err) {
-            console.log(err);
+            console.error(err);
             return res.status(500).json({message: "Error fetching progress"})
         }
         else {
-            console.log(results);
+            // console.log(results);
             return res.status(200).json({message: "success", res: results});
         }
     });

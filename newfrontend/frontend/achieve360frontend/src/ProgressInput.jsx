@@ -16,7 +16,8 @@ const ProgressInput = ({ onBackToDashboard, email }) => {
               body: JSON.stringify({
                 email: email,
                 days: days,
-                time: time
+                time: time,
+                type: 'workout'
               }),
             });
             const data = await response.json();

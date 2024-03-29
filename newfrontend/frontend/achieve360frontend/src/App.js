@@ -9,6 +9,7 @@ import { ProgressChart } from './ProgressChart';
 import GoalInput from './goalInput'; // Import the GoalInput component
 import Progress from './Progress';
 import ProgressInput from './ProgressInput'; 
+import ChartSelection from "./ChartSelection";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState("");
@@ -47,7 +48,6 @@ function App() {
         case 'dashboard':
           return <Dashboard userMetrics={userMetrics} onNavigate={setCurrentForm} />;
         case 'inputMetrics':
-          console.log(currentUser);
           return <MetricsInputForm onSubmit={handleMetricsSubmission} onBackToDashboard={handleBackToDashboard} email={currentUser}/>;
 
         case 'messageForm': // New case for rendering the MessageForm
@@ -58,9 +58,12 @@ function App() {
           return <GoalInput onBackToDashboard={handleBackToDashboard} email={currentUser}/>;
         case 'progress':
           return <Progress onNavigate={setCurrentForm} />;
-          case 'progressChart':
-            return <ProgressChart onNavigate={setCurrentForm} email={currentUser} />;
-          
+        case 'progressChart':
+          return <ChartSelection onNavigate={setCurrentForm}/>
+        case 'Workout Graph':
+          return <ProgressChart onNavigate={setCurrentForm} email={currentUser} type='workout' />;
+        case 'Diet Graph':
+          return <ProgressChart onNavigate={setCurrentForm} email={currentUser} type='diet' />;
         case 'progressInput':
           return <ProgressInput onBackToDashboard={handleBackToDashboard} email={currentUser} />;
 
