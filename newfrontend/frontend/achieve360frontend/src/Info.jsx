@@ -10,7 +10,7 @@ const Info = ({ onNavigate, type }) => {
     if(type == 'squatting') info = squat;
     return (
         <div>
-        <a href={info[0]}>View a video about {type} form</a>
+        <a href={info[0]} target="_blank">View a video about {type} form</a>
         <p>
             {info[1]}
         </p>
