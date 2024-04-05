@@ -147,3 +147,88 @@ def main():
                 print(f"  - {food}")
     else:
         print(diet_plan)
+
+
+def get_bmi_category(bmi):
+    if bmi < 18.5:
+        return "Underweight"
+    elif 18.5 <= bmi < 25:
+        return "Normal Weight"
+    elif 25 <= bmi < 30:
+        return "Overweight"
+    else:
+        return "Obese"
+
+def customize_exercises(exercise_options):
+    print("Select exercises for your plan (comma-separated indices):")
+    for i, exercise in enumerate(exercise_options, 1):
+        print(f"{i}. {exercise}")
+    selected_indices = input("Enter exercise indices: ").strip().split(',')
+    selected_exercises = [exercise_options[int(idx) - 1] for idx in selected_indices if idx.isdigit()]
+    return selected_exercises
+
+def main():
+    print("Welcome to the Fitness Planner!")
+    print("Please provide your details.")
+    
+    weight = float(input("Weight (kg): "))
+    height = float(input("Height (cm): "))
+    age = int(input("Age: "))
+    sex = input("Sex (male/female/other): ").lower()
+    activity_level = input("Activity Level (none/lightly active/moderately active/very active/extra active): ").lower()
+    
+    # Calculate BMR and calorie goals
+    bmr = calculateMetabolicRate(weight, height, age, sex)
+    maintenance_calories = calculateMaintenanceCalories(bmr, activity_level)
+    weight_loss_calories = calculateWeightLossCalories(bmr, activity_level)
+    weight_gain_calories = calculateWeightGainCalories(bmr, activity_level)
+    
+    # Display fitness information
+    print("\nYour Fitness Information:")
+    print(f"- Basal Metabolic Rate (BMR): {bmr:.2f} calories/day")
+    print(f"- Maintenance Calories: {maintenance_calories:.2f} calories/day")
+    print(f"- Calories for Weight Loss: {weight_loss_calories:.2f} calories/day")
+    print(f"- Calories for Weight Gain: {weight_gain_calories:.2f} calories/day")
+    
+    # Determine workout type and generate workout plan
+    workout_type = input("\nChoose workout type (workout/weightlifting): ").lower()
+    if workout_type == "workout":
+        intensity, duration, exercise_options = generateWorkoutPlan(weight, height, age, sex)
+    elif workout_type == "weightlifting":
+        intensity, duration, exercise_options = generateWeightliftingPlan(weight, height, age, sex)
+    else:
+        print("Invalid workout type.")
+        return
+    
+    # Customize workout plan
+    print("\nYour Workout Plan:")
+    print(f"- Workout Intensity: {intensity}")
+    print(f"- Workout Duration: {duration}")
+    customize_workout = input("Do you want to customize your exercises? (yes/no): ").lower()
+    if customize_workout == "yes":
+        exercises = customize_exercises(exercise_options)
+    else:
+        exercises = exercise_options
+    
+    for exercise in exercises:
+        print(f"  - {exercise}")
+    
+    # Determine weight goal and generate diet plan
+    goal = input("\nDo you want to gain or lose weight? ").lower()
+    diet_plan = generateDietPlan(goal, weight, height, age, sex)
+    if isinstance(diet_plan, dict):
+        print("\nYour Diet Plan:")
+        for category, foods in diet_plan.items():
+            print(f"\n{category}:")
+            for food in foods:
+                print(f"  - {food}")
+    else:
+        print(diet_plan)
+
+    # Display BMI category
+    bmi = weight / ((height / 100) ** 2)
+    bmi_category = get_bmi_category(bmi)
+    print(f"\nYour BMI: {bmi:.2f} ({bmi_category})")
+
+if __name__ == "__main__":
+    main()
