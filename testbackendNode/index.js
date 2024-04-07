@@ -404,4 +404,15 @@ app.post("/getSimilarPlayers", (req, res) => {
     });
 });
 
+app.post("/connect", (req, res) => {
+    con.execute(`INSERT INTO connections (user_email, coach_email) VALUES (${req.body.user}, ${req.body.coach})`, function(err, results) {
+        if(err) {
+            return res.status(500).json({message: 'Error'});
+        }
+        else {
+            return res.status(200).json({message: 'Success'});
+        }
+    });
+});
+
 
