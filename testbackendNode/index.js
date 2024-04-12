@@ -66,11 +66,12 @@ app.listen(port, () => {
 
 app.post("/signup", async (req, res) => {
     if(is_password_valid(req.body.pass)) {
+        if(!req.body.sport) req.body.sport = 'NULL';
         con.execute(`SELECT * FROM user WHERE email = '${req.body.email}';`, function (err, result) {
             if (err) throw err;
             if(result.length == 0) {
                 hashed_password = hash(req.body.pass);
-                con.execute(`INSERT INTO user (username, password, email, type) VALUES ('${req.body.name}', '${hashed_password}', '${req.body.email}', '${req.body.role}')`, function (err, result) {
+                con.execute(`INSERT INTO user (username, password, email, type, sport) VALUES ('${req.body.name}', '${hashed_password}', '${req.body.email}', '${req.body.role}', '${req.body.sport}')`, function (err, result) {
                     if (err) throw err;
                     return res.status(200).json({ message: "User added successfuly."});
                 });
@@ -405,12 +406,24 @@ app.post("/getSimilarPlayers", (req, res) => {
 });
 
 app.post("/connect", (req, res) => {
-    con.execute(`INSERT INTO connections (user_email, coach_email) VALUES (${req.body.user}, ${req.body.coach})`, function(err, results) {
+    con.execute(`INSERT INTO connections (user_email, coach_email) VALUES ('${req.body.user}', '${req.body.coach}')`, function(err, results) {
+        if(err) {
+            console.log(err);
+            return res.status(500).json({message: err});
+        }
+        else {
+            return res.status(200).json({message: 'Successfully connected to coach'});
+        }
+    });
+});
+
+app.post("/findCoaches", (req, res) => {
+    con.execute(`SELECT username, email FROM user WHERE sport = '${req.body.sport}'`, function(err, results) {
         if(err) {
             return res.status(500).json({message: 'Error'});
         }
         else {
-            return res.status(200).json({message: 'Success'});
+            return res.status(200).json({message: 'Success', res: results});
         }
     });
 });

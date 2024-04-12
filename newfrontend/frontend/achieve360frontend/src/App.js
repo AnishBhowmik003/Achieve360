@@ -14,6 +14,7 @@ import DietPlan from "./DietPlan";
 import ProPlayers from "./ProPlayers";
 import Videos from "./Videos";
 import Info from "./Info";
+import Coaches from "./coaches";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState("");
@@ -82,6 +83,8 @@ function App() {
           return <Info onNavigate={setCurrentForm} type='bench press'/>;
         case 'squatInfo':
           return <Info onNavigate={setCurrentForm} type='squatting'/>;
+        case 'coaches':
+          return <Coaches onBackToDashboard={handleBackToDashboard} user={currentUser} />;
 
         case 'logout':
           setIsLoggedIn(false);
