@@ -4,19 +4,24 @@ export const Register = (props) => {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [name, setName] = useState('');
-    const [role, setRole] = useState('student'); 
+    const [role, setRole] = useState('student');
+    const [sport, setSport] = useState(''); // New state for selecting sport
 
     const handleSubmit = async (e) => {
         e.preventDefault();
     
-        const postData = {
+        let postData = {
             email: email,
             pass: pass,
             name: name,
-            role: role 
+            role: role
         };
+
+        if (role === 'coach') {
+            postData.sport = sport;
+        }
     
-        console.log(JSON.stringify(postData)); // This will now include the role
+        console.log(JSON.stringify(postData)); 
 
         try {
             const response = await fetch('http://localhost:6969/signup', {
@@ -54,7 +59,7 @@ export const Register = (props) => {
                     id="name" 
                     name="name"
                 />
-                <label htmlFor="email">email</label>
+                <label htmlFor="email">Email</label>
                 <input 
                     value={email} 
                     onChange={(e) => setEmail(e.target.value)} 
@@ -63,7 +68,7 @@ export const Register = (props) => {
                     id="email" 
                     name="email"
                 />
-                <label htmlFor="password">password</label>
+                <label htmlFor="password">Password</label>
                 <input 
                     value={pass} 
                     onChange={(e) => setPass(e.target.value)} 
@@ -82,6 +87,23 @@ export const Register = (props) => {
                     <option value="student">Student</option>
                     <option value="coach">Coach</option>
                 </select>
+                {role === 'coach' && ( 
+                    <>
+                        <label htmlFor="sport">Sport</label>
+                        <select
+                            value={sport}
+                            onChange={(e) => setSport(e.target.value)}
+                            id="sport"
+                            name="sport"
+                        >
+                            <option value="">Select a sport</option>
+                            <option value="running">Running</option>
+                            <option value="basketball">Basketball</option>
+                            <option value="baseball">Baseball</option>
+                            <option value="football">Football</option>
+                        </select>
+                    </>
+                )}
                 <button type="submit">Register</button>
             </form>
             <button className="link-btn" onClick={() => props.onFormSwitch('login')}>
