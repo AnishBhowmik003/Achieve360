@@ -3,10 +3,8 @@ import React, { useState, useEffect } from 'react';
 const Coaches = ({ onBackToDashboard, user }) => {
   const [sport, setSport] = useState('');
   const [submitted, setSubmitted] = useState(false);
-  const [output, setOutput] = useState('');
   const [arr, setArr] = useState([]);
   const[emails, setEmails] = useState([]);
-  const[id, setId] = useState(0);
   const[coach, setCoach] = useState('');
   const sportOptions = ['Football', 'Basketball', 'Baseball', 'Running'];
   useEffect(() => {
@@ -26,21 +24,9 @@ const Coaches = ({ onBackToDashboard, user }) => {
       });
       const data = await response.json();
       if (response.ok) {
-        // var str = "";
-        // for(var i = 0; i < data.res.length; i++) {
-        //     str += JSON.stringify(data.res[i]) + "\n";
-        // }
-        // setOutput(str);
-        console.log(data.res[0]);
-        var str = "";
-        for(var i = 0; i < data.res.length; i++) {
-            // str += i+1 + ": " + data.res[i].username + "\t" + data.res[i].email + "\n";
-            // setArr([...arr, {key: i, name: data.res[i].username, email: data.res[i].email}]);
-            setArr([...arr, data.res[i].username]);
-            setEmails([...emails, data.res[i].email]);
-        }
-        // setOutput(str);
-        // setArr(str.split('\n'));
+        console.log(data.res.map(a => a.username));
+        setArr(data.res.map(a => a.username));
+        setEmails(data.res.map(a => a.email));
         setSubmitted(true);
       } else {
         console.error('Error finding coach.');
@@ -53,7 +39,6 @@ const Coaches = ({ onBackToDashboard, user }) => {
   const resetForm = () => {
     setSport('');
     setSubmitted(false);
-    setOutput('');
   };
 
   const selectUser = async (e) => {
