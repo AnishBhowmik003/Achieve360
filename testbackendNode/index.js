@@ -206,7 +206,6 @@ var transporter = nodemailer.createTransport({
     }
 });
 app.post("/sendMessage", async (req, res) => {
-    // console.log(req.body.sender);
     if(req.body.fileName) {
         s3Params.Key = req.body.fileName;
     }
@@ -260,9 +259,6 @@ app.post("/sendMessage", async (req, res) => {
 
 
 app.post("/upload", upload.single('file'), async (req, res) => {
-    // if (!req.files || Object.keys(req.files).length === 0) {
-    //     return res.status(400).json({message: "No files were uploaded." });
-    // }
     if (req.file == null) {
         return res.status(400).json({message: "No files were uploaded." });
     }
@@ -290,7 +286,6 @@ app.post("/addGoal", async (req, res) => {
         } else {
             try {
                 const output = await runRubyScript(req.body.goals, req.body.position);
-                // console.log("Script output:", output);
                 return res.status(200).json({ message: output.trim() }); // Use trim() to remove new lines if necessary
               } catch (error) {
                 console.error(`An error occurred while running the script: ${error}`);
@@ -314,14 +309,12 @@ function runRubyScript(timeGoal, position) {
     const safePosition = escapeShellArg(position);
     
     const command = `./plan.rb --time ${safeTimeGoal} --program ${safePosition}`;
-    // console.log(command);
     return new Promise((resolve, reject) => {
         exec(command, (error, stdout, stderr) => {
             if (error) {
                 console.error(`exec error: ${error}`);
                 reject(error);
             }
-            // console.log(`stdout: ${stdout}`);
             if(stderr) {
                 console.error(`stderr: ${stderr}`);
             }
@@ -427,7 +420,6 @@ app.post("/fetchProgress", async(req, res) => {
     });
 });
 
-// const express = require('express')
 
 app.post('/createDiet', (req, res) => {
 
@@ -437,8 +429,6 @@ app.post('/createDiet', (req, res) => {
             return res.status(500).json({message: "Error generating diet plan"})
         }
         else {
-            // console.log(results[0]);
-            const { spawn } = require('child_process');
             const pyProg = spawn('python3', ['./dietPlan.py', req.body.weightGoal, results[0].weight, results[0].height, results[0].age, results[0].gender, req.body.activityLevel]);
 
             pyProg.stdout.on('data', function(data) {
@@ -456,7 +446,6 @@ app.post("/getSimilarPlayers", (req, res) => {
             return res.status(300).json({message: 'Input your metrics'});
         }
         else {
-            // console.log(results[0]);
             const userHeight = results[0].heightZscore;
             const userWeight = results[0].weightZscore;
             var query = '';
@@ -472,7 +461,6 @@ app.post("/getSimilarPlayers", (req, res) => {
                     return res.status(500).json({message: "error"});
                 }
                 else {
-                    // console.log(results);
                     return res.status(200).json({message: "success", res: results});
                 }
             });

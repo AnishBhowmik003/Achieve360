@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const ProPlayers = ({ onBackToDashboard, email }) => {
     const [sport, setSport] = useState('');
@@ -6,9 +6,6 @@ const ProPlayers = ({ onBackToDashboard, email }) => {
     const [submitted, setSubmitted] = useState(false);
     const [displayData, setDisplayData] = useState();
     const [tableHead, setTableHead] = useState();
-    useEffect(() => {
-      console.log(tableHead);
-   }, [tableHead]);
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -27,9 +24,9 @@ const ProPlayers = ({ onBackToDashboard, email }) => {
             setDisplayData(data.res.map((info) => {
               return (
                 <tr>
-                  {Object.keys(info).map((value) => {
+                  {Object.values(info).map((value) => {
                     return (
-                    <td> {typeof info[value] == 'number' && !Number.isInteger(info[value]) ? info[value].toFixed(3) : info[value]}</td>
+                    <td> {typeof value == 'number' && !Number.isInteger(value) ? value.toFixed(3) : value}</td>
                     )
                   })}
                 </tr>
