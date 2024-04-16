@@ -491,4 +491,15 @@ app.post("/findCoaches", (req, res) => {
     });
 });
 
+app.post("/findUsers", (req, res) => {
+    con.execute(`SELECT user_email FROM connections WHERE coach_email = '${req.body.coach}'`, function(err, results) {
+        if(err) {
+            return res.status(500).json({message: 'Error'});
+        }
+        else {
+            return res.status(200).json({message: 'Success', res: results});
+        }
+    });
+});
+
 
