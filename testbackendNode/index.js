@@ -7,6 +7,10 @@ const fs = require("fs");
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
 const { exec } = require("child_process");
+const { spawn } = require('child_process');
+
+
+
 
 var mysql = require('mysql2');
 const bodyParser = require("body-parser");
@@ -325,6 +329,70 @@ function runRubyScript(timeGoal, position) {
         });
     });
 }
+
+app.post("/generatePlan", async (req, res) => {
+    const { military_press, deadlift, benchpress, squat } = req.body;
+    try {
+        // Validate input to ensure it's numeric and non-null
+        if (!military_press || !deadlift || !benchpress || !squat) {
+            return res.status(400).json({ message: "All input fields must be filled with numbers." });
+        }
+
+        // Call the function to run the Python script
+        const workoutPlan = await weightliftingPython(military_press, deadlift, benchpress, squat);
+
+        // Check if the workoutPlan contains valid data and is not empty
+        if (!workoutPlan) {
+            throw new Error("Python script did not return any output.");
+        }
+
+        // Send a successful response back with the workout plan
+        res.status(200).json({ message: "Workout plan generated successfully.", plan: workoutPlan.trim() });
+    } catch (error) {
+        // Log the error for server-side troubleshooting
+        console.error('Error generating workout plan:', error);
+
+        // Send an error response back to the frontend
+        res.status(500).json({ message: "Error generating workout plan: " + error.message });
+    }
+});
+
+
+
+
+function weightliftingPython(military_press, deadlift, benchpress, squat) {
+    return new Promise((resolve, reject) => {
+        const pythonProcess = spawn('python3', [
+            './weightlifting.py',
+            military_press.toString(),
+            deadlift.toString(),
+            benchpress.toString(),
+            squat.toString()
+        ]);
+
+        let dataString = '';
+
+        pythonProcess.stdout.on('data', (data) => {
+            dataString += data.toString();
+        });
+
+        pythonProcess.stderr.on('data', (data) => {
+            console.error(`stderr: ${data}`);
+        });
+
+        pythonProcess.on('close', (code) => {
+            if (code !== 0) {
+                console.error(`Python script exited with code ${code}`);
+                reject(new Error("Failed to execute Python script."));
+            } else {
+                resolve(dataString);
+            }
+        });
+    });
+}
+
+
+
 
 
 
