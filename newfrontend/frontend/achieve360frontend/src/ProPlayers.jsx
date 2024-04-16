@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const ProPlayers = ({ onBackToDashboard, email }) => {
     const [sport, setSport] = useState('');
-    const sportOptions = ['Football', 'Basketball', 'Tennis', 'Running'];
+    const sportOptions = ['Football', 'Basketball', 'Baseball', 'Running'];
     const [backendOutput, setBackendOutput] = useState('');
     const [submitted, setSubmitted] = useState(false);
 

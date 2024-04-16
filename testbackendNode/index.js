@@ -391,7 +391,14 @@ app.post("/getSimilarPlayers", (req, res) => {
             // console.log(results[0]);
             const userHeight = results[0].heightZscore;
             const userWeight = results[0].weightZscore;
-            con.execute(`SELECT name, position, height, weight, 40_yard, bench, vert, broad, shuttle, 3cone from nfl NATURAL JOIN (SELECT nfl.id, ABS(${userHeight} - heightZscore.zScore) + ABS(${userWeight} - weightZscore.zScore) as val FROM weightZscore join nfl on nfl.id = weightZscore.id join heightZscore on nfl.id = heightZscore.id ORDER BY val LIMIT 10) as t;`, function(err, results) {
+            var query = '';
+            if(req.body.sport == 'Football') {
+                query = `SELECT name, position, height, weight, 40_yard, bench, vert, broad, shuttle, 3cone from nfl NATURAL JOIN (SELECT nfl.id, ABS(${userHeight} - nflHeightZscore.zScore) + ABS(${userWeight} - nflWeightZscore.zScore) as val FROM nflWeightZscore join nfl on nfl.id = nflWeightZscore.id join nflHeightZscore on nfl.id = nflHeightZscore.id ORDER BY val LIMIT 10) as t;`
+            }
+            else if (req.body.sport == 'Baseball') {
+                query = `SELECT name, height, weight, bats, throws, five_ft_split, ten_ft_split, fifteen_ft_split, twenty_ft_split, twenty_five_ft_split, thirty_ft_split, thirty_five_ft_split, forty_ft_split, forty_five_ft_split, fifty_ft_split, fifty_five_ft_split, sixty_ft_split, sixty_five_ft_split, seventy_ft_split, seventy_five_ft_split, eighty_ft_split, eighty_five_ft_split, ninety_ft_split from mlb NATURAL JOIN (SELECT mlb.ID, ABS(${userHeight} - mlbHeightZscore.zScore) + ABS(${userWeight} - mlbWeightZscore.zScore) as val FROM mlbWeightZscore join mlb on mlb.ID = mlbWeightZscore.id join mlbHeightZscore on mlb.id = mlbHeightZscore.id ORDER BY val LIMIT 10) as t;`
+            }
+            con.execute(query, function(err, results) {
                 if(err) {
                     console.error(err);
                     return res.status(500).json({message: "error"});
