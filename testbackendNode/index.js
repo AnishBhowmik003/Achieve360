@@ -89,21 +89,21 @@ app.post("/signup", async (req, res) => {
 });
 
 function check_password(email, password, callback) {
-    con.execute(`SELECT password FROM user WHERE email = '${email}';`, function (err, result) {
+    con.execute(`SELECT password, type FROM user WHERE email = '${email}';`, function (err, result) {
         if (err) throw err;
         if(result.length == 0 || result[0].password != hash(password)) {
-            callback(false);
+            callback(false, null);
         }
         else {
-            callback(true);
+            callback(true, result[0].type);
         }
     });
 }
 
 app.post("/login", async (req, res) => {
-    check_password(req.body.email, req.body.pass, function(bool) {
+    check_password(req.body.email, req.body.pass, function(bool, type) {
         if(bool) {
-            return res.status(200).json({ message: "Logging in."});
+            return res.status(200).json({ message: "Logging in.", type:type});
         }
         else {
             return res.status(400).json({ message: "Invalid Username or Password."});

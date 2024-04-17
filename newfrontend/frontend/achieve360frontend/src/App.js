@@ -10,6 +10,7 @@ import GoalInput from './goalInput'; // Import the GoalInput component
 import Progress from './Progress';
 import ProgressInput from './ProgressInput'; 
 import ChartSelection from "./ChartSelection";
+import ChartSelectionCoach from './ChartSelectionCoach';
 import DietPlan from "./DietPlan";
 import ProPlayers from "./ProPlayers";
 import Videos from "./Videos";
@@ -18,7 +19,16 @@ import Coaches from "./coaches";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState("");
+  const [currentType, setCurrentType] = useState("");
   const [currentForm, setCurrentForm] = useState('login');
+  const [user, setUser] = useState();
+  const [users, setUsers] = useState([]);
+  const addUser = (val) => {
+    setUsers([...users, val]);
+  }
+  const clearUsers = () => {
+    setUsers([]);
+  }
   const [userMetrics, setUserMetrics] = useState({
     age: '',
     weight: '',
@@ -30,11 +40,13 @@ function App() {
     setIsLoggedIn(true);
     setCurrentForm('dashboard');
     setCurrentUser(userData.email);
+    setCurrentType(userData.type);
   };
 
   const handleRegisterSuccess = (userData) => {
     setIsLoggedIn(true);
     setCurrentUser(userData.email);
+    setCurrentType(userData.role);
     setCurrentForm('dashboard'); // Navigate to dashboard upon registration
   };
 
@@ -51,7 +63,7 @@ function App() {
     if (isLoggedIn) {
       switch (currentForm) {
         case 'dashboard':
-          return <Dashboard userMetrics={userMetrics} onNavigate={setCurrentForm} />;
+          return <Dashboard userMetrics={userMetrics} onNavigate={setCurrentForm} type={currentType} />;
         case 'inputMetrics':
           return <MetricsInputForm onSubmit={handleMetricsSubmission} onBackToDashboard={handleBackToDashboard} email={currentUser}/>;
 
@@ -62,13 +74,15 @@ function App() {
         case 'goalInput':
           return <GoalInput onBackToDashboard={handleBackToDashboard} email={currentUser}/>;
         case 'progress':
-          return <Progress onNavigate={setCurrentForm} />;
+          return <Progress onNavigate={setCurrentForm} type={currentType} email={currentUser} addUser={addUser} />;
+        case 'coachProgressChart':
+          return <ChartSelectionCoach onNavigate={setCurrentForm} users={users} setUser={setUser} clearUsers={clearUsers}/>
         case 'progressChart':
           return <ChartSelection onNavigate={setCurrentForm}/>
         case 'Workout Graph':
-          return <ProgressChart onNavigate={setCurrentForm} email={currentUser} type='workout' />;
+          return <ProgressChart onNavigate={setCurrentForm} email={currentType == 'coach' ? user : currentUser} type='workout' />;
         case 'Diet Graph':
-          return <ProgressChart onNavigate={setCurrentForm} email={currentUser} type='diet' />;
+          return <ProgressChart onNavigate={setCurrentForm} email={currentType == 'coach' ? user : currentUser} type='diet' />;
         case 'progressInput':
           return <ProgressInput onBackToDashboard={handleBackToDashboard} email={currentUser} />;
         case 'generateDietPlan':

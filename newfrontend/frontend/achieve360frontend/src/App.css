@@ -132,3 +132,7 @@ form button {
   color: #009879;
 }
 
+.styled-table tbody tr.selected {
+  background-color:#f09662;
+}
+

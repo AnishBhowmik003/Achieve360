@@ -1,17 +1,17 @@
 import React from 'react';
 
-export const Dashboard = ({ onNavigate }) => {
+export const Dashboard = ({ onNavigate, type }) => {
   return (
     <div className="dashboard-container">
-      <h1>User Dashboard</h1>
-      <button onClick={() => onNavigate('inputMetrics')}>Input Metrics</button>
+      {type == 'student' ? (<h1>User Dashboard</h1>) : (<h1>Coach Dashboard</h1>)}
+      {type == 'student' ? (<button onClick={() => onNavigate('inputMetrics')}>Input Metrics</button>) : (<div></div>)}
       <button onClick={() => onNavigate('messageForm')}>Message Form</button>
       <button onClick={() => onNavigate('progress')}>Track/View Progress</button> {}
-      <button onClick={() => onNavigate('goalInput')}>Add Goal</button>
-      <button onClick={() => onNavigate('generateDietPlan')}>Generate Diet Plan</button>
-      <button onClick={() => onNavigate('SelectProPlayers')}>Match to pro athlete</button>
-      <button onClick={() => onNavigate('videos')}>Learn about exercises</button>
-      <button onClick={() => onNavigate('coaches')}>Find coaches</button>
+      {type == 'student' ? (<button onClick={() => onNavigate('goalInput')}>Add Goal</button>) : (<div></div>)}
+      {type == 'student' ? (<button onClick={() => onNavigate('generateDietPlan')}>Generate Diet Plan</button>) : (<div></div>)}
+      {type == 'student' ? (<button onClick={() => onNavigate('SelectProPlayers')}>Match to pro athlete</button>) : (<div></div>)}
+      {type == 'student' ? (<button onClick={() => onNavigate('videos')}>Learn about exercises</button>) : (<div></div>)}
+      {type == 'student' ? (<button onClick={() => onNavigate('coaches')}>Find coaches</button>) : (<div></div>)}
 
       <button onClick={async () => {
         
