@@ -544,3 +544,13 @@ app.post("/addWorkout", async (req, res) => {
         }
     })
 })
+
+app.post("/getWorkouts", async (req, res) => {
+    con.execute(`SELECT email, type, time FROM workouts WHERE email = '${req.body.email}'`, function(err, result) {
+        if (err) {
+            return res.status(500).json({ message: "Error getting workouts."});
+        } else {
+            return res.status(200).json({ message: "Workouts retrieved successfully.", res: result});
+        }
+    })
+})
