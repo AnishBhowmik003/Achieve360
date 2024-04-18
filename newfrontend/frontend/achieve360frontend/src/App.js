@@ -20,6 +20,7 @@ import EnterWorkout from "./enterWorkout";
 import SeeWorkouts from "./seeWorkouts";
 import ViewPlans from "./ViewPlans";
 import UserSelection from "./UserSelection";
+import ProgressCheck from "./ProgressCheck";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState("");
@@ -118,6 +119,11 @@ function App() {
           return <ViewPlans onNavigate={setCurrentForm} email={user ? user : currentUser} type={user ? 'student' : currentType} addUser={addUser} clear={clear}/>
         case 'coachViewPlans':
           return <UserSelection onNavigate={setCurrentForm} users={users} setUser={setUser} clearUsers={clearUsers} next={'viewPlans'}/>
+        case 'progressCheck':
+          return <ProgressCheck onNavigate={setCurrentForm} email={currentUser} type={user ? 'student' : currentType} addUser={addUser} clear={clear} user={user}/>
+        case 'coachProgressCheck':
+          return <UserSelection onNavigate={setCurrentForm} users={users} setUser={setUser} clearUsers={clearUsers} next={'progressCheck'}/>
+
 
         case 'logout':
           setIsLoggedIn(false);

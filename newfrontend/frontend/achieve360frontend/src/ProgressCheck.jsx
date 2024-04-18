@@ -1,6 +1,33 @@
-import React, { useState } from 'react';
-
-function ProgressCheck() {
+import React, { useState, useEffect } from 'react';
+const ProgressCheck = ({ onNavigate, email, type, addUser, clear, user }) => {
+    useEffect(() => {
+        const func = async() => {
+            try {
+              const response = await fetch('http://localhost:6969/findUsers', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  coach: email
+                }),
+              });
+              const data = await response.json();
+              if(response.ok) {
+                console.log(data);
+                for(var i = 0; i < data.res.length; i++) {
+                  console.log(data.res[i].user_email);
+                  addUser(data.res[i].user_email);
+                }
+              }
+            }
+            catch(err) {
+              console.error(err);
+            } 
+            onNavigate('coachProgressCheck');
+          };
+          if(type == 'coach') func();
+    }, []);
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedType, setSelectedType] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);  // State to track if form has been submitted
@@ -43,9 +70,11 @@ function ProgressCheck() {
                 </form>
             ) : (
                 <div>
+                    <p> Coach: {email}</p>
+                    <p> User: {user}</p>
                     <p>Date Selected: {selectedDate}</p>
                     <p>Type Selected: {selectedType}</p>
-                    <button onClick={() => setIsSubmitted(false)}>Edit</button>  // Button to allow editing again
+                    <button onClick={() => setIsSubmitted(false)}>Edit</button>
                 </div>
             )}
         </div>
