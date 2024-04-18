@@ -160,7 +160,7 @@ const GoalInput = ({ onBackToDashboard, email }) => {
           />
           <div>
             <button onClick={onBackToDashboard} style={{ marginRight: '10px', marginBottom: '10px' }}>Back to Dashboard</button>
-            <button onClick={savePlan} style={{ marginBottom: '10px' }}>Save Goal</button>
+            <button onClick={savePlan} style={{ marginBottom: '10px' }}>Save Plan</button>
             <button onClick={resetForm} style={{ marginBottom: '10px' }}>Add New Goal</button>
           </div>
         </div>

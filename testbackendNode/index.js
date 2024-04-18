@@ -531,7 +531,7 @@ app.post("/savePlan", (req, res) => {
             }
         }
     });
-})
+});
 
 app.post("/addWorkout", async (req, res) => {
     //const { email, type, duration, intensity, description } = req.body;
@@ -543,7 +543,7 @@ app.post("/addWorkout", async (req, res) => {
             return res.status(200).json({ message: "Workout added successfully."});
         }
     })
-})
+});
 
 app.post("/getWorkouts", async (req, res) => {
     con.execute(`SELECT email, type, time FROM workouts WHERE email = '${req.body.email}'`, function(err, result) {
@@ -553,4 +553,14 @@ app.post("/getWorkouts", async (req, res) => {
             return res.status(200).json({ message: "Workouts retrieved successfully.", res: result});
         }
     })
-})
+});
+
+app.post("/getPlans", async (req, res) => {
+    con.execute(`SELECT plan FROM plans WHERE email = '${req.body.email}' AND type='${req.body.type}'`, function(err, results) {
+        if (err) {
+            return res.status(500).json({ message: "Error getting plans."});
+        } else {
+            return res.status(200).json({ message: "Plans retrieved successfully.", res: results});
+        }
+    })
+});
