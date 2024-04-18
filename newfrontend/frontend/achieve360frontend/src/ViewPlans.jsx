@@ -32,6 +32,7 @@ const ViewPlans = ({ onNavigate, email, type, addUser, clear}) => {
 
   const [planType, setPlanType] = useState('');
   const [output, setOutput] = useState('');
+  const [submitted, setSubmitted] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -53,6 +54,7 @@ const ViewPlans = ({ onNavigate, email, type, addUser, clear}) => {
         }
         else {
           setOutput(data.res[0].plan);
+          setSubmitted(true);
         }
       }
     }
@@ -89,7 +91,7 @@ const ViewPlans = ({ onNavigate, email, type, addUser, clear}) => {
 
   return (
     <div>
-    {output ? (
+    {submitted ? (
       <div>
       <textarea
         value={output}
@@ -99,7 +101,7 @@ const ViewPlans = ({ onNavigate, email, type, addUser, clear}) => {
       <div>
         <button onClick={() => onNavigate('dashboard')} style={{ marginRight: '10px', marginBottom: '10px' }}>Back to Dashboard</button>
         <button onClick={savePlan} style={{ marginBottom: '10px' }}>Save Plan</button>
-        <button onClick={() => setOutput('')} style={{ marginBottom: '10px' }}>Select different plan type</button>
+        <button onClick={() => {setOutput(''); setSubmitted(false);}} style={{ marginBottom: '10px' }}>Select different plan type</button>
       </div>
       </div>
     ) : (
