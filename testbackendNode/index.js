@@ -578,3 +578,37 @@ app.post("/editWorkout", async (req, res) => {
         }
     })
 });
+
+app.post("/addProgressCheck", async (req, res) => {
+    con.execute(`INSERT INTO progressChecks (user_email, coach_email, type, date) VALUES ('${req.body.user}', '${req.body.coach}', '${req.body.type}', '${req.body.date}')`, function(err, result) {
+        if (err) {
+            return res.status(500).json({ message: "Error adding progress check."});
+        } else {
+            return res.status(200).json({ message: "progress check added successfully."});
+        }
+    });
+    var mailOptions = {
+        from: 'AchieveThreeSixty@gmail.com',
+        to: `${req.body.user}`,
+        subject: 'Progress check scheduled in Achieve360',
+        text: `Your ${req.body.type} progress check with ${req.body.coach} is scheduled for: ${req.body.date}`,
+    };
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+        console.error(error);
+        } else {
+        console.log('Email sent: ' + info.response);
+        }
+    });
+});
+
+app.post("/listProgressChecks", (req, res) => {
+    con.execute(`SELECT coach_email as 'Coach', type, date FROM progressChecks WHERE user_email = '${req.body.email}'`, function(err, results) {
+        if(err) {
+            return res.status(500).json({message: 'Error'});
+        }
+        else {
+            return res.status(200).json({message: 'Success', res: results});
+        }
+    });
+});

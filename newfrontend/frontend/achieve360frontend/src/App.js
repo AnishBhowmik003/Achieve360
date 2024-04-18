@@ -21,6 +21,7 @@ import SeeWorkouts from "./seeWorkouts";
 import ViewPlans from "./ViewPlans";
 import UserSelection from "./UserSelection";
 import ProgressCheck from "./ProgressCheck";
+import ListProgressChecks from "./listProgressChecks";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState("");
@@ -29,7 +30,8 @@ function App() {
   const [user, setUser] = useState();
   const [users, setUsers] = useState([]);
   const addUser = (val) => {
-    setUsers([...users, val]);
+    setUsers(users => [...users, val]);
+    console.log(val);
   }
   const clearUsers = () => {
     setUsers([]);
@@ -120,9 +122,11 @@ function App() {
         case 'coachViewPlans':
           return <UserSelection onNavigate={setCurrentForm} users={users} setUser={setUser} clearUsers={clearUsers} next={'viewPlans'}/>
         case 'progressCheck':
-          return <ProgressCheck onNavigate={setCurrentForm} email={currentUser} type={user ? 'student' : currentType} addUser={addUser} clear={clear} user={user}/>
+          return <ProgressCheck onNavigate={setCurrentForm} email={currentUser} type={user ? 'student(from coach)' : currentType} addUser={addUser} clear={clear} user={user}/>
         case 'coachProgressCheck':
           return <UserSelection onNavigate={setCurrentForm} users={users} setUser={setUser} clearUsers={clearUsers} next={'progressCheck'}/>
+        case 'listProgressChecks':
+          return <ListProgressChecks onBackToDashboard={handleBackToDashboard} email={currentUser}/>
 
 
         case 'logout':

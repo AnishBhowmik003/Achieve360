@@ -14,7 +14,7 @@ export const Dashboard = ({ onNavigate, type }) => {
       {type == 'student' ? (<button onClick={() => onNavigate('coaches')}>Find coaches</button>) : (<div></div>)}
       <button onClick={() => onNavigate('viewPlans')}>View Plans</button>
       <button onClick={() => onNavigate('workoutEntryOption')}>Manage workouts</button>
-      {type == 'coach' ? (<button onClick={() => onNavigate('progressCheck')}>Progress Checks</button>) : (<div></div>)}
+      <button onClick={() => onNavigate('progressCheck')}>Progress Checks</button>
 
 
       <button onClick={async () => {

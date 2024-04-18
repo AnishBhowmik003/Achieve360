@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 const ProgressCheck = ({ onNavigate, email, type, addUser, clear, user }) => {
-    useEffect(() => {
+    useMemo(() => {
+        if(type == 'student') onNavigate('listProgressChecks');
         const func = async() => {
             try {
               const response = await fetch('http://localhost:6969/findUsers', {
@@ -40,11 +41,31 @@ const ProgressCheck = ({ onNavigate, email, type, addUser, clear, user }) => {
         setSelectedType(event.target.value);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         setIsSubmitted(true);  
-        console.log('Selected date:', selectedDate);
-        console.log('Selected type:', selectedType);
+        try {
+            const response = await fetch('http://localhost:6969/addProgressCheck', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                user: user,
+                coach: email,
+                type: selectedType,
+                date: selectedDate
+              }),
+            });
+            const data = await response.json();
+            if(response.ok) {
+              console.log(data);
+              alert('successfully scheduled progress check')
+            }
+          }
+          catch(err) {
+            console.error(err);
+          } 
     }
 
     return (
@@ -74,9 +95,10 @@ const ProgressCheck = ({ onNavigate, email, type, addUser, clear, user }) => {
                     <p> User: {user}</p>
                     <p>Date Selected: {selectedDate}</p>
                     <p>Type Selected: {selectedType}</p>
-                    <button onClick={() => setIsSubmitted(false)}>Edit</button>
+                    <button onClick={() => setIsSubmitted(false)}>Add new progress check</button>
                 </div>
             )}
+        <button onClick={() => {clear(); onNavigate('dashboard');}}>Back to Dashboard</button>
         </div>
     );
 }
