@@ -455,6 +455,9 @@ app.post("/getSimilarPlayers", (req, res) => {
             else if (req.body.sport == 'Baseball') {
                 query = `SELECT name, height, weight, bats, throws, ten_ft_split as '10 ft split', twenty_ft_split as '20 ft split', thirty_ft_split as '30 ft split', forty_ft_split as '40 ft split', fifty_ft_split as '50 ft split', sixty_ft_split as '60 ft split', seventy_ft_split as '70 ft split', eighty_ft_split as '80 ft split', ninety_ft_split as '90 ft split' from mlb NATURAL JOIN (SELECT mlb.ID, ABS(${userHeight} - mlbHeightZscore.zScore) + ABS(${userWeight} - mlbWeightZscore.zScore) as val FROM mlbWeightZscore join mlb on mlb.ID = mlbWeightZscore.id join mlbHeightZscore on mlb.id = mlbHeightZscore.id ORDER BY val LIMIT 10) as t;`
             }
+            else if (req.body.sport == 'Basketball') {
+                query = `SELECT name, position, height, weight, max_vert, bench_reps, timeLaneAgility as 'Lane Agility Time', threeQuarterCourtSprintTime as 'Three Quarter Court Sprint Time' from nba NATURAL JOIN (SELECT nba.id, ABS(${userHeight} - nbaHeightZscore.zScore) + ABS(${userWeight} - nbaWeightZscore.zScore) as val FROM nbaWeightZscore join nba on nba.id = nbaWeightZscore.id join nbaHeightZscore on nba.id = nbaHeightZscore.id ORDER BY val LIMIT 10) as t;`
+            }
             con.execute(query, function(err, results) {
                 if(err) {
                     console.error(err);
