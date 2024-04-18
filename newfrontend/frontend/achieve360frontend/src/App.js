@@ -91,7 +91,7 @@ function App() {
         case 'coachProgressChart':
           return <UserSelection onNavigate={setCurrentForm} users={users} setUser={setUser} clearUsers={clearUsers} next={'progressChart'}/>
         case 'progressChart':
-          return <ChartSelection onNavigate={setCurrentForm}/>
+          return <ChartSelection onNavigate={setCurrentForm} clear={clear}/>
         case 'Workout Graph':
           return <ProgressChart onNavigate={setCurrentForm} email={currentType == 'coach' ? user : currentUser} type='workout' />;
         case 'Diet Graph':

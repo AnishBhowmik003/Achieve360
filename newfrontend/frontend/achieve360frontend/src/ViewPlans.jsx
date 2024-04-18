@@ -99,7 +99,7 @@ const ViewPlans = ({ onNavigate, email, type, addUser, clear}) => {
         style={{ width: '100%', height: '300px', marginBottom: '10px' }} // Adjust size as needed
       />
       <div>
-        <button onClick={() => onNavigate('dashboard')} style={{ marginRight: '10px', marginBottom: '10px' }}>Back to Dashboard</button>
+        <button onClick={() => {clear(); onNavigate('dashboard');}} style={{ marginRight: '10px', marginBottom: '10px' }}>Back to Dashboard</button>
         <button onClick={savePlan} style={{ marginBottom: '10px' }}>Save Plan</button>
         <button onClick={() => {setOutput(''); setSubmitted(false);}} style={{ marginBottom: '10px' }}>Select different plan type</button>
       </div>
@@ -112,7 +112,7 @@ const ViewPlans = ({ onNavigate, email, type, addUser, clear}) => {
               <option key={'diet'} value={'diet'}> diet plan </option>
             </select>
         <button type="submit">Submit</button>
-        <button onClick={() => onNavigate('dashboard')} style={{ marginRight: '10px', marginBottom: '10px' }}>Back to Dashboard</button>
+        <button onClick={() => {clear(); onNavigate('dashboard');}} style={{ marginRight: '10px', marginBottom: '10px' }}>Back to Dashboard</button>
         </form>
       )}
     </div>

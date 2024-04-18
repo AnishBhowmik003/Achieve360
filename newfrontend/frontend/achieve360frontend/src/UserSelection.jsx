@@ -13,6 +13,7 @@ const UserSelection = ({ onNavigate, users, setUser, clearUsers, next }) => {
               ))}
             </select>
         <button type="submit">Submit</button>
+        <button onClick={() => onNavigate('dashboard')} style={{ marginRight: '10px', marginBottom: '10px' }}>Back to Dashboard</button>
         </form>
   );
 };

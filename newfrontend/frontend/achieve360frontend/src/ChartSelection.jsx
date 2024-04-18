@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 
-const ChartSelection = ({ onNavigate }) => {
+const ChartSelection = ({ onNavigate, clear }) => {
   
   return (
     <div>
@@ -9,7 +9,7 @@ const ChartSelection = ({ onNavigate }) => {
         <div>
           <button onClick={() => onNavigate('Workout Graph')}>Workout Graph</button>
           <button onClick={() => onNavigate('Diet Graph')}>Diet Graph</button>
-          <button onClick={() => onNavigate('dashboard')} style={{ marginTop: '10px' }}>Back to Dashboard</button>
+          <button onClick={() => {clear(); onNavigate('dashboard');}} style={{ marginTop: '10px' }}>Back to Dashboard</button>
         </div>
     </div>
   );
