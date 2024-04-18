@@ -1,5 +1,14 @@
 [
     {
+        "label": "pandas",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pandas",
+        "description": "pandas",
+        "detail": "pandas",
+        "documentation": {}
+    },
+    {
         "label": "json",
         "kind": 6,
         "isExtraImport": true,
@@ -43,15 +52,6 @@
         "documentation": {}
     },
     {
-        "label": "pandas",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "pandas",
-        "description": "pandas",
-        "detail": "pandas",
-        "documentation": {}
-    },
-    {
         "label": "numpy",
         "kind": 6,
         "isExtraImport": true,
@@ -67,6 +67,15 @@
         "importPath": "csv",
         "description": "csv",
         "detail": "csv",
+        "documentation": {}
+    },
+    {
+        "label": "data",
+        "kind": 5,
+        "importPath": "datasets.data_clean",
+        "description": "datasets.data_clean",
+        "peekOfCode": "data = pd.read_csv('/Users/ishaanpathania/Desktop/Achieve360/datasets/fullNBACombine.csv')\ndata.fillna(0, inplace=True)\nfor i, row in data.iterrows():\n    if row['height'] == 0 or row['weight'] == 0:\n        data.drop(i, inplace=True)\ndata.reset_index(drop=True, inplace=True)\ndata.to_csv('/Users/ishaanpathania/Desktop/Achieve360/datasets/cleanedNBACombine.csv', index=False)",
+        "detail": "datasets.data_clean",
         "documentation": {}
     },
     {
