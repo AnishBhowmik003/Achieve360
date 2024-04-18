@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
-const EnterWorkout = ({ onNavigate }) => {
-    const [email, setEmail] = useState('');
+const EnterWorkout = ({ onNavigate, email }) => {
     const [workoutType, setWorkoutType] = useState('');
     const [duration, setDuration] = useState('');
     const [intensity, setIntensity] = useState('');
@@ -10,6 +9,7 @@ const EnterWorkout = ({ onNavigate }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         //console.log(payload);
+        console.log(workoutType);
         //  sending it to a backend put function here.
         try {
             const response = await fetch('http://localhost:6969/addWorkout', {
@@ -34,6 +34,7 @@ const EnterWorkout = ({ onNavigate }) => {
           } catch (error) {
             console.error('Error:', error);
           }
+        onNavigate('dashboard');
     };
 
     return (

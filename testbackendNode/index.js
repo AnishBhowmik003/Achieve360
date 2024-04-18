@@ -536,7 +536,7 @@ app.post("/savePlan", (req, res) => {
 app.post("/addWorkout", async (req, res) => {
     //const { email, type, duration, intensity, description } = req.body;
     //console.log(req.body);
-    con.execute(`INSERT INTO workouts (email, type, duration, intensity, description) VALUES ('${req.body.email}', '${req.body.type}', '${req.body.duration}', '${req.body.intensity}', '${req.body.description}')`, function(err, result) {
+    con.execute(`INSERT INTO workouts (email, type, duration, intensity, description) VALUES ('${req.body.email}', '${req.body.workoutType}', '${req.body.duration}', '${req.body.intensity}', '${req.body.description}')`, function(err, result) {
         if (err) {
             return res.status(500).json({ message: "Error adding workout."});
         } else {
