@@ -10,7 +10,6 @@ import GoalInput from './goalInput'; // Import the GoalInput component
 import Progress from './Progress';
 import ProgressInput from './ProgressInput'; 
 import ChartSelection from "./ChartSelection";
-import ChartSelectionCoach from './ChartSelectionCoach';
 import DietPlan from "./DietPlan";
 import ProPlayers from "./ProPlayers";
 import Videos from "./Videos";
@@ -19,6 +18,8 @@ import Coaches from "./coaches";
 import WorkoutEntryOption from "./WorkoutEntryOption";
 import EnterWorkout from "./enterWorkout";
 import SeeWorkouts from "./seeWorkouts";
+import ViewPlans from "./ViewPlans";
+import UserSelection from "./UserSelection";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState("");
@@ -31,6 +32,9 @@ function App() {
   }
   const clearUsers = () => {
     setUsers([]);
+  }
+  const clear = () => {
+    setUser(null);
   }
   const [userMetrics, setUserMetrics] = useState({
     age: '',
@@ -85,7 +89,7 @@ function App() {
         case 'progress':
           return <Progress onNavigate={setCurrentForm} type={currentType} email={currentUser} addUser={addUser} />;
         case 'coachProgressChart':
-          return <ChartSelectionCoach onNavigate={setCurrentForm} users={users} setUser={setUser} clearUsers={clearUsers}/>
+          return <UserSelection onNavigate={setCurrentForm} users={users} setUser={setUser} clearUsers={clearUsers} next={'progressChart'}/>
         case 'progressChart':
           return <ChartSelection onNavigate={setCurrentForm}/>
         case 'Workout Graph':
@@ -108,6 +112,10 @@ function App() {
           return <Info onNavigate={setCurrentForm} type='squatting'/>;
         case 'coaches':
           return <Coaches onBackToDashboard={handleBackToDashboard} user={currentUser} />;
+        case 'viewPlans':
+          return <ViewPlans onNavigate={setCurrentForm} email={user ? user : currentUser} type={user ? 'student' : currentType} addUser={addUser} clear={clear}/>
+        case 'coachViewPlans':
+          return <UserSelection onNavigate={setCurrentForm} users={users} setUser={setUser} clearUsers={clearUsers} next={'viewPlans'}/>
 
         case 'logout':
           setIsLoggedIn(false);
