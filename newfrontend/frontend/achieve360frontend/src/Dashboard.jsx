@@ -12,6 +12,7 @@ export const Dashboard = ({ onNavigate, type }) => {
       {type == 'student' ? (<button onClick={() => onNavigate('SelectProPlayers')}>Match to pro athlete</button>) : (<div></div>)}
       {type == 'student' ? (<button onClick={() => onNavigate('videos')}>Learn about exercises</button>) : (<div></div>)}
       {type == 'student' ? (<button onClick={() => onNavigate('coaches')}>Find coaches</button>) : (<div></div>)}
+      <button onClick={() => onNavigate('workoutEntryOption')}>WorkoutEntryOption</button> {}
 
       <button onClick={async () => {
         

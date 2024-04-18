@@ -16,6 +16,9 @@ import ProPlayers from "./ProPlayers";
 import Videos from "./Videos";
 import Info from "./Info";
 import Coaches from "./coaches";
+import WorkoutEntryOption from "./WorkoutEntryOption";
+import EnterWorkout from "./enterWorkout";
+import SeeWorkouts from "./seeWorkouts";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState("");
@@ -64,6 +67,12 @@ function App() {
       switch (currentForm) {
         case 'dashboard':
           return <Dashboard userMetrics={userMetrics} onNavigate={setCurrentForm} type={currentType} />;
+        case 'EnterWorkout':
+          return <EnterWorkout onNavigate={setCurrentForm} />;
+        case 'SeeWorkouts':
+          return <SeeWorkouts onNavigate={setCurrentForm} />;
+        case 'workoutEntryOption':
+          return <WorkoutEntryOption onNavigate={setCurrentForm} />;
         case 'inputMetrics':
           return <MetricsInputForm onSubmit={handleMetricsSubmission} onBackToDashboard={handleBackToDashboard} email={currentUser}/>;
 
