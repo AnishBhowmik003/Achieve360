@@ -74,9 +74,11 @@ function App() {
         case 'EnterWorkout':
           return <EnterWorkout onSubmit={handleBackToDashboard} onNavigate={setCurrentForm} email={currentUser}/>;
         case 'SeeWorkouts':
-          return <SeeWorkouts onNavigate={setCurrentForm} email={currentUser} />;
+          return <SeeWorkouts onNavigate={setCurrentForm} email={user ? user : currentUser} type={user ? 'student' : currentType} addUser={addUser} clear={clear} edit={user ? false : true}/>;
+        case 'coachSeeWorkouts':
+          return <UserSelection onNavigate={setCurrentForm} users={users} setUser={setUser} clearUsers={clearUsers} next={'SeeWorkouts'}/>
         case 'workoutEntryOption':
-          return <WorkoutEntryOption onNavigate={setCurrentForm} />;
+          return <WorkoutEntryOption onNavigate={setCurrentForm} type={currentType} />;
         case 'inputMetrics':
           return <MetricsInputForm onSubmit={handleMetricsSubmission} onBackToDashboard={handleBackToDashboard} email={currentUser}/>;
 

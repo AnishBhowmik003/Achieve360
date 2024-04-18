@@ -1,10 +1,10 @@
 import React from 'react';
 
-const WorkoutEntryOption = ({ onNavigate }) => {
+const WorkoutEntryOption = ({ onNavigate, type }) => {
     return (
         <div>
-          <button onClick={() => onNavigate('EnterWorkout')}>Enter Workout </button>
-          <button onClick={() => onNavigate('SeeWorkouts')}>See Workouts</button>
+          {type == 'student' ? (<button onClick={() => onNavigate('EnterWorkout')}>Enter Workout </button>) : (<h1>Coach Dashboard</h1>)}
+          <button onClick={() => onNavigate('SeeWorkouts')}>{type == 'student' ? 'View/edit Workouts' : 'View Workouts'}</button>
           <button onClick={() => onNavigate('dashboard')} style={{ marginTop: '10px' }}>Back to Dashboard</button>
         </div>
       );

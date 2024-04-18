@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 
 const ProPlayers = ({ onBackToDashboard, email }) => {
     const [sport, setSport] = useState('');
-    const sportOptions = ['Football', 'Basketball', 'Baseball', 'Running'];
+    const sportOptions = ['Football', 'Basketball', 'Baseball'];
     const [submitted, setSubmitted] = useState(false);
     const [displayData, setDisplayData] = useState();
     const [tableHead, setTableHead] = useState();
