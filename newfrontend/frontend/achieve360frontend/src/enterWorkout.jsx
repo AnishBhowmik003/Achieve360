@@ -1,21 +1,39 @@
 import React, { useState } from 'react';
 
 const EnterWorkout = ({ onNavigate }) => {
+    const [email, setEmail] = useState('');
     const [workoutType, setWorkoutType] = useState('');
     const [duration, setDuration] = useState('');
     const [intensity, setIntensity] = useState('');
     const [description, setDescription] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const payload = {
-            workoutType,
-            duration,
-            intensity,
-            description,
-        };
-        console.log(payload);
+        //console.log(payload);
         //  sending it to a backend put function here.
+        try {
+            const response = await fetch('http://localhost:6969/addWorkout', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                email,
+                workoutType,
+                duration,
+                intensity,
+                description,
+              }),
+            });
+            const data = await response.json();
+            if (response.ok) {
+              console.log("Success!");
+            } else {
+              console.error('Error.');
+            }
+          } catch (error) {
+            console.error('Error:', error);
+          }
     };
 
     return (

@@ -72,7 +72,7 @@ function App() {
         case 'dashboard':
           return <Dashboard userMetrics={userMetrics} onNavigate={setCurrentForm} type={currentType} />;
         case 'EnterWorkout':
-          return <EnterWorkout onNavigate={setCurrentForm} />;
+          return <EnterWorkout onSubmit={handleBackToDashboard} onNavigate={setCurrentForm} email={currentUser}/>;
         case 'SeeWorkouts':
           return <SeeWorkouts onNavigate={setCurrentForm} />;
         case 'workoutEntryOption':
