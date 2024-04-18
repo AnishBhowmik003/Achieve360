@@ -502,4 +502,35 @@ app.post("/findUsers", (req, res) => {
     });
 });
 
+app.post("/savePlan", (req, res) => {
+    con.execute(`SELECT * FROM plans WHERE email='${req.body.email}' AND type='${req.body.type}'`, function(err, results) {
+        if(err) {
+            return res.status(500).json({message: 'Error'});
+        }
+        else {
+            if(results.length == 0) {
+                con.execute(`INSERT INTO plans (email, type, plan) VALUES ('${req.body.email}', '${req.body.type}', '${req.body.plan}')`, function(err, results) {
+                    if(err) {
+                        console.log(err);
+                        return res.status(500).json({message: 'Error'});
+                    }
+                    else {
+                        return res.status(200).json({message: 'Success'});
+                    }
+                });
+            }
+            else {
+                con.execute(`UPDATE plans SET plan='${req.body.plan}' WHERE email='${req.body.email}' AND type='${req.body.type}'`, function(err, results) {
+                    if(err) {
+                        return res.status(500).json({message: 'Error'});
+                    }
+                    else {
+                        return res.status(200).json({message: 'Success'});
+                    }
+                });
+            }
+        }
+    });
+})
+
 

@@ -58,6 +58,32 @@ const GoalInput = ({ onBackToDashboard, email }) => {
     }
   };
 
+  const savePlan = async () => {
+    try {
+      const response = await fetch('http://localhost:6969/savePlan', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            type: 'workout',
+            email: email,
+            plan: editableBackendOutput
+          })
+      });
+      const data = await response.json();
+      if (response.ok) {
+          alert('Plan saved successfully.');
+      } else {
+          console.error('Failed to save workout plan:', data.message);
+          throw new Error(data.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  };
+
   const handleWeightliftingChange = (field, value) => {
     setWeightliftingStats(prev => ({ ...prev, [field]: value }));
   };
@@ -134,6 +160,7 @@ const GoalInput = ({ onBackToDashboard, email }) => {
           />
           <div>
             <button onClick={onBackToDashboard} style={{ marginRight: '10px', marginBottom: '10px' }}>Back to Dashboard</button>
+            <button onClick={savePlan} style={{ marginBottom: '10px' }}>Save Goal</button>
             <button onClick={resetForm} style={{ marginBottom: '10px' }}>Add New Goal</button>
           </div>
         </div>

@@ -25,13 +25,39 @@ const DietPlan = ({ onBackToDashboard, email }) => {
       const data = await response.json();
       if (response.ok) {
         console.log('Success:', data);
-        setEditableBackendOutput(data.res);
+        setEditableBackendOutput(data.res.replaceAll('\'', ''));
         setSubmitted(true);
       } else {
         console.error('Error generating diet plan.');
       }
     } catch (error) {
       console.error('Error:', error);
+    }
+  };
+
+  const savePlan = async () => {
+    try {
+      const response = await fetch('http://localhost:6969/savePlan', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            type: 'diet',
+            email: email,
+            plan: editableBackendOutput
+          })
+      });
+      const data = await response.json();
+      if (response.ok) {
+          alert('Plan saved successfully.');
+      } else {
+          console.error('Failed to save diet plan:', data.message);
+          throw new Error(data.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
     }
   };
 
@@ -54,6 +80,7 @@ const DietPlan = ({ onBackToDashboard, email }) => {
         />
         <div>
           <button onClick={onBackToDashboard} style={{ marginRight: '10px', marginBottom: '10px' }}>Back to Dashboard</button>
+          <button onClick={savePlan} style={{ marginBottom: '10px' }}>Save Goal</button>
           <button onClick={resetForm} style={{ marginBottom: '10px' }}>Add New Plan</button>
         </div>
       </div>
