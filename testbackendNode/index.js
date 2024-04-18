@@ -536,7 +536,8 @@ app.post("/savePlan", (req, res) => {
 app.post("/addWorkout", async (req, res) => {
     //const { email, type, duration, intensity, description } = req.body;
     //console.log(req.body);
-    con.execute(`INSERT INTO workouts (email, type, duration, intensity, description) VALUES ('${req.body.email}', '${req.body.workoutType}', '${req.body.duration}', '${req.body.intensity}', '${req.body.description}')`, function(err, result) {
+    let time = new Date();
+    con.execute(`INSERT INTO workouts (time, email, type, duration, intensity, description) VALUES ('${time}', '${req.body.email}', '${req.body.workoutType}', '${req.body.duration}', '${req.body.intensity}', '${req.body.description}')`, function(err, result) {
         if (err) {
             return res.status(500).json({ message: "Error adding workout."});
         } else {
@@ -546,7 +547,7 @@ app.post("/addWorkout", async (req, res) => {
 });
 
 app.post("/getWorkouts", async (req, res) => {
-    con.execute(`SELECT email, type, time FROM workouts WHERE email = '${req.body.email}'`, function(err, result) {
+    con.execute(`SELECT * FROM workouts WHERE email = '${req.body.email}'`, function(err, result) {
         if (err) {
             return res.status(500).json({ message: "Error getting workouts."});
         } else {
@@ -561,6 +562,16 @@ app.post("/getPlans", async (req, res) => {
             return res.status(500).json({ message: "Error getting plans."});
         } else {
             return res.status(200).json({ message: "Plans retrieved successfully.", res: results});
+        }
+    })
+});
+
+app.post("/editWorkout", async (req, res) => {
+    con.execute(`UPDATE workouts SET type='${req.body.type}', duration='${req.body.duration}', intensity='${req.body.intensity}', description='${req.body.description}' WHERE email='${req.body.email}' AND time='${req.body.time}'`, function(err, results) {
+        if (err) {
+            return res.status(500).json({ message: "Error getting plans."});
+        } else {
+            return res.status(200).json({ message: "Updated."});
         }
     })
 });
