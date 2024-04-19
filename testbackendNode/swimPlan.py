@@ -19,7 +19,7 @@ def generate_swimming_workout_plan(sex, height_inches, weight_pounds, age):
     # Determine workout intensity based on BMI and age
     if bmi < 18.5:
         intensity = "Light"
-    elif bmi >= 18.5 and bmi < 25:
+    elif bmi < 25:
         intensity = "Moderate"
     else:
         intensity = "High"
@@ -27,51 +27,43 @@ def generate_swimming_workout_plan(sex, height_inches, weight_pounds, age):
     if age < 18:
         intensity = "Light"  # Adjust for younger individuals
 
-    # Generate workout plan based on sex and intensity
+    # Define workout plan based on sex and intensity
+    workout_plan = []
+
+    # Common warm-up and cooldown for both sexes
+    workout_plan.append("Warm up: {} meters freestyle".format(200 + (age // 10) * 100))
+    workout_plan.append("Kick drills: 4 x 50 meters with kickboard")
+    workout_plan.append("Cool down: {} meters easy".format(100 + (age // 10) * 100))
+
+    # Define main set based on sex and intensity
     if sex == 'M':
-        if intensity == "Light":
-            workout_plan = [
-                "Warm up: 200 meters freestyle",
-                "Kick drills: 4 x 50 meters with kickboard",
-                "Cool down: 100 meters easy",
-            ]
-        elif intensity == "Moderate":
-            workout_plan = [
-                "Warm up: 400 meters freestyle",
+        if intensity == "Moderate":
+            workout_plan.extend([
                 "Drills: 4 x 100 meters (mix of freestyle and backstroke)",
                 "Main set: 6 x 200 meters (mix of strokes)",
                 "Cool down: 200 meters easy",
-            ]
-        else:
-            workout_plan = [
-                "Warm up: 600 meters freestyle",
+            ])
+        elif intensity == "High":
+            workout_plan.extend([
                 "Drills and sprints: 8 x 100 meters (mix of strokes)",
                 "Main set: 10 x 200 meters (varied intensity)",
                 "Cool down: 400 meters easy",
-            ]
+            ])
     elif sex == 'F':
-        if intensity == "Light":
-            workout_plan = [
-                "Warm up: 200 meters freestyle",
-                "Kick drills: 4 x 50 meters with kickboard",
-                "Cool down: 100 meters easy",
-            ]
-        elif intensity == "Moderate":
-            workout_plan = [
-                "Warm up: 400 meters freestyle",
+        if intensity == "Moderate":
+            workout_plan.extend([
                 "Drills: 4 x 100 meters (mix of freestyle and backstroke)",
                 "Main set: 6 x 200 meters (mix of strokes)",
                 "Cool down: 200 meters easy",
-            ]
-        else:
-            workout_plan = [
-                "Warm up: 600 meters freestyle",
+            ])
+        elif intensity == "High":
+            workout_plan.extend([
                 "Drills and sprints: 8 x 100 meters (mix of strokes)",
                 "Main set: 10 x 200 meters (varied intensity)",
                 "Cool down: 400 meters easy",
-            ]
+            ])
     else:
-        return "Invalid sex input. Please use 'M' for male or 'F' for female."
+        raise ValueError("Invalid sex input. Please use 'M' for male or 'F' for female.")
 
     return workout_plan
 
