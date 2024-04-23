@@ -7,7 +7,7 @@ export const Dashboard = ({ onNavigate, type }) => {
       {type == 'student' ? (<button onClick={() => onNavigate('inputMetrics')}>Input Metrics</button>) : (<div></div>)}
       <button onClick={() => onNavigate('messageForm')}>Message Form</button>
       <button onClick={() => onNavigate('progress')}>Track/View Progress</button> {}
-      {type == 'student' ? (<button onClick={() => onNavigate('goalInput')}>Add Goal</button>) : (<div></div>)}
+      {type == 'student' ? (<button onClick={() => onNavigate('goalInput')}>Generate workout plan</button>) : (<div></div>)}
       {type == 'student' ? (<button onClick={() => onNavigate('generateDietPlan')}>Generate Diet Plan</button>) : (<div></div>)}
       {type == 'student' ? (<button onClick={() => onNavigate('SelectProPlayers')}>Match to pro athlete</button>) : (<div></div>)}
       {type == 'student' ? (<button onClick={() => onNavigate('videos')}>Learn about exercises</button>) : (<div></div>)}
