@@ -98,9 +98,9 @@ function App() {
         case 'progressChart':
           return <ChartSelection onNavigate={setCurrentForm} clear={clear}/>
         case 'Workout Graph':
-          return <ProgressChart onNavigate={setCurrentForm} email={currentType == 'coach' ? user : currentUser} type='workout' />;
+          return <ProgressChart onNavigate={setCurrentForm} email={currentType == 'coach' ? user : currentUser} type='workout' clear={clear} />;
         case 'Diet Graph':
-          return <ProgressChart onNavigate={setCurrentForm} email={currentType == 'coach' ? user : currentUser} type='diet' />;
+          return <ProgressChart onNavigate={setCurrentForm} email={currentType == 'coach' ? user : currentUser} type='diet' clear={clear}/>;
         case 'progressInput':
           return <ProgressInput onBackToDashboard={handleBackToDashboard} email={currentUser} />;
         case 'generateDietPlan':

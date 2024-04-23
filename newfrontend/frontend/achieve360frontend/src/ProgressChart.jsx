@@ -8,7 +8,7 @@ import axios from 'axios';
 
 Chart.register(CategoryScale);
 
-export const ProgressChart = ({ onNavigate, email, type }) => {
+export const ProgressChart = ({ onNavigate, email, type, clear }) => {
   useEffect(() => {
     axios.post("http://localhost:6969/fetchProgress", { email: email, type: type }, { headers: {} })
     .then((res) => {
@@ -53,7 +53,7 @@ export const ProgressChart = ({ onNavigate, email, type }) => {
   return (
     <div>
       <LineChart chartData={chartData} type={type}/>
-      <button onClick={() => onNavigate('dashboard')} style={{ marginTop: '20px' }}>Back to Dashboard</button>
+      <button onClick={() => {clear(); onNavigate('dashboard')}} style={{ marginTop: '20px' }}>Back to Dashboard</button>
     </div>
   );
 };

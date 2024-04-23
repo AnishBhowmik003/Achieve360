@@ -15,7 +15,7 @@ const GoalInput = ({ onBackToDashboard, email }) => {
   const [editableBackendOutput, setEditableBackendOutput] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  const sportOptions = ['Football', 'Basketball', 'Tennis', 'Running', 'Weightlifting'];
+  const sportOptions = ['Running', 'Weightlifting'];
   const [positionOptions, setPositionOptions] = useState([]);
   const [isRunning, setIsRunning] = useState(false);
   const [isWeightlifting, setIsWeightlifting] = useState(false);
